@@ -1,0 +1,8 @@
+
+{
+  "name": "Optimus Clinical App",
+  "description": "Mobile-first biometric optimization portal.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
