@@ -1,16 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   StyleSheet, 
   View, 
-  Text, 
   SafeAreaView, 
   ScrollView, 
-  TouchableOpacity, 
   StatusBar,
-  Dimensions,
-  Platform
+  Dimensions
 } from 'react-native';
+import LandingPage from './components/native/LandingPage';
 import LoginPage from './components/native/LoginPage';
 import UserDashboard from './components/native/UserDashboard';
 import RecommendationsPage from './components/native/RecommendationsPage';
@@ -22,17 +20,32 @@ import TestFlow from './components/native/TestFlow';
 const { width, height } = Dimensions.get('window');
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [view, setView] = useState<'landing' | 'login' | 'app'>('landing');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isTestFlowOpen, setIsTestFlowOpen] = useState(false);
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    setView('app');
     setActiveTab('dashboard');
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setView('landing');
+  };
+
+  const renderAuthenticatedContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <UserDashboard onNavigate={setActiveTab} />;
+      case 'strategy':
+        return <RecommendationsPage onNavigate={setActiveTab} />;
+      case 'shop':
+        return <SupplementsPage />;
+      case 'profile':
+        return <UserProfile onLogout={handleLogout} />;
+      default:
+        return <UserDashboard onNavigate={setActiveTab} />;
+    }
   };
 
   return (
@@ -44,24 +57,27 @@ export default function App() {
       <View style={styles.backgroundOrb2} />
 
       <SafeAreaView style={styles.main}>
-        {!isLoggedIn ? (
+        {view === 'landing' && (
+          <LandingPage onGetStarted={() => setView('login')} />
+        )}
+        
+        {view === 'login' && (
           <LoginPage onLogin={handleLogin} />
-        ) : (
+        )}
+
+        {view === 'app' && (
           <View style={styles.contentContainer}>
             <ScrollView 
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollContent}
             >
-              {activeTab === 'dashboard' && <UserDashboard onNavigate={setActiveTab} />}
-              {activeTab === 'strategy' && <RecommendationsPage onNavigate={setActiveTab} />}
-              {activeTab === 'shop' && <SupplementsPage />}
-              {activeTab === 'profile' && <UserProfile onLogout={handleLogout} />}
+              {renderAuthenticatedContent()}
             </ScrollView>
           </View>
         )}
       </SafeAreaView>
 
-      {isLoggedIn && (
+      {view === 'app' && (
         <BottomNav 
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
@@ -88,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100, // Space for BottomNav
+    paddingBottom: 100,
   },
   backgroundOrb1: {
     position: 'absolute',
