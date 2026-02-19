@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot } from 'lucide-react-native';
 import AIChat from './AIChat';
-// Note: In a real project, we'd use a library like react-native-svg for charts. 
-// For this rewrite, we simulate the visual structure.
 
 const biomarkers = [
   { name: 'Ferritin', value: '142', unit: 'ng/ml', status: 'Optimal', trend: 'up' },
@@ -23,7 +21,7 @@ export default function UserDashboard({ onNavigate }: any) {
         <View>
           <Text style={styles.headerTitle}>Status</Text>
           <Text style={styles.headerSubtitle}>Protocol v5.2_ENT</Text>
-        </div>
+        </View>
         <View style={styles.profileCircle}>
           <Image 
             source={{ uri: 'https://raw.githubusercontent.com/JonathanSpe/Optimus/05eb146bea4dbb2e2597fc672e0aea7d6995f76a/optimus---personalisierte-blutanalyse/assets/Jonathan%20Pic.png' }}
