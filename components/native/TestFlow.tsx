@@ -1,15 +1,13 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Heart, Zap, Moon } from 'lucide-react-native';
-import CameraScanner from './CameraScanner';
 
-type FlowStep = 'SCAN' | 'CAMERA' | 'INSTRUCTIONS' | 'QUESTIONNAIRE' | 'SUCCESS';
+type FlowStep = 'SCAN' | 'INSTRUCTIONS' | 'QUESTIONNAIRE' | 'SUCCESS';
 
 export default function TestFlow({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<FlowStep>('SCAN');
   const [instructionIdx, setInstructionIdx] = useState(0);
-  const [scannedData, setScannedData] = useState<string>('');
 
   const instructions = [
     { title: "Vorbereitung", desc: "Reinige deinen Oberarm mit dem beigelegten Alkoholtupfer.", icon: CheckCircle, color: "#10B981" },
@@ -17,33 +15,6 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
     { title: "Aktivierung", desc: "Drücke den roten Knopf kräftig durch.", icon: Zap, color: "#991B1B" },
     { title: "Kollektion", desc: "Bleibe 5 Minuten ruhig sitzen.", icon: Timer, color: "#94A3B8" }
   ];
-
-  const handleQRScanned = (data: string) => {
-    setScannedData(data);
-    Alert.alert(
-      'QR Code Scanned',
-      `Test Kit: ${data.substring(0, 20)}...`,
-      [
-        {
-          text: 'Continue',
-          onPress: () => setStep('INSTRUCTIONS')
-        }
-      ]
-    );
-  };
-
-  const openCamera = () => {
-    setStep('CAMERA');
-  };
-
-  if (step === 'CAMERA') {
-    return (
-      <CameraScanner
-        onScanned={handleQRScanned}
-        onClose={() => setStep('SCAN')}
-      />
-    );
-  }
 
   return (
     <Modal animationType="slide" transparent={false} visible={true}>
@@ -67,9 +38,9 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               <View style={styles.cameraBox}>
                 <View style={styles.scanSim}>
                   <View style={styles.scanTarget} />
-                  <TouchableOpacity style={styles.scanBtn} onPress={openCamera}>
+                  <TouchableOpacity style={styles.scanBtn} onPress={() => setStep('INSTRUCTIONS')}>
                     <Camera size={20} stroke="#FFF" />
-                    <Text style={styles.scanBtnText}>CAMERA ÖFFNEN</Text>
+                    <Text style={styles.scanBtnText}>SCAN STARTEN</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -78,10 +49,6 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                 <Info size={16} stroke="#CBD5E1" />
                 <Text style={styles.infoText}>Der QR-Code verbindet deine physische Probe sicher mit deinem Profil.</Text>
               </View>
-
-              <TouchableOpacity style={styles.simBtn} onPress={() => setStep('INSTRUCTIONS')}>
-                <Text style={styles.simBtnText}>ODER SKIP FÜR DEMO</Text>
-              </TouchableOpacity>
             </View>
           )}
 
@@ -207,14 +174,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   scanBtnText: { fontSize: 11, fontWeight: '900', letterSpacing: 1.5, color: '#FFF' },
-  simBtn: { 
-    backgroundColor: '#F1F5F9', 
-    paddingHorizontal: 24, 
-    paddingVertical: 12, 
-    borderRadius: 16, 
-    marginTop: 16 
-  },
-  simBtnText: { fontSize: 9, fontWeight: '900', letterSpacing: 1, color: '#64748B' },
   infoBox: { backgroundColor: '#F8FAFC', padding: 20, borderRadius: 24, flexDirection: 'row', gap: 12, width: '100%' },
   infoText: { flex: 1, fontSize: 10, color: '#94A3B8', fontWeight: '700' },
   visualBox: { width: 240, height: 240, backgroundColor: '#F8FAFC', borderRadius: 120, alignItems: 'center', justifyContent: 'center' },
