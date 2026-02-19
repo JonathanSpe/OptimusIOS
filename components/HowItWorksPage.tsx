@@ -1,6 +1,5 @@
-
-import React, { useState, useEffect } from 'react';
-import { Droplets, Send, BarChart3, ChevronDown, CheckCircle2, ArrowRight, Sparkles, Smartphone, Cpu, Activity, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Droplets, Send, BarChart3, ChevronDown, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 
 const steps = [
   {
@@ -13,47 +12,32 @@ const steps = [
     highlight: "100% schmerzfrei & sicher"
   },
   {
-    title: "Lifestyle-Check & Bio-Sync",
-    description: "Fülle einen kurzen Fragebogen zu deinen Zielen, deiner Ernährung und deinem Training aus. Synchronisiere deine Wearables (Apple Health, Strava, Garmin), damit wir deine Blutwerte im Kontext deiner realen Belastung interpretieren können.",
-    icon: <Smartphone className="w-10 h-10" />,
-    image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Schritt%20Fragebogen.png",
-    tags: ["KI-Kontext", "Bio-Sync"],
-    color: "bg-zinc-100/50",
-    highlight: "Präzision durch Kontext-Daten"
-  },
-  {
     title: "Probe Registrierung und Versand",
     description: "Scanne den QR-Code auf deinem Kit mit der Optimus App. So verknüpfen wir deine Probe sicher mit deinem Profil. Dann einfach kostenfrei zurückschicken.",
     icon: <Send className="w-10 h-10" />,
     image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Letter%20Handover.jpg",
     tags: ["App-Sync", "Verschlüsselt"],
-    color: "bg-red-50/50",
+    color: "bg-zinc-100/50",
     highlight: "Ende-zu-Ende Verschlüsselung"
   },
   {
     title: "Deine Analyse",
     description: "Innerhalb von 4 Tagen nach Laboreingang erhältst du deinen digitalen Report. Wir übersetzen komplexe Daten in handfeste Empfehlungen für dein Leben.",
     icon: <BarChart3 className="w-10 h-10" />,
-    image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Iphone.png",
+    image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Result%20Dashboard%20Page.jpg",
     tags: ["KI-Expertise", "Detailliert"],
-    color: "bg-zinc-100/50",
+    color: "bg-red-50/50",
     highlight: "Von Ärzten validierte Daten"
   },
   {
     title: "Empfehlungen",
     description: "Bestelle deine individuell zusammengestellten Supplements und setze unsere Lifestyle-Empfehlungen um. Für optimale Ergebnisse ist die Einhaltung der spezifischen Verzehrempfehlungen essenziell.",
     icon: <Sparkles className="w-10 h-10" />,
-    image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Laptop.png",
+    image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Recommendations.jpg",
     tags: ["Personalisierung", "Dosierung", "Lifestyle"],
-    color: "bg-red-50/50",
+    color: "bg-zinc-100/50",
     highlight: "Optimale Dosierung & Ergebnisse"
   }
-];
-
-const softwareSlides = [
-  "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Dashboard%201.png",
-  "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Dashboard%20View%202.png",
-  "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Strategie%201.png"
 ];
 
 const faqs = [
@@ -76,15 +60,6 @@ const faqs = [
 ];
 
 const HowItWorksPage: React.FC = () => {
-  const [activeSoftwareSlide, setActiveSoftwareSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveSoftwareSlide((prev) => (prev + 1) % softwareSlides.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div className="bg-[#fcfcfc] text-[#111827]">
       {/* Dynamic Hero Section */}
@@ -99,7 +74,7 @@ const HowItWorksPage: React.FC = () => {
             Einfach. Digital. <br /> <span className="text-zinc-900/40 italic">Revolutionär.</span>
           </h1>
           <p className="text-xl md:text-2xl text-zinc-600 max-w-3xl mx-auto leading-relaxed font-semibold">
-            Wir haben den klassischen Bluttest neu erfunden. In 5 Schritten zu deiner persönlichen Höchstform.
+            Wir haben den klassischen Bluttest neu erfunden. In 4 Schritten zu deiner persönlichen Höchstform.
           </p>
         </div>
       </section>
@@ -136,6 +111,7 @@ const HowItWorksPage: React.FC = () => {
                 {/* Content Side */}
                 <div className="flex-1 space-y-6">
                   <div className="flex items-center gap-6">
+                    {/* Improved step number contrast */}
                     <div className="w-20 h-20 rounded-3xl bg-[#111827] flex items-center justify-center text-white shadow-xl shadow-zinc-900/10 rotate-3 hover:rotate-0 transition-all duration-500">
                       <span className="text-5xl font-black">{index + 1}</span>
                     </div>
@@ -209,107 +185,6 @@ const HowItWorksPage: React.FC = () => {
              </div>
           </div>
         </div>
-      </section>
-
-      {/* Software & Insights Section - REDESIGNED VERTICAL STACK FOR FULL SIZE */}
-      <section className="py-32 px-6 bg-white overflow-hidden border-b border-black/[0.02]">
-        <div className="max-w-7xl mx-auto flex flex-col items-center gap-16">
-          {/* Text content now at the top and centered */}
-          <div className="w-full lg:w-3/4 space-y-10 text-center flex flex-col items-center">
-            <div className="space-y-4">
-              <span className="text-red-800 font-black uppercase tracking-[0.3em] text-[10px]">Digitaler Health Twin</span>
-              <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-[#111827] leading-none">
-                Die Software: <br /><span className="text-zinc-900/40 italic">Daten mit Vision.</span>
-              </h2>
-              <p className="text-xl md:text-2xl text-[#374151] leading-relaxed font-bold max-w-4xl mx-auto">
-                Ein Blutwert ohne Kontext ist nur eine Zahl. Unsere Software korreliert deine molekularen Daten mit deinem realen Lifestyle für maximale Insight-Tiefe.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-8">
-              {[
-                { 
-                  icon: <BarChart3 className="text-red-700" size={20} />, 
-                  title: "Deep Biomarker Insights", 
-                  desc: "Verstehe nicht nur das 'Was', sondern das 'Warum'. Wir visualisieren Trends." 
-                },
-                { 
-                  icon: <Cpu className="text-red-700" size={20} />, 
-                  title: "KI-gestützte Strategie", 
-                  desc: "Echtzeit-Anpassung deines Supplement-Protokolls." 
-                },
-                { 
-                  icon: <Activity className="text-red-700" size={20} />, 
-                  title: "Bio-Sync Ecosystem", 
-                  desc: "Nahtlose Integration von Apple Health, Garmin und Strava." 
-                }
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center gap-4 p-8 rounded-3xl bg-zinc-50 border border-black/[0.02] hover:bg-white hover:border-zinc-200 transition-all duration-300 text-center">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-zinc-100 flex items-center justify-center shrink-0 shadow-sm">
-                    {item.icon}
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="font-black text-[#111827] uppercase text-sm tracking-tight">{item.title}</h4>
-                    <p className="text-[#374151] text-xs font-semibold leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* SOFTWARE SLIDESHOW BELOW THE TEXT - FULL WIDTH & FULL SIZE */}
-          <div className="w-full relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/[0.01] blur-[150px] rounded-full -z-10" />
-            
-            <div className="relative p-2 md:p-4 rounded-[4rem] bg-zinc-50 border border-black/[0.05] shadow-2xl medical-card-shadow overflow-hidden group">
-              {/* Aspect ratio set to video (16:9) to fit full dashboard width naturally */}
-              <div className="bg-white rounded-[3.5rem] overflow-hidden border border-white relative w-full aspect-video">
-                 
-                 {/* Slideshow Content */}
-                 {softwareSlides.map((url, idx) => (
-                   <img 
-                    key={url}
-                    src={url} 
-                    alt={`Optimus Software Slide ${idx + 1}`} 
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-                      idx === activeSoftwareSlide ? 'opacity-100' : 'opacity-0'
-                    }`}
-                   />
-                 ))}
-                 
-                 {/* Slide Indicators - Premium minimal styling */}
-                 <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-3 z-30">
-                    {softwareSlides.map((_, idx) => (
-                      <button 
-                        key={idx} 
-                        onClick={() => setActiveSoftwareSlide(idx)}
-                        className={`h-1.5 rounded-full transition-all duration-500 shadow-sm ${
-                          idx === activeSoftwareSlide ? 'w-16 bg-[#0F172A]' : 'w-3 bg-[#0F172A]/20 hover:bg-[#0F172A]/40'
-                        }`} 
-                      />
-                    ))}
-                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <style>{`
-          @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-          @keyframes pulse-slow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-          }
-          .animate-bounce-slow {
-            animation: bounce-slow 4s ease-in-out infinite;
-          }
-          .animate-pulse-slow {
-            animation: pulse-slow 3s ease-in-out infinite;
-          }
-        `}</style>
       </section>
 
       {/* FAQ Section */}

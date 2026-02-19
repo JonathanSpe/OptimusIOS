@@ -1,127 +1,92 @@
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import FactsSection from './components/FactsSection';
+import PotentialSection from './components/PotentialSection';
+import PricingSection from './components/PricingSection';
+import TestimonialsSection from './components/TestimonialsSection';
+import SecuritySection from './components/SecuritySection';
+import Footer from './components/Footer';
+import SciencePage from './components/SciencePage';
+import HowItWorksPage from './components/HowItWorksPage';
+import AboutPage from './components/AboutPage';
+import SupplementsPage from './components/SupplementsPage';
+import LoginPage from './components/LoginPage';
+import UserDashboard from './components/UserDashboard';
+import UserProfile from './components/UserProfile';
+import RecommendationsPage from './components/RecommendationsPage';
 
-import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  SafeAreaView, 
-  ScrollView, 
-  StatusBar,
-  Dimensions
-} from 'react-native';
-import LandingPage from './components/native/LandingPage';
-import LoginPage from './components/native/LoginPage';
-import UserDashboard from './components/native/UserDashboard';
-import RecommendationsPage from './components/native/RecommendationsPage';
-import SupplementsPage from './components/native/SupplementsPage';
-import UserProfile from './components/native/UserProfile';
-import BottomNav from './components/native/BottomNav';
-import TestFlow from './components/native/TestFlow';
+const App: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'science' | 'how-it-works' | 'about' | 'supplements' | 'login' | 'user-dashboard' | 'user-profile' | 'recommendations'>('home');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-const { width, height } = Dimensions.get('window');
-
-export default function App() {
-  const [view, setView] = useState<'landing' | 'login' | 'app'>('landing');
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [isTestFlowOpen, setIsTestFlowOpen] = useState(false);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const handleLogin = () => {
-    setView('app');
-    setActiveTab('dashboard');
+    setIsLoggedIn(true);
+    setCurrentPage('user-dashboard');
   };
 
   const handleLogout = () => {
-    setView('landing');
+    setIsLoggedIn(false);
+    setCurrentPage('home');
   };
 
-  const renderAuthenticatedContent = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return <UserDashboard onNavigate={setActiveTab} />;
-      case 'strategy':
-        return <RecommendationsPage onNavigate={setActiveTab} />;
-      case 'shop':
+  const renderContent = () => {
+    switch (currentPage) {
+      case 'home':
+        return (
+          <>
+            <Hero onNavigate={setCurrentPage} />
+            <FactsSection />
+            <PotentialSection />
+            <TestimonialsSection />
+            <PricingSection />
+            <SecuritySection />
+          </>
+        );
+      case 'science':
+        return <SciencePage />;
+      case 'how-it-works':
+        return <HowItWorksPage />;
+      case 'about':
+        return <AboutPage />;
+      case 'supplements':
         return <SupplementsPage />;
-      case 'profile':
-        return <UserProfile onLogout={handleLogout} />;
+      case 'login':
+        return <LoginPage onLogin={handleLogin} onNavigate={setCurrentPage} />;
+      case 'user-dashboard':
+        return isLoggedIn ? <UserDashboard onNavigate={setCurrentPage} /> : <LoginPage onLogin={handleLogin} onNavigate={setCurrentPage} />;
+      case 'user-profile':
+        return isLoggedIn ? <UserProfile onLogout={handleLogout} /> : <LoginPage onLogin={handleLogin} onNavigate={setCurrentPage} />;
+      case 'recommendations':
+        return isLoggedIn ? <RecommendationsPage onNavigate={setCurrentPage} /> : <LoginPage onLogin={handleLogin} onNavigate={setCurrentPage} />;
       default:
-        return <UserDashboard onNavigate={setActiveTab} />;
+        return null;
     }
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+    <div className="min-h-screen selection:bg-red-500/10 bg-[#fcfcfc] text-zinc-900">
+      {/* Background Orbs - Muted for clarity */}
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-red-600/[0.02] blur-[150px] rounded-full" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-zinc-200/30 blur-[120px] rounded-full" />
+      </div>
+
+      <Navbar onNavigate={setCurrentPage} onLogout={handleLogout} currentPage={currentPage} isLoggedIn={isLoggedIn} />
       
-      {/* Background Decorative Elements */}
-      <View style={styles.backgroundOrb1} />
-      <View style={styles.backgroundOrb2} />
-
-      <SafeAreaView style={styles.main}>
-        {view === 'landing' && (
-          <LandingPage onGetStarted={() => setView('login')} />
-        )}
-        
-        {view === 'login' && (
-          <LoginPage onLogin={handleLogin} />
-        )}
-
-        {view === 'app' && (
-          <View style={styles.contentContainer}>
-            <ScrollView 
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollContent}
-            >
-              {renderAuthenticatedContent()}
-            </ScrollView>
-          </View>
-        )}
-      </SafeAreaView>
-
-      {view === 'app' && (
-        <BottomNav 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
-          onStartTest={() => setIsTestFlowOpen(true)}
-        />
+      <main>
+        {renderContent()}
+      </main>
+      
+      {['home', 'science', 'how-it-works', 'about', 'supplements'].includes(currentPage) && (
+        <Footer onNavigate={setCurrentPage} />
       )}
-
-      {isTestFlowOpen && (
-        <TestFlow onClose={() => setIsTestFlowOpen(false)} />
-      )}
-    </View>
+    </div>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FCFCFC',
-  },
-  main: {
-    flex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 100,
-  },
-  backgroundOrb1: {
-    position: 'absolute',
-    top: -height * 0.1,
-    right: -width * 0.2,
-    width: width,
-    height: width,
-    borderRadius: width / 2,
-    backgroundColor: 'rgba(153, 27, 27, 0.04)',
-  },
-  backgroundOrb2: {
-    position: 'absolute',
-    bottom: -height * 0.1,
-    left: -width * 0.2,
-    width: width,
-    height: width,
-    borderRadius: width / 2,
-    backgroundColor: 'rgba(15, 23, 42, 0.03)',
-  },
-});
+export default App;
