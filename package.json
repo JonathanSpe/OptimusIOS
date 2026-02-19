@@ -1,15 +1,14 @@
-
 {
   "name": "optimus-native",
   "version": "1.0.0",
   "main": "index.tsx",
   "dependencies": {
-    "expo": "~54.0.0",
+    "@google/genai": "^1.2.0",
+    "expo": "~54.0.33",
     "expo-status-bar": "~2.1.0",
+    "lucide-react-native": "^0.475.0",
     "react": "18.3.1",
     "react-native": "0.78.2",
-    "lucide-react-native": "^0.475.0",
-    "@google/genai": "^1.2.0",
     "react-native-safe-area-context": "5.2.0",
     "react-native-screens": "4.9.0"
   },
