@@ -4,7 +4,6 @@ import {
   StyleSheet, 
   View, 
   SafeAreaView, 
-  ScrollView, 
   StatusBar,
   Dimensions
 } from 'react-native';
@@ -50,11 +49,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       
       {/* Background Decorative Elements */}
       <View style={styles.backgroundOrb1} />
-      <View style={styles.backgroundOrb2} />
 
       <SafeAreaView style={styles.main}>
         {view === 'landing' && (
@@ -67,12 +65,7 @@ export default function App() {
 
         {view === 'app' && (
           <View style={styles.contentContainer}>
-            <ScrollView 
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollContent}
-            >
-              {renderAuthenticatedContent()}
-            </ScrollView>
+            {renderAuthenticatedContent()}
           </View>
         )}
       </SafeAreaView>
@@ -95,16 +88,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#020617',
   },
   main: {
     flex: 1,
   },
   contentContainer: {
     flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 100,
   },
   backgroundOrb1: {
     position: 'absolute',
@@ -114,14 +104,5 @@ const styles = StyleSheet.create({
     height: width,
     borderRadius: width / 2,
     backgroundColor: 'rgba(153, 27, 27, 0.04)',
-  },
-  backgroundOrb2: {
-    position: 'absolute',
-    bottom: -height * 0.1,
-    left: -width * 0.2,
-    width: width,
-    height: width,
-    borderRadius: width / 2,
-    backgroundColor: 'rgba(15, 23, 42, 0.03)',
   },
 });

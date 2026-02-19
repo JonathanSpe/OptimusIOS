@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
 import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot } from 'lucide-react-native';
 import AIChat from './AIChat';
+
+const { width } = Dimensions.get('window');
 
 const biomarkers = [
   { name: 'Ferritin', value: '142', unit: 'ng/ml', status: 'Optimal', trend: 'up' },
@@ -15,7 +17,11 @@ export default function UserDashboard({ onNavigate }: any) {
   const [selectedCategory, setSelectedCategory] = useState('Sports');
 
   return (
-    <View style={styles.container}>
+    <ScrollView 
+      style={styles.container} 
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.scrollPadding}
+    >
       {/* Header */}
       <View style={styles.header}>
         <View>
@@ -106,25 +112,30 @@ export default function UserDashboard({ onNavigate }: any) {
         </View>
       </View>
       <AIChat />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
+  },
+  scrollPadding: {
+    paddingBottom: 120,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 24,
+    marginTop: 20,
   },
   headerTitle: {
     fontSize: 32,
     fontWeight: '900',
     fontStyle: 'italic',
-    color: '#0F172A',
+    color: '#FFF',
     textTransform: 'uppercase',
   },
   headerSubtitle: {
@@ -135,18 +146,18 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
   },
   profileCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFF',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#0F172A',
     borderWidth: 1,
-    borderColor: '#F1F5F9',
+    borderColor: '#334155',
     overflow: 'hidden',
   },
   profileImage: {
     width: '100%',
     height: '100%',
-    opacity: 0.8,
+    opacity: 0.9,
   },
   metricsRow: {
     flexDirection: 'row',
@@ -159,6 +170,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 20,
     position: 'relative',
+    borderWidth: 1,
+    borderColor: '#1E293B',
   },
   ageCard: {
     flex: 1,
@@ -176,7 +189,7 @@ const styles = StyleSheet.create({
   metricLabel: {
     fontSize: 8,
     fontWeight: '900',
-    color: 'rgba(255,255,255,0.4)',
+    color: '#64748B',
     letterSpacing: 1,
   },
   metricValueContainer: {
@@ -208,13 +221,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
-    backgroundColor: '#FFF',
+    borderColor: '#1E293B',
+    backgroundColor: '#0F172A',
     marginRight: 8,
   },
   categoryPillActive: {
-    backgroundColor: '#0F172A',
-    borderColor: '#0F172A',
+    backgroundColor: '#991B1B',
+    borderColor: '#991B1B',
   },
   categoryText: {
     fontSize: 9,
@@ -254,12 +267,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   markerCard: {
-    width: '48%',
-    backgroundColor: '#FFF',
+    width: (width - 52) / 2,
+    backgroundColor: '#0F172A',
     borderRadius: 24,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
+    borderColor: '#1E293B',
   },
   markerTop: {
     flexDirection: 'row',
@@ -269,7 +282,7 @@ const styles = StyleSheet.create({
   markerName: {
     fontSize: 8,
     fontWeight: '900',
-    color: '#94A3B8',
+    color: '#64748B',
     letterSpacing: 1,
   },
   markerValueRow: {
@@ -281,12 +294,12 @@ const styles = StyleSheet.create({
   markerValue: {
     fontSize: 24,
     fontWeight: '900',
-    color: '#0F172A',
+    color: '#FFF',
   },
   markerUnit: {
     fontSize: 8,
     fontWeight: '800',
-    color: '#CBD5E1',
+    color: '#475569',
   },
   statusBadge: {
     paddingHorizontal: 8,
@@ -294,11 +307,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignSelf: 'flex-start',
   },
-  statusOptimal: { backgroundColor: '#ECFDF5' },
-  statusStable: { backgroundColor: '#FEF3C7' },
+  statusOptimal: { backgroundColor: 'rgba(16, 185, 129, 0.1)' },
+  statusStable: { backgroundColor: 'rgba(245, 158, 11, 0.1)' },
   statusText: { fontSize: 7, fontWeight: '900', letterSpacing: 0.5 },
-  statusTextOptimal: { color: '#059669' },
-  statusTextStable: { color: '#D97706' },
+  statusTextOptimal: { color: '#10B981' },
+  statusTextStable: { color: '#F59E0B' },
   aiHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -309,20 +322,20 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 10,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: '#1E293B',
     alignItems: 'center',
     justifyContent: 'center',
   },
   aiTitle: {
     fontSize: 10,
     fontWeight: '900',
-    color: '#0F172A',
+    color: '#FFF',
     letterSpacing: 2,
   },
   aiStatus: {
     fontSize: 8,
     fontWeight: '800',
-    color: '#94A3B8',
+    color: '#64748B',
     fontStyle: 'italic',
   },
 });

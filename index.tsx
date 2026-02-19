@@ -4,13 +4,10 @@ import { Platform } from 'react-native';
 import React from 'react';
 import App from './App';
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
+// For Web builds
 if (Platform.OS === 'web') {
   const runWeb = async () => {
     try {
-      // Dynamic import prevents native Metro bundler from failing on 'react-dom'
       // @ts-ignore
       const { createRoot } = await import('react-dom/client');
       const rootElement = document.getElementById('root');
@@ -24,5 +21,6 @@ if (Platform.OS === 'web') {
   };
   runWeb();
 } else {
+  // For Native builds (iOS/Android/Expo Go)
   registerRootComponent(App);
 }
