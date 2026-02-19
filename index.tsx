@@ -5,14 +5,18 @@ import React from 'react';
 import App from './App';
 
 if (Platform.OS === 'web') {
-  // Use dynamic import or check for browser environment to avoid breaking Metro (Native)
+  // Use dynamic import for web-only dependencies to prevent native resolution errors
   const runWeb = async () => {
-    // @ts-ignore - react-dom is only available in the web environment via index.html imports
-    const { createRoot } = await import('react-dom/client');
-    const rootElement = document.getElementById('root');
-    if (rootElement) {
-      const root = createRoot(rootElement);
-      root.render(<App />);
+    try {
+      // @ts-ignore
+      const { createRoot } = await import('react-dom/client');
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        const root = createRoot(rootElement);
+        root.render(<App />);
+      }
+    } catch (e) {
+      console.error('Web initialization failed', e);
     }
   };
   runWeb();
