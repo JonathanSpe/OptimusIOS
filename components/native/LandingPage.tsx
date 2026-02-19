@@ -10,7 +10,7 @@ import {
   ImageBackground,
   StatusBar
 } from 'react-native';
-import { ArrowRight, Play, Activity, Microscope, Zap, ShieldCheck, Cpu } from 'lucide-react-native';
+import { ArrowRight, Play, Activity, Microscope, Zap, ShieldCheck, Cpu, Fingerprint } from 'lucide-react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,139 +19,141 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       
+      {/* Abstract Background Mesh Elements */}
+      <View style={styles.bgMesh1} />
+      <View style={styles.bgMesh2} />
+
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         contentContainerStyle={styles.scrollContent}
       >
-        {/* INNOVATIVE HERO SECTION */}
+        {/* TOP NAVIGATION / STATUS BAR */}
+        <View style={styles.navHeader}>
+          <View style={styles.protocolBadge}>
+            <Text style={styles.protocolText}>OPTIMUS_B1O_V5</Text>
+          </View>
+          <View style={styles.liveIndicator}>
+            <View style={styles.liveDot} />
+            <Text style={styles.liveText}>SYSTEM_ONLINE</Text>
+          </View>
+        </View>
+
+        {/* HERO SECTION */}
         <View style={styles.heroSection}>
-          <View style={styles.headerRow}>
-            <View style={styles.protocolBadge}>
-              <Text style={styles.protocolText}>OPTIMUS_SYSTEM_v5.2</Text>
-            </View>
-            <View style={styles.encryptionBadge}>
-              <ShieldCheck size={10} color="#991B1B" />
-              <Text style={styles.encryptionText}>AES-256</Text>
-            </View>
-          </View>
-
-          <View style={styles.titleContainer}>
+          <View style={styles.heroTitleContainer}>
             <Text style={styles.heroTitle}>
-              Was steckt{"\n"}
-              <Text style={styles.heroTitleAccent}>wirklich</Text>{"\n"}
-              <Text style={styles.heroTitleFaded}>in dir?</Text>
+              Evolve Your{"\n"}
+              <Text style={styles.heroTitleAccent}>Biology.</Text>
             </Text>
-            <View style={styles.verticalTitleBar} />
+            <View style={styles.titleLine} />
           </View>
 
-          <Text style={styles.heroSub}>
-            Entschlüssele deine Biologie. Hochpräzise Blutanalytik für maximale Performance in Alltag, Job und Sport.
+          <Text style={styles.heroDescription}>
+            Hocheffiziente Blutanalytik für das nächste Level deiner Performance. Schmerzfrei. Digital. Evidenzbasiert.
           </Text>
 
-          <View style={styles.actionContainer}>
+          <View style={styles.actionRow}>
             <TouchableOpacity 
-              style={styles.primaryBtn} 
+              style={styles.mainCta} 
               onPress={onGetStarted}
-              activeOpacity={0.8}
+              activeOpacity={0.9}
             >
-              <Text style={styles.primaryBtnText}>INITIALISIEREN</Text>
+              <Text style={styles.mainCtaText}>INITIALISIEREN</Text>
               <ArrowRight size={18} color="#FFF" strokeWidth={3} />
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.secondaryBtn}>
-              <View style={styles.playIconBox}>
-                <Play size={12} color="#FFF" fill="#FFF" />
-              </View>
-              <Text style={styles.secondaryBtnText}>DEMO</Text>
+            <TouchableOpacity style={styles.demoCta}>
+              <Play size={14} color="#FFF" fill="#FFF" />
+              <Text style={styles.demoCtaText}>DEMO</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* BIO-VISUAL MODULE */}
-        <View style={styles.visualModule}>
-          <ImageBackground
-            source={{ uri: 'https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/athlete%20sports.png' }}
-            style={styles.heroImage}
-            imageStyle={styles.heroImageStyle}
-          >
-            <View style={styles.imageOverlay}>
-              <View style={styles.scanline} />
-              
-              {/* Floating Telemetry Badges */}
-              <View style={[styles.telemetryTag, { top: 30, left: 20 }]}>
-                <Activity size={12} color="#991B1B" />
-                <Text style={styles.telemetryText}>HEART_RATE: 48BPM</Text>
+        {/* BIOMETRIC VISUAL MODULE */}
+        <View style={styles.visualContainer}>
+          <View style={styles.imageFrame}>
+            <ImageBackground
+              source={{ uri: 'https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/athlete%20sports.png' }}
+              style={styles.heroImage}
+              imageStyle={{ opacity: 0.35, grayscale: 1 }}
+            >
+              <View style={styles.scanOverlay}>
+                <View style={styles.scanline} />
+                <View style={[styles.dataTag, { top: 40, left: 30 }]}>
+                   <Activity size={10} color="#991B1B" />
+                   <Text style={styles.tagText}>VO2MAX_SYNC</Text>
+                </View>
+                <View style={[styles.dataTag, { bottom: 60, right: 30 }]}>
+                   <Cpu size={10} color="#991B1B" />
+                   <Text style={styles.tagText}>ATP_OPTIMIZED</Text>
+                </View>
+                
+                {/* Visual Bio-Grid */}
+                <View style={styles.bioGrid}>
+                  <View style={styles.gridH} />
+                  <View style={styles.gridV} />
+                </View>
               </View>
-
-              <View style={[styles.telemetryTag, { bottom: 30, right: 20 }]}>
-                <Cpu size={12} color="#991B1B" />
-                <Text style={styles.telemetryText}>META_SYNC: ACTIVE</Text>
-              </View>
-
-              <View style={styles.biometricGrid}>
-                <View style={styles.gridLineH} />
-                <View style={styles.gridLineV} />
-              </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
         </View>
 
         {/* CLINICAL FACTS MODULES */}
         <View style={styles.factsSection}>
           <View style={styles.sectionHeader}>
             <View style={styles.accentLine} />
-            <Text style={styles.sectionTag}>MOLEKULARE_ANALYSE</Text>
+            <Text style={styles.sectionLabel}>MOLEKULARE_INSIGHTS</Text>
           </View>
 
-          <Text style={styles.sectionTitle}>Fakten statt Vermutungen.</Text>
+          <Text style={styles.sectionTitle}>Kein Raten mehr.</Text>
 
-          <View style={styles.factModule}>
-            <View style={styles.factHead}>
+          <View style={styles.factCard}>
+            <View style={styles.factHeader}>
               <Text style={styles.factValue}>30%</Text>
-              <Text style={styles.factLabel}>EISENMANGEL_GLOBAL</Text>
+              <Text style={styles.factUnit}>GLOBALER_SCHNITT</Text>
             </View>
-            <Text style={styles.factDesc}>
-              Ein Großteil der Bevölkerung lebt mit einem unerkannten Defizit, das als chronische Müdigkeit missverstanden wird.
+            <Text style={styles.factTitle}>EISENMANGEL_PRÄVENTIV</Text>
+            <Text style={styles.factText}>
+              Wir identifizieren Defizite, bevor sie deine Performance limitieren.
             </Text>
           </View>
 
-          <View style={[styles.factModule, styles.factModuleCrimson]}>
-            <View style={styles.factHead}>
+          <View style={[styles.factCard, styles.factCardHighlight]}>
+            <View style={styles.factHeader}>
               <Text style={[styles.factValue, { color: '#FFF' }]}>-25%</Text>
-              <Text style={[styles.factLabel, { color: 'rgba(255,255,255,0.5)' }]}>LEISTUNGS_DROP</Text>
+              <Text style={[styles.factUnit, { color: 'rgba(255,255,255,0.4)' }]}>EFFIZIENZ_LOSS</Text>
             </View>
-            <Text style={[styles.factDesc, { color: 'rgba(255,255,255,0.7)' }]}>
-              Suboptimale Ferritin-Werte limitieren den Sauerstofftransport in die Zellen und blockieren deine Regeneration.
+            <Text style={[styles.factTitle, { color: '#FFF' }]}>SAUERSTOFF_LIMITIERUNG</Text>
+            <Text style={[styles.factText, { color: 'rgba(255,255,255,0.6)' }]}>
+              Optimierte Ferritin-Werte steigern die aerobe Kapazität massiv.
             </Text>
           </View>
         </View>
 
-        {/* INNOVATION FEATURES */}
-        <View style={styles.featureSection}>
-          <View style={styles.featureGrid}>
-            <View style={styles.featureCard}>
-              <View style={styles.iconCircle}>
-                <Microscope size={20} color="#991B1B" />
-              </View>
-              <Text style={styles.featureTitle}>LABOR_STANDARDS</Text>
-              <Text style={styles.featureText}>Akkreditierte klinische Diagnostik.</Text>
+        {/* INNOVATION PILLARS */}
+        <View style={styles.pillarsGrid}>
+          <View style={styles.pillar}>
+            <View style={styles.pillarIcon}>
+              <Microscope size={18} color="#991B1B" />
             </View>
-            
-            <View style={styles.featureCard}>
-              <View style={styles.iconCircle}>
-                <Zap size={20} color="#991B1B" />
-              </View>
-              <Text style={styles.featureTitle}>BIO_INTELLIGENCE</Text>
-              <Text style={styles.featureText}>KI-gestützte Strategien.</Text>
+            <Text style={styles.pillarLabel}>CLINICAL_GRADE</Text>
+          </View>
+          <View style={styles.pillar}>
+            <View style={styles.pillarIcon}>
+              <Fingerprint size={18} color="#991B1B" />
             </View>
+            <Text style={styles.pillarLabel}>BIO_UNIQUE_ID</Text>
           </View>
         </View>
 
         <View style={styles.footerSpacer} />
       </ScrollView>
 
-      {/* Background Decorative Gradient Elements (simulated with Views) */}
-      <View style={styles.bgGlow} />
+      {/* Footer Static Badge */}
+      <View style={styles.footerBadge}>
+        <ShieldCheck size={12} color="rgba(255,255,255,0.3)" />
+        <Text style={styles.footerBadgeText}>SECURED BY OPTIMUS_CORE</Text>
+      </View>
     </View>
   );
 }
@@ -159,25 +161,41 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#020617', // Deep Dark Navy
+    backgroundColor: '#020617', // Deeper Obsidian
   },
   scrollContent: {
-    paddingBottom: 60,
+    paddingBottom: 120,
   },
-  heroSection: {
-    paddingTop: 60,
-    paddingHorizontal: 32,
+  bgMesh1: {
+    position: 'absolute',
+    top: -100,
+    right: -100,
+    width: 400,
+    height: 400,
+    borderRadius: 200,
+    backgroundColor: 'rgba(153, 27, 27, 0.03)',
   },
-  headerRow: {
+  bgMesh2: {
+    position: 'absolute',
+    bottom: 200,
+    left: -150,
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    backgroundColor: 'rgba(255, 255, 255, 0.01)',
+  },
+  navHeader: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 32,
+    justifyContent: 'space-between',
+    paddingHorizontal: 32,
+    paddingTop: 60,
+    marginBottom: 48,
   },
   protocolBadge: {
-    backgroundColor: 'rgba(153, 27, 27, 0.1)',
+    backgroundColor: 'rgba(153, 27, 27, 0.08)',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: 'rgba(153, 27, 27, 0.2)',
   },
@@ -187,169 +205,151 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     letterSpacing: 2,
   },
-  encryptionBadge: {
+  liveIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    paddingHorizontal: 10,
-    borderRadius: 8,
+    gap: 8,
   },
-  encryptionText: {
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10B981',
+  },
+  liveText: {
     color: 'rgba(255,255,255,0.3)',
     fontSize: 8,
     fontWeight: '900',
     letterSpacing: 1,
   },
-  titleContainer: {
+  heroSection: {
+    paddingHorizontal: 32,
+  },
+  heroTitleContainer: {
     position: 'relative',
     marginBottom: 24,
   },
   heroTitle: {
-    fontSize: 54,
+    fontSize: 60,
     fontWeight: '900',
     color: '#FFF',
-    lineHeight: 52,
-    letterSpacing: -2,
+    lineHeight: 58,
+    letterSpacing: -3,
   },
   heroTitleAccent: {
     color: '#991B1B',
     fontStyle: 'italic',
   },
-  heroTitleFaded: {
-    color: 'rgba(255,255,255,0.05)',
-  },
-  verticalTitleBar: {
+  titleLine: {
     position: 'absolute',
-    left: -16,
+    left: -20,
     top: 10,
     bottom: 10,
     width: 2,
     backgroundColor: '#991B1B',
   },
-  heroSub: {
+  heroDescription: {
     fontSize: 16,
     color: '#94A3B8',
     fontWeight: '600',
-    lineHeight: 26,
-    maxWidth: '90%',
+    lineHeight: 28,
+    maxWidth: '85%',
   },
-  actionContainer: {
+  actionRow: {
     flexDirection: 'row',
     gap: 16,
-    marginTop: 40,
+    marginTop: 48,
   },
-  primaryBtn: {
+  mainCta: {
     flex: 2,
     backgroundColor: '#991B1B',
     height: 70,
-    borderRadius: 24,
+    borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 12,
     shadowColor: '#991B1B',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.4,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
     shadowRadius: 20,
     elevation: 10,
   },
-  primaryBtnText: {
+  mainCtaText: {
     color: '#FFF',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '900',
     letterSpacing: 2,
   },
-  secondaryBtn: {
+  demoCta: {
     flex: 1,
     backgroundColor: 'rgba(255,255,255,0.03)',
-    borderRadius: 24,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
+    gap: 8,
   },
-  playIconBox: {
-    width: 24,
-    height: 24,
-    borderRadius: 8,
-    backgroundColor: 'rgba(153, 27, 27, 0.8)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  secondaryBtnText: {
+  demoCtaText: {
     color: '#FFF',
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '900',
-    letterSpacing: 1,
   },
-  visualModule: {
-    marginTop: 60,
+  visualContainer: {
+    marginTop: 64,
     paddingHorizontal: 20,
   },
-  heroImage: {
+  imageFrame: {
     width: '100%',
     aspectRatio: 1,
     borderRadius: 48,
     overflow: 'hidden',
+    backgroundColor: '#0F172A',
   },
-  heroImageStyle: {
-    opacity: 0.4,
-    grayscale: 1,
+  heroImage: {
+    flex: 1,
   },
-  imageOverlay: {
+  scanOverlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   scanline: {
+    position: 'absolute',
     width: '100%',
     height: 1,
-    backgroundColor: 'rgba(153, 27, 27, 0.3)',
-    position: 'absolute',
-    top: '45%',
+    backgroundColor: 'rgba(153, 27, 27, 0.4)',
+    top: '48%',
   },
-  telemetryTag: {
+  dataTag: {
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: 'rgba(2, 6, 23, 0.8)',
-    paddingHorizontal: 12,
+    backgroundColor: '#000',
+    paddingHorizontal: 10,
     paddingVertical: 8,
-    borderRadius: 12,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
+    borderColor: 'rgba(255,255,255,0.1)',
   },
-  telemetryText: {
+  tagText: {
     color: '#FFF',
     fontSize: 8,
     fontWeight: '900',
     letterSpacing: 1,
   },
-  biometricGrid: {
-    position: 'absolute',
-    width: 160,
-    height: 160,
+  bioGrid: {
+    width: 180,
+    height: 180,
     borderWidth: 1,
     borderColor: 'rgba(153, 27, 27, 0.1)',
-  },
-  gridLineH: {
     position: 'absolute',
-    top: '50%',
-    width: '100%',
-    height: 1,
-    backgroundColor: 'rgba(153, 27, 27, 0.2)',
   },
-  gridLineV: {
-    position: 'absolute',
-    left: '50%',
-    height: '100%',
-    width: 1,
-    backgroundColor: 'rgba(153, 27, 27, 0.2)',
-  },
+  gridH: { position: 'absolute', top: '50%', width: '100%', height: 1, backgroundColor: 'rgba(153, 27, 27, 0.1)' },
+  gridV: { position: 'absolute', left: '50%', height: '100%', width: 1, backgroundColor: 'rgba(153, 27, 27, 0.1)' },
   factsSection: {
     padding: 32,
     marginTop: 40,
@@ -361,36 +361,36 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   accentLine: {
-    width: 40,
+    width: 32,
     height: 2,
     backgroundColor: '#991B1B',
   },
-  sectionTag: {
-    fontSize: 10,
+  sectionLabel: {
+    fontSize: 9,
     fontWeight: '900',
     color: '#991B1B',
-    letterSpacing: 3,
+    letterSpacing: 2,
   },
   sectionTitle: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: '900',
     color: '#FFF',
     marginBottom: 32,
     letterSpacing: -1,
   },
-  factModule: {
+  factCard: {
     backgroundColor: 'rgba(255,255,255,0.02)',
-    borderRadius: 32,
     padding: 32,
-    marginBottom: 16,
+    borderRadius: 32,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.05)',
+    marginBottom: 16,
   },
-  factModuleCrimson: {
+  factCardHighlight: {
     backgroundColor: 'rgba(153, 27, 27, 0.1)',
-    borderColor: 'rgba(153, 27, 27, 0.2)',
+    borderColor: 'rgba(153, 27, 27, 0.15)',
   },
-  factHead: {
+  factHeader: {
     flexDirection: 'row',
     alignItems: 'baseline',
     gap: 12,
@@ -402,66 +402,71 @@ const styles = StyleSheet.create({
     color: '#FFF',
     letterSpacing: -3,
   },
-  factLabel: {
-    fontSize: 9,
+  factUnit: {
+    fontSize: 8,
     fontWeight: '900',
-    color: '#991B1B',
-    letterSpacing: 2,
+    color: '#94A3B8',
+    letterSpacing: 1,
   },
-  factDesc: {
+  factTitle: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#94A3B8',
+    letterSpacing: 1,
+    marginBottom: 8,
+  },
+  factText: {
     fontSize: 14,
     color: '#64748B',
     lineHeight: 22,
     fontWeight: '600',
   },
-  featureSection: {
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  featureGrid: {
+  pillarsGrid: {
     flexDirection: 'row',
+    paddingHorizontal: 20,
     gap: 12,
+    marginTop: 12,
   },
-  featureCard: {
+  pillar: {
     flex: 1,
     backgroundColor: 'rgba(255,255,255,0.02)',
+    borderRadius: 24,
     padding: 24,
-    borderRadius: 32,
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.05)',
   },
-  iconCircle: {
+  pillarIcon: {
     width: 48,
     height: 48,
     borderRadius: 16,
-    backgroundColor: 'rgba(153, 27, 27, 0.1)',
+    backgroundColor: 'rgba(153, 27, 27, 0.08)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
   },
-  featureTitle: {
-    fontSize: 10,
+  pillarLabel: {
+    fontSize: 8,
     fontWeight: '900',
     color: '#FFF',
     letterSpacing: 1,
-    marginBottom: 8,
-  },
-  featureText: {
-    fontSize: 12,
-    color: '#64748B',
-    lineHeight: 18,
-    fontWeight: '600',
   },
   footerSpacer: {
     height: 100,
   },
-  bgGlow: {
+  footerBadge: {
     position: 'absolute',
-    top: height * 0.1,
-    right: -width * 0.3,
-    width: width,
-    height: width,
-    borderRadius: width / 2,
-    backgroundColor: 'rgba(153, 27, 27, 0.05)',
+    bottom: 40,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  footerBadgeText: {
+    color: 'rgba(255,255,255,0.2)',
+    fontSize: 8,
+    fontWeight: '900',
+    letterSpacing: 2,
   },
 });

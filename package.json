@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "index.tsx",
   "dependencies": {
-    "expo": "~54.0.33",
-    "expo-status-bar": "~2.1.1",
+    "expo": "~54.0.0",
+    "expo-status-bar": "~2.1.0",
     "react": "18.3.1",
     "react-native": "0.78.2",
     "lucide-react-native": "^0.475.0",
