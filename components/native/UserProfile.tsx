@@ -23,7 +23,7 @@ export default function UserProfile({ onLogout }: { onLogout: () => void }) {
             />
           </View>
           <View style={styles.settingsBtn}>
-            <Settings size={14} color="#FFF" />
+            <Settings size={14} stroke="#FFF" />
           </View>
         </View>
         <Text style={styles.userName}>Jonathan Specking</Text>
@@ -34,16 +34,16 @@ export default function UserProfile({ onLogout }: { onLogout: () => void }) {
         {menu.map((item, i) => (
           <TouchableOpacity key={i} style={styles.menuItem}>
             <View style={styles.menuLeft}>
-              <View style={styles.iconBox}><item.icon size={18} color="#94A3B8" /></View>
+              <View style={styles.iconBox}><item.icon size={18} stroke="#94A3B8" /></View>
               <Text style={styles.menuLabel}>{item.label}</Text>
             </View>
-            <ChevronRight size={16} color="#F1F5F9" />
+            <ChevronRight size={16} stroke="#F1F5F9" />
           </TouchableOpacity>
         ))}
       </View>
 
       <TouchableOpacity onPress={onLogout} style={styles.logoutBtn}>
-        <LogOut size={16} color="#991B1B" />
+        <LogOut size={16} stroke="#991B1B" />
         <Text style={styles.logoutText}>SESSION BEENDEN</Text>
       </TouchableOpacity>
     </View>

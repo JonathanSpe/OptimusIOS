@@ -57,7 +57,7 @@ export default function AIChat() {
           onChangeText={setInput}
         />
         <TouchableOpacity style={styles.sendBtn} onPress={sendMessage}>
-          <Send size={18} color="#FFF" />
+          <Send size={18} stroke="#FFF" />
         </TouchableOpacity>
       </View>
     </View>

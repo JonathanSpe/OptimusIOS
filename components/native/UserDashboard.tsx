@@ -39,7 +39,7 @@ export default function UserDashboard({ onNavigate }: any) {
       {/* Metrics Row */}
       <View style={styles.metricsRow}>
         <View style={styles.indexCard}>
-          <Zap size={20} color="rgba(255,255,255,0.2)" style={styles.cardIcon} />
+          <Zap size={20} stroke="rgba(255,255,255,0.2)" style={styles.cardIcon} />
           <Text style={styles.metricLabel}>OVERALL INDEX</Text>
           <View style={styles.metricValueContainer}>
             <Text style={styles.metricValue}>91</Text>
@@ -48,7 +48,7 @@ export default function UserDashboard({ onNavigate }: any) {
         </View>
 
         <View style={styles.ageCard}>
-          <Heart size={20} color="rgba(15,23,42,0.1)" style={styles.cardIcon} />
+          <Heart size={20} stroke="rgba(15,23,42,0.1)" style={styles.cardIcon} />
           <Text style={[styles.metricLabel, { color: '#94A3B8' }]}>BIO-AGE</Text>
           <View style={styles.metricValueContainer}>
             <Text style={[styles.metricValue, { color: '#0F172A' }]}>29</Text>
@@ -76,7 +76,7 @@ export default function UserDashboard({ onNavigate }: any) {
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>BIOMETRIC SNAPSHOT</Text>
         <View style={styles.liveIndicator}>
-          <Activity size={10} color="#991B1B" />
+          <Activity size={10} stroke="#991B1B" />
           <Text style={styles.liveText}>LIVE PANEL</Text>
         </View>
       </View>
@@ -86,7 +86,7 @@ export default function UserDashboard({ onNavigate }: any) {
           <View key={i} style={styles.markerCard}>
             <View style={styles.markerTop}>
               <Text style={styles.markerName}>{m.name.toUpperCase()}</Text>
-              {m.trend === 'up' ? <TrendingUp size={12} color="#10B981" /> : <TrendingDown size={12} color="#991B1B" />}
+              {m.trend === 'up' ? <TrendingUp size={12} stroke="#10B981" /> : <TrendingDown size={12} stroke="#991B1B" />}
             </View>
             <View style={styles.markerValueRow}>
               <Text style={styles.markerValue}>{m.value}</Text>
@@ -104,7 +104,7 @@ export default function UserDashboard({ onNavigate }: any) {
       {/* AI Chat Preview */}
       <View style={styles.aiHeader}>
         <View style={styles.aiBotIcon}>
-          <Bot size={16} color="#0F172A" />
+          <Bot size={16} stroke="#0F172A" />
         </View>
         <View>
           <Text style={styles.aiTitle}>AI BIO-ADVISOR</Text>

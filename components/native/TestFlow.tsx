@@ -25,7 +25,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
             <Text style={styles.headerTitle}>LAB PROCEDURE</Text>
           </View>
           <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-            <X size={20} color="#94A3B8" />
+            <X size={20} stroke="#94A3B8" />
           </TouchableOpacity>
         </View>
 
@@ -39,14 +39,14 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                 <View style={styles.scanSim}>
                   <View style={styles.scanTarget} />
                   <TouchableOpacity style={styles.simBtn} onPress={() => setStep('INSTRUCTIONS')}>
-                    <Camera size={16} color="#0F172A" />
+                    <Camera size={16} stroke="#0F172A" />
                     <Text style={styles.simBtnText}>SCAN SIMULIEREN</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View style={styles.infoBox}>
-                <Info size={16} color="#CBD5E1" />
+                <Info size={16} stroke="#CBD5E1" />
                 <Text style={styles.infoText}>Der QR-Code verbindet deine physische Probe sicher mit deinem Profil.</Text>
               </View>
             </View>
@@ -79,7 +79,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                   <Text style={styles.primaryBtnText}>
                     {instructionIdx === 3 ? 'ZUM FRAGEBOGEN' : 'NÄCHSTER SCHRITT'}
                   </Text>
-                  <ArrowRight size={16} color="#FFF" />
+                  <ArrowRight size={16} stroke="#FFF" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -96,7 +96,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               ].map((item, i) => (
                 <View key={i} style={styles.qCard}>
                   <View style={styles.qHead}>
-                    <item.icon size={16} color="#CBD5E1" />
+                    <item.icon size={16} stroke="#CBD5E1" />
                     <Text style={styles.qText}>{item.q.toUpperCase()}</Text>
                   </View>
                   <View style={styles.optRow}>
@@ -111,7 +111,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
 
               <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} onPress={() => setStep('SUCCESS')}>
                 <Text style={styles.primaryBtnText}>DATEN ÜBERMITTELN</Text>
-                <ShieldCheck size={16} color="#FFF" />
+                <ShieldCheck size={16} stroke="#FFF" />
               </TouchableOpacity>
             </ScrollView>
           )}
@@ -119,7 +119,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
           {step === 'SUCCESS' && (
             <View style={styles.centerFlow}>
               <View style={styles.successCircle}>
-                <ShieldCheck size={48} color="#10B981" />
+                <ShieldCheck size={48} stroke="#10B981" />
               </View>
               <Text style={styles.stepTitle}>ANALYSE <Text style={styles.fadedText}>GESTARTET</Text></Text>
               <Text style={styles.successSub}>In ca. 48 Stunden sind deine Ergebnisse verfügbar.</Text>

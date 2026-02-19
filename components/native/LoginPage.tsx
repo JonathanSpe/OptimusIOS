@@ -19,7 +19,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
         <View style={styles.inputWrap}>
           <Text style={styles.label}>ID / EMAIL</Text>
           <View style={styles.inputContainer}>
-            <Mail size={16} color="#CBD5E1" style={styles.fieldIcon} />
+            <Mail size={16} stroke="#CBD5E1" style={styles.fieldIcon} />
             <TextInput 
               style={styles.input} 
               placeholder="name@optimus.com" 
@@ -32,7 +32,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
         <View style={styles.inputWrap}>
           <Text style={styles.label}>ACCESS KEY</Text>
           <View style={styles.inputContainer}>
-            <Lock size={16} color="#CBD5E1" style={styles.fieldIcon} />
+            <Lock size={16} stroke="#CBD5E1" style={styles.fieldIcon} />
             <TextInput 
               style={styles.input} 
               secureTextEntry 
@@ -45,12 +45,12 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
 
         <TouchableOpacity style={styles.loginBtn} onPress={onLogin}>
           <Text style={styles.loginText}>SIGN IN</Text>
-          <ArrowRight size={16} color="#FFF" />
+          <ArrowRight size={16} stroke="#FFF" />
         </TouchableOpacity>
 
         <View style={styles.bioPrompt}>
           <TouchableOpacity style={styles.bioIconBox}>
-            <Fingerprint size={32} color="#CBD5E1" />
+            <Fingerprint size={32} stroke="#CBD5E1" />
           </TouchableOpacity>
           <Text style={styles.bioNote}>Tap to use Biometric ID</Text>
         </View>
@@ -58,7 +58,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
 
       <View style={styles.footer}>
         <View style={styles.shieldRow}>
-          <Shield size={12} color="#10B981" />
+          <Shield size={12} stroke="#10B981" />
           <Text style={styles.shieldText}>DE-AES 256 ENCRYPTED TUNNEL</Text>
         </View>
       </View>

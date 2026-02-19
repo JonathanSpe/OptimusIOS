@@ -27,7 +27,7 @@ export default function BottomNav({ activeTab, setActiveTab, onStartTest }: any)
                 activeOpacity={0.9}
               >
                 <View style={styles.fab}>
-                  <Plus color="#FFF" size={28} strokeWidth={3} />
+                  <Plus stroke="#FFF" size={28} strokeWidth={3} />
                 </View>
               </TouchableOpacity>
             );
@@ -43,7 +43,7 @@ export default function BottomNav({ activeTab, setActiveTab, onStartTest }: any)
               style={styles.tab}
             >
               <View style={[styles.iconWrap, isActive && styles.iconWrapActive]}>
-                <Icon size={22} color={isActive ? '#991B1B' : '#94A3B8'} />
+                <Icon size={22} stroke={isActive ? '#991B1B' : '#94A3B8'} />
               </View>
               <Text style={[styles.label, isActive && styles.labelActive]}>
                 {tab.label.toUpperCase()}

@@ -18,14 +18,14 @@ export default function SupplementsPage() {
 
       <View style={styles.promoCard}>
         <View style={styles.promoContent}>
-          <View style={styles.promoBadge}><Star size={10} color="#991B1B" /><Text style={styles.promoBadgeText}>PREMIUM CHOICE</Text></View>
+          <View style={styles.promoBadge}><Star size={10} stroke="#991B1B" /><Text style={styles.promoBadgeText}>PREMIUM CHOICE</Text></View>
           <Text style={styles.promoTitle}>DEIN{"\n"}OPTIMUS-PACK</Text>
           <Text style={styles.promoDesc}>Personalisierte Tages-Sachets basierend auf deinen Werten.</Text>
           <TouchableOpacity style={styles.promoBtn}>
             <Text style={styles.promoBtnText}>KONFIGURIEREN</Text>
           </TouchableOpacity>
         </View>
-        <Zap size={100} color="rgba(255,255,255,0.05)" style={styles.promoZap} />
+        <Zap size={100} stroke="rgba(255,255,255,0.05)" style={styles.promoZap} />
       </View>
 
       <View style={styles.grid}>
@@ -39,7 +39,7 @@ export default function SupplementsPage() {
             <View style={styles.productBottom}>
               <Text style={styles.productPrice}>{p.price}€</Text>
               <TouchableOpacity style={styles.addBtn}>
-                <ShoppingCart size={12} color="#FFF" />
+                <ShoppingCart size={12} stroke="#FFF" />
               </TouchableOpacity>
             </View>
           </View>

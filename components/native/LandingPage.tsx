@@ -58,11 +58,11 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
               activeOpacity={0.8}
             >
               <Text style={styles.primaryBtnText}>INITIALISIEREN</Text>
-              <ArrowRight size={18} color="#FFF" strokeWidth={3} />
+              <ArrowRight size={18} stroke="#FFF" strokeWidth={3} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.secondaryBtn}>
-              <Play size={14} color="#FFF" fill="#FFF" />
+              <Play size={14} stroke="#FFF" fill="#FFF" />
               <Text style={styles.secondaryBtnText}>DEMO</Text>
             </TouchableOpacity>
           </View>
@@ -79,12 +79,12 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
               <View style={styles.scanline} />
               
               <View style={[styles.dataTag, { top: 40, left: 30 }]}>
-                 <Activity size={10} color="#991B1B" />
+                 <Activity size={10} stroke="#991B1B" />
                  <Text style={styles.tagText}>HEART_VAR: 68MS</Text>
               </View>
               
               <View style={[styles.dataTag, { bottom: 60, right: 30 }]}>
-                 <Cpu size={10} color="#991B1B" />
+                 <Cpu size={10} stroke="#991B1B" />
                  <Text style={styles.tagText}>METABOLIC_CORE: ON</Text>
               </View>
 
@@ -131,7 +131,7 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
 
       {/* FOOTER BADGE */}
       <View style={styles.footerSticky}>
-        <ShieldCheck size={12} color="rgba(255,255,255,0.3)" />
+        <ShieldCheck size={12} stroke="rgba(255,255,255,0.3)" />
         <Text style={styles.footerText}>SECURED BY OPTIMUS_ENCRYPTION</Text>
       </View>
     </View>
@@ -280,7 +280,6 @@ const styles = StyleSheet.create({
   },
   imageOpacity: {
     opacity: 0.3,
-    grayscale: 1,
   },
   biometricOverlay: {
     flex: 1,

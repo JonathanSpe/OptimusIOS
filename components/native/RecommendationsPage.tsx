@@ -7,7 +7,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => onNavigate('dashboard')} style={styles.backBtn}>
-        <ArrowLeft size={16} color="#94A3B8" />
+        <ArrowLeft size={16} stroke="#94A3B8" />
         <Text style={styles.backText}>DASHBOARD</Text>
       </TouchableOpacity>
 
@@ -36,7 +36,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
         ].map((item, i) => (
           <View key={i} style={styles.recCard}>
             <View style={styles.recIconWrap}>
-              <item.icon size={20} color="#0F172A" />
+              <item.icon size={20} stroke="#0F172A" />
             </View>
             <View style={styles.recContent}>
               <View style={styles.recTop}>
