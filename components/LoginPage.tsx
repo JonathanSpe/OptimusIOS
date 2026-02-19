@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { ArrowRight, Lock, Mail, Github, Chrome } from 'lucide-react';
+import { ArrowRight, Lock, Mail, Fingerprint, Shield } from 'lucide-react';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -16,83 +17,95 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] flex items-center justify-center px-6 py-20">
-      <div className="w-full max-w-md relative">
-        <div className="absolute inset-0 bg-red-600/[0.02] blur-[120px] rounded-full -z-10" />
+    <div className="h-full flex flex-col items-center justify-center px-8 sm:px-12">
+      <div className="w-full max-w-sm space-y-12 animate-in fade-in zoom-in-95 duration-700">
         
-        <div className="bg-white rounded-[3rem] p-12 border border-black/[0.03] space-y-12 shadow-xl medical-card-shadow">
-          <div className="text-center space-y-4">
-            <div className="w-14 h-14 bg-[#333333] rounded-[1.25rem] mx-auto flex items-center justify-center font-bold text-2xl text-white shadow-lg">O</div>
-            <div className="space-y-2">
-              <h1 className="text-4xl font-black tracking-tighter text-[#333333]">Willkommen</h1>
-              <p className="text-zinc-500 text-sm font-medium">Logge dich ein, um deine Daten zu synchronisieren.</p>
+        {/* Branding Area */}
+        <div className="text-center space-y-6">
+          <div className="relative inline-block">
+            <div className="w-20 h-20 bg-[#0F172A] rounded-[2rem] mx-auto flex items-center justify-center font-[900] text-4xl text-white shadow-2xl relative z-10">
+              O
             </div>
+            <div className="absolute -inset-4 bg-red-800/10 blur-2xl rounded-full -z-10 animate-pulse" />
           </div>
+          <div className="space-y-2">
+            <h1 className="text-4xl font-black tracking-tighter text-[#0F172A] uppercase italic">
+              Optimus
+            </h1>
+            <p className="text-slate-400 text-xs font-black uppercase tracking-[0.3em]">
+              Clinical Intelligence
+            </p>
+          </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-4">Email Addresse</label>
+        {/* Login Form Card */}
+        <div className="bg-white/40 backdrop-blur-3xl rounded-[3rem] p-10 border border-white/50 shadow-[0_32px_120px_-20px_rgba(0,0,0,0.08)] space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 ml-5">ID / Email</label>
               <div className="relative">
-                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300" size={18} />
+                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@optimus.com"
-                  className="w-full bg-zinc-50 border border-black/[0.03] rounded-2xl py-4.5 pl-16 pr-6 text-[#333333] focus:border-black/[0.1] focus:outline-none transition-all placeholder:text-zinc-300 font-medium"
+                  className="w-full bg-white/50 border border-slate-100 rounded-2xl py-4.5 pl-14 pr-6 text-sm text-[#0F172A] focus:bg-white focus:border-red-800/20 focus:outline-none transition-all placeholder:text-slate-200 font-bold"
                   required
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-4">Passwort</label>
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 ml-5">Access Key</label>
               <div className="relative">
-                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300" size={18} />
+                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-zinc-50 border border-black/[0.03] rounded-2xl py-4.5 pl-16 pr-6 text-[#333333] focus:border-black/[0.1] focus:outline-none transition-all placeholder:text-zinc-300 font-medium"
+                  className="w-full bg-white/50 border border-slate-100 rounded-2xl py-4.5 pl-14 pr-6 text-sm text-[#0F172A] focus:bg-white focus:border-red-800/20 focus:outline-none transition-all placeholder:text-slate-200 font-bold"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between px-2 text-[11px] font-bold">
-              <label className="flex items-center gap-2 text-zinc-400 cursor-pointer hover:text-zinc-600 transition-colors">
-                <input type="checkbox" className="rounded-md border-black/[0.05] bg-zinc-50 text-[#333333] focus:ring-0" />
-                Aktiv bleiben
-              </label>
-              <a href="#" className="text-red-600/60 hover:text-red-600 transition-colors uppercase tracking-widest">Vergessen?</a>
-            </div>
-
             <button 
               type="submit"
-              className="w-full bg-[#333333] text-white py-5 rounded-2xl font-black text-lg hover:bg-black transition-all shadow-md flex items-center justify-center gap-3 group active:scale-[0.98] btn-medical"
+              className="w-full bg-[#0F172A] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-black transition-all shadow-xl flex items-center justify-center gap-3 group active:scale-[0.97] mt-4"
             >
-              Anmelden <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
+              Sign In <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </form>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-black/[0.03]"></div></div>
-            <div className="relative flex justify-center text-[9px] uppercase font-black tracking-[0.2em]"><span className="bg-white px-4 text-zinc-300">Bio-ID Provider</span></div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-3 bg-zinc-50 border border-black/[0.03] py-4 rounded-2xl hover:bg-zinc-100 transition-all btn-medical">
-              <Chrome size={18} className="text-[#333333]" /> <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">Google</span>
+          {/* Biometric Prompt */}
+          <div className="flex flex-col items-center gap-4 pt-4 border-t border-slate-100">
+            <button 
+              type="button"
+              className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-300 hover:text-red-800 hover:border-red-800/20 hover:bg-white transition-all group"
+            >
+              <Fingerprint size={32} className="group-hover:scale-110 transition-transform" />
             </button>
-            <button className="flex items-center justify-center gap-3 bg-zinc-50 border border-black/[0.03] py-4 rounded-2xl hover:bg-zinc-100 transition-all btn-medical">
-              <Github size={18} className="text-[#333333]" /> <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">GitHub</span>
-            </button>
+            <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest">Tap to use Biometric ID</p>
           </div>
+        </div>
 
-          <p className="text-center text-sm text-zinc-500 font-medium leading-relaxed">
-            Noch kein Optimus Mitglied? <br />
-            <button onClick={() => onNavigate('home')} className="text-[#333333] font-bold underline decoration-red-600/20 underline-offset-4 hover:decoration-red-600/40 transition-all">Jetzt Test bestellen</button>
+        {/* Footer Info */}
+        <div className="text-center space-y-6">
+          <div className="flex items-center justify-center gap-3">
+            <Shield size={12} className="text-emerald-500" />
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">DE-AES 256 Encrypted Tunnel</p>
+          </div>
+          
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">
+            New to Optimus? <br />
+            <button 
+              onClick={() => onNavigate('home')} 
+              className="text-[#0F172A] font-black underline decoration-red-800/20 underline-offset-4 hover:decoration-red-800 transition-all mt-1"
+            >
+              Request Access
+            </button>
           </p>
         </div>
       </div>

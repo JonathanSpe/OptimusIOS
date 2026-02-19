@@ -1,235 +1,128 @@
 
-import React, { useState } from 'react';
-import { ShoppingCart, Star, ShieldCheck, Zap, HeartPulse, Info, ChevronRight, Filter, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { ShoppingCart, ShieldCheck, Box, Truck, RefreshCw, ArrowRight, Zap, Star } from 'lucide-react';
 
 interface Product {
   id: string;
   name: string;
-  category: 'Performance' | 'Vitality' | 'Focus' | 'Hormonal';
+  category: string;
   price: number;
-  rating: number;
-  reviews: number;
   image: string;
   benefits: string[];
-  scientificBacking: string;
-  isPopular?: boolean;
 }
 
 const products: Product[] = [
-  {
-    id: 'p1',
-    name: "Optimus Ferritin Elite",
-    category: 'Performance',
-    price: 34.90,
-    rating: 4.9,
-    reviews: 124,
-    image: "https://images.unsplash.com/photo-1584017947476-c3f1b3baae7b?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Optimale Eisenaufnahme", "Unterstützt Sauerstofftransport", "Erhöht Energielevel"],
-    scientificBacking: "Formuliert mit bioverfügbarem Eisenbisglycinat für maximale Magenverträglichkeit.",
-    isPopular: true
-  },
-  {
-    id: 'p2',
-    name: "Vitamin D3 + K2 Complex",
-    category: 'Vitality',
-    price: 24.50,
-    rating: 5.0,
-    reviews: 89,
-    image: "https://images.unsplash.com/photo-1471864190281-ad5fe9bb0724?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Stärkt Immunsystem", "Knochengesundheit", "Hormon-Vorstufe"],
-    scientificBacking: "Synergetische Kombination für korrekte Calcium-Verteilung im Gewebe."
-  },
-  {
-    id: 'p3',
-    name: "Alpha GPC Focus",
-    category: 'Focus',
-    price: 39.00,
-    rating: 4.8,
-    reviews: 56,
-    image: "https://images.unsplash.com/photo-1611634560978-23d27247bc41?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Kognitive Schärfe", "Verbesserte Gedächtnisleistung", "Mentale Ausdauer"],
-    scientificBacking: "Direkter Cholin-Präkursor für gesteigerte Acetylcholin-Synthese im Zerebrum.",
-    isPopular: true
-  },
-  {
-    id: 'p4',
-    name: "Magnesium Glycinat ZM",
-    category: 'Hormonal',
-    price: 28.00,
-    rating: 4.9,
-    reviews: 210,
-    image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Reduziert Cortisol", "Tieferer Schlaf", "Muskelrelaxation"],
-    scientificBacking: "Chelat-Form für höchste Bioverfügbarkeit ohne abführende Wirkung."
-  },
-  {
-    id: 'p5',
-    name: "Omega-3 Ultra Pure",
-    category: 'Performance',
-    price: 32.90,
-    rating: 4.9,
-    reviews: 142,
-    image: "https://images.unsplash.com/photo-1550573105-18074d09252c?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Herzgesundheit", "Entzündungshemmung", "Gelenkfunktion"],
-    scientificBacking: "IFOS-zertifiziertes Fischöl mit extrem hohem EPA/DHA Gehalt."
-  },
-  {
-    id: 'p6',
-    name: "Testo-Boost Synergie",
-    category: 'Hormonal',
-    price: 49.00,
-    rating: 4.7,
-    reviews: 95,
-    image: "https://images.unsplash.com/photo-1576091160550-2173dad99901?q=80&w=800&auto=format&fit=crop",
-    benefits: ["Natürliche Testosteron-Unterstützung", "Verbesserte Libido", "Vitalität"],
-    scientificBacking: "Kombination aus Zink, Bor und Ashwagandha (KSM-66) basierend auf Studien zur Stress-Reduktion."
-  }
+  { id: 'p1', name: "Ferritin Elite", category: 'Performance', price: 34.90, image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/pill.jpeg", benefits: ["Max Eisen", "Energy"] },
+  { id: 'p2', name: "Vitamin D3", category: 'Vitality', price: 24.50, image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/pill2.jpeg", benefits: ["Immunsystem"] },
+  { id: 'p3', name: "Alpha GPC", category: 'Focus', price: 39.00, image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/pill3.jpeg", benefits: ["Focus"] },
+  { id: 'p4', name: "Magnesium", category: 'Hormonal', price: 28.00, image: "https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/pill4.jpeg", benefits: ["Relaxation"] },
 ];
 
 const SupplementsPage: React.FC = () => {
-  const [filter, setFilter] = useState<string>('All');
-  const categories = ['All', 'Performance', 'Vitality', 'Focus', 'Hormonal'];
-
-  const filteredProducts = filter === 'All' 
-    ? products 
-    : products.filter(p => p.category === filter);
-
   return (
-    <div className="bg-[#fcfcfc] text-[#333333] pt-32 pb-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Shop Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-black/[0.03] text-zinc-500 text-[10px] font-bold uppercase tracking-widest">
-              High-End Supplements
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-[#333333]">
-              Upgrade Deine <br /> <span className="text-zinc-400 italic">Molekulare</span> Basis.
-            </h1>
-            <p className="text-zinc-500 text-xl font-medium max-w-xl leading-relaxed">
-              Evidenzbasierte Nährstoffe, perfekt abgestimmt auf deine Blutanalyse.
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-black/[0.03] shadow-sm">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${
-                  filter === cat 
-                    ? 'bg-[#333333] text-white shadow-md' 
-                    : 'text-zinc-400 hover:text-black'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+    <div className="pt-12 px-5 pb-24 space-y-10">
+      {/* Page Header */}
+      <header className="space-y-1">
+        <h1 className="text-4xl font-black tracking-tighter text-[#0F172A] uppercase italic leading-none">
+          Pure <span className="text-slate-300">Elements</span>
+        </h1>
+        <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">Wissenschaftlich fundierte Einzelstoffe</p>
+      </header>
+
+      {/* Product Catalog Section - NOW AT THE TOP */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Single Nutrients</h3>
+          <div className="flex items-center gap-2 text-[8px] font-black uppercase text-red-800">
+            <RefreshCw size={10} className="animate-spin" style={{ animationDuration: '4s' }} /> Auto-Ship available
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {filteredProducts.map(product => (
-            <div 
-              key={product.id}
-              className="group relative bg-white border border-black/[0.03] rounded-[2.5rem] overflow-hidden hover:shadow-xl transition-all duration-500 medical-card-shadow card-medical"
-            >
-              {product.isPopular && (
-                <div className="absolute top-6 right-6 z-10 bg-white border border-black/[0.03] text-red-600 text-[9px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-sm">
-                  Popular Choice
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
+          {products.map(product => (
+            <div key={product.id} className="bg-white border border-slate-100 rounded-[2rem] overflow-hidden shadow-sm flex flex-col p-4 space-y-3 hover:border-slate-200 transition-all active:scale-[0.98]">
+              <div className="aspect-square w-full rounded-[1.5rem] bg-slate-50/50 p-3 flex items-center justify-center relative group">
+                <img src={product.image} className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700" alt={product.name} />
+                <div className="absolute top-2 right-2">
+                  <div className="w-5 h-5 rounded-full bg-white/80 backdrop-blur shadow-sm flex items-center justify-center border border-slate-100">
+                    <Star size={8} className="text-slate-200" />
+                  </div>
                 </div>
-              )}
-              
-              {/* Product Image */}
-              <div className="aspect-[4/3] w-full overflow-hidden bg-zinc-50 relative">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
-                  className="w-full h-full object-cover grayscale brightness-[1.05] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1000ms] opacity-80 group-hover:opacity-100" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent" />
               </div>
-
-              {/* Product Content */}
-              <div className="p-10 space-y-8">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-                    <Zap size={12} className="text-red-600/40" /> {product.category}
-                  </div>
-                  <h3 className="text-2xl font-black text-[#333333] tracking-tight">{product.name}</h3>
-                  <div className="flex items-center gap-2">
-                    <div className="flex text-zinc-300">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={12} className={i < 5 ? "fill-red-600/20 text-red-600/10" : ""} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <ul className="space-y-3">
-                  {product.benefits.slice(0, 3).map((benefit, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-zinc-500 font-medium">
-                      <div className="w-1 h-1 rounded-full bg-red-600/30" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="pt-6 border-t border-black/[0.03] flex items-center justify-between">
-                  <div className="text-3xl font-black text-[#333333]">{product.price.toFixed(2)}€</div>
-                  <button className="flex items-center gap-2 bg-[#333333] text-white px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-black transition-all shadow-md active:scale-95 btn-medical">
-                    Add to Pack <ShoppingCart size={14} />
-                  </button>
-                </div>
+              <div className="space-y-0.5">
+                <p className="text-[7px] font-black text-slate-300 uppercase tracking-widest">{product.category}</p>
+                <h3 className="text-xs font-black text-[#0F172A] uppercase leading-tight tracking-tight">{product.name}</h3>
+              </div>
+              <div className="flex items-center justify-between pt-2 border-t border-slate-50 mt-auto">
+                <span className="text-sm font-black tracking-tighter">{product.price.toFixed(2)}€</span>
+                <button className="bg-[#0F172A] text-white w-8 h-8 rounded-lg shadow-lg active:scale-90 transition-transform flex items-center justify-center">
+                  <ShoppingCart size={12} />
+                </button>
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Personalized Pack CTA - UPDATED WITH IMAGE & THEME */}
-        <section className="mt-40 relative rounded-[4rem] bg-white border border-black/[0.03] p-12 md:p-24 overflow-hidden medical-card-shadow group">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600/[0.01] blur-[150px] rounded-full -z-10" />
-          
-          <div className="flex flex-col lg:flex-row items-center gap-20 relative z-10">
-            <div className="flex-1 space-y-10 text-center lg:text-left">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/[0.03] border border-red-600/10 text-red-600 text-[10px] font-bold tracking-[0.2em] uppercase">
-                  <HeartPulse size={14} className="opacity-60" /> All-in-One Solution
-                </div>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight text-[#333333]">
-                  Dein <br /> <span className="text-zinc-400 italic">Optimus-Pack</span>
-                </h2>
-              </div>
-              <p className="text-xl text-zinc-500 font-medium leading-relaxed max-w-xl">
-                Keine Kompromisse mehr. Wir stellen dir basierend auf deinen individuellen Werten ein monatliches Pack zusammen — GMP-zertifiziert und exakt dosiert.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start pt-4">
-                <button className="group flex items-center justify-center gap-3 px-12 py-5 bg-[#333333] text-white rounded-2xl font-bold text-xl hover:bg-black transition-all shadow-lg active:scale-95 btn-medical">
-                  Analyse starten <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="px-10 py-5 bg-white border border-black/[0.05] rounded-2xl font-bold text-xl text-zinc-400 hover:text-black hover:bg-zinc-50 transition-all btn-medical shadow-sm">
-                  Lerne mehr
-                </button>
-              </div>
+      {/* Hero Daily Ratio Section - MOVED BELOW */}
+      <div className="bg-[#0F172A] rounded-[3rem] p-8 md:p-12 text-white space-y-8 relative overflow-hidden shadow-2xl border border-white/5">
+        <div className="absolute top-0 right-0 p-12 opacity-[0.03] text-white pointer-events-none">
+          <Zap size={200} />
+        </div>
+        
+        <div className="space-y-6 relative z-10">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/10 rounded-lg">
+               <Star size={10} className="text-red-800" />
+               <span className="text-[8px] font-black text-red-800 uppercase tracking-widest">Recommended Choice</span>
             </div>
-            
-            <div className="flex-1 relative w-full max-w-md lg:max-w-none">
-              <div className="relative rounded-[3.5rem] overflow-hidden border border-black/[0.03] shadow-lg group-hover:scale-[1.01] transition-transform duration-1000 medical-card-shadow bg-zinc-50">
-                <img 
-                  src="https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Tagesrationen%20Supplements.png" 
-                  alt="Optimus Daily Sachet Packs" 
-                  className="w-full h-auto object-cover grayscale brightness-[1.05] group-hover:grayscale-0 transition-all duration-[1200ms]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
-                <div className="absolute bottom-10 left-10 right-10 p-6 bg-white/60 backdrop-blur-xl border border-black/[0.03] rounded-[2rem] shadow-sm">
-                   <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-1">Inhalt</p>
-                   <p className="text-sm font-bold text-[#333333] uppercase tracking-wider">30x Personalisierte Sachets</p>
-                </div>
-              </div>
-            </div>
+            <h2 className="text-3xl font-black tracking-tighter leading-[0.9] uppercase">
+              Dein <br /><span className="text-white/30 italic">Optimus-Pack</span>
+            </h2>
+            <p className="text-[11px] text-slate-400 font-bold leading-relaxed max-w-[240px]">
+              Vollständig personalisierte Tages-Sachets, basierend auf deiner neuesten Blutanalyse.
+            </p>
           </div>
-        </section>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { icon: <ShieldCheck size={14} />, label: "Geprüft", sub: "Clinical Std." },
+              { icon: <Box size={14} />, label: "30 Tage", sub: "Full Supply" },
+            ].map((f, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 p-3 rounded-2xl space-y-1">
+                <div className="text-red-800 mb-0.5">{f.icon}</div>
+                <p className="text-[8px] font-black uppercase tracking-widest leading-none">{f.label}</p>
+                <p className="text-[7px] font-bold text-white/30">{f.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="relative rounded-[1.8rem] overflow-hidden border border-white/5 aspect-video bg-white/5">
+            <img 
+              src="https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/Tagesrationen%20Supplements.png" 
+              alt="Daily Sachet Pack" 
+              className="w-full h-full object-cover grayscale opacity-80"
+            />
+          </div>
+
+          <button className="w-full bg-white text-[#0F172A] py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all">
+            Pack Konfigurieren <ArrowRight size={14} />
+          </button>
+        </div>
+      </div>
+
+      {/* Trust Badges for Store */}
+      <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+        {[
+          { icon: <Truck size={12} />, text: "Fast Ship" },
+          { icon: <ShieldCheck size={12} />, text: "Bio-Audit" },
+          { icon: <RefreshCw size={12} />, text: "Flex-Plan" },
+        ].map((item, i) => (
+          <div key={i} className="flex flex-col items-center gap-2 text-center">
+            <div className="text-slate-200">{item.icon}</div>
+            <span className="text-[7px] font-black uppercase tracking-widest text-slate-300">{item.text}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

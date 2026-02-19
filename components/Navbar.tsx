@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, Target, ArrowRight, ShoppingBag } from 'lucide-react';
+import { LogOut, LogIn, Target, ArrowRight, ShoppingBag } from 'lucide-react';
 
 interface NavbarProps {
   onNavigate: (page: any) => void;
@@ -98,8 +98,9 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, onLogout, currentPage, isLo
             <>
               <button 
                 onClick={() => onNavigate('login')}
-                className="text-slate-500 hover:text-slate-900 px-5 py-2.5 text-[11px] font-[800] uppercase tracking-[0.15em] transition-all hidden sm:block"
+                className="group flex items-center gap-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 text-[#0F172A] px-6 py-2.5 rounded-2xl text-[10px] font-[800] uppercase tracking-[0.15em] transition-all hidden sm:flex"
               >
+                <LogIn size={14} className="text-slate-400 group-hover:text-red-800 transition-colors" />
                 Anmelden
               </button>
               <button 

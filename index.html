@@ -1,93 +1,65 @@
+
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="overflow-hidden">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimus | Bio-Hacking & High-Performance</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --brand-red: #991B1B;
-            --brand-red-muted: rgba(153, 27, 27, 0.05);
-            --brand-red-accent: rgba(153, 27, 27, 0.12);
-            --bg-light: #F8FAFC;
-            --text-primary: #0F172A; 
-            --text-secondary: #475569; 
-            --text-transparent-gray: rgba(15, 23, 42, 0.4); 
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-            background-color: var(--bg-light);
-            color: var(--text-primary);
-            line-height: 1.6;
-            letter-spacing: -0.01em;
-        }
-        .bg-glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .medical-card-shadow {
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.02), 0 10px 40px -10px rgb(0 0 0 / 0.03);
-        }
-        .inner-glow {
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.01);
-        }
-        .heading-secondary {
-            color: var(--text-transparent-gray);
-        }
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #E2E8F0;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--brand-red);
-        }
-        .btn-medical {
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .btn-medical:active {
-            transform: scale(0.96);
-        }
-        .card-medical {
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .card-medical:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06);
-        }
-        .text-body-high {
-            color: var(--text-secondary);
-        }
-        .premium-border {
-            border: 1px solid rgba(0, 0, 0, 0.03);
-        }
-    </style>
-<script type="importmap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Optimus | Auth Portal</title>
+    <script type="importmap">
 {
   "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "react-native": "https://esm.sh/react-native@^0.84.0",
+    "lucide-react-native": "https://esm.sh/lucide-react-native@^0.574.0",
+    "expo": "https://esm.sh/expo@^54.0.33"
   }
 }
 </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --medical-blue: #0F172A;
+            --clinical-red: #991B1B;
+            --lab-gray: #F1F5F9;
+            --border-muted: #E2E8F0;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            letter-spacing: -0.015em;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            touch-action: none; /* Prevents bounce and gestures in many webview contexts */
+        }
+        .medical-card-shadow {
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 20px 60px -10px rgba(0,0,0,0.03);
+        }
+        .transition-all {
+            transition-duration: 400ms;
+            transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        /* Native App Transitions */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-app-entry {
+            animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+    </style>
+    <script type="module" src="./index.tsx"></script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body class="antialiased overflow-x-hidden selection:bg-red-500/10">
-    <div id="root"></div>
+<body class="antialiased selection:bg-red-800/10 fixed inset-0 overflow-hidden">
+    <div id="root" class="h-full w-full"></div>
 <script type="module" src="/index.tsx"></script>
 </body>
 </html>
