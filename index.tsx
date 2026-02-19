@@ -2,7 +2,7 @@
 import { registerRootComponent } from 'expo';
 import { Platform } from 'react-native';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { registerRootComponent } from 'expo";
 import App from './App';
 
 if (Platform.OS === 'web') {
