@@ -1,20 +1,20 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
-import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot } from 'lucide-react-native';
+import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot, MessageCircle } from 'lucide-react-native';
 import AIChat from './AIChat';
+import { biomarkersByCategory } from './BiomarkerData';
+import BiomarkerChart from './BiomarkerChart';
 
 const { width } = Dimensions.get('window');
 
-const biomarkers = [
-  { name: 'Ferritin', value: '142', unit: 'ng/ml', status: 'Optimal', trend: 'up' },
-  { name: 'Vitamin D', value: '65', unit: 'ng/ml', status: 'Stabil', trend: 'up' },
-  { name: 'Magnesium', value: '0.94', unit: 'mmol/l', status: 'Stabil', trend: 'up' },
-  { name: 'Cortisol', value: '14', unit: 'ng/ml', status: 'Optimal', trend: 'down' },
-];
+type Category = 'Sports' | 'Recovery' | 'Dermis' | 'Cognition' | 'Hormones';
 
 export default function UserDashboard({ onNavigate }: any) {
-  const [selectedCategory, setSelectedCategory] = useState('Sports');
+  const [selectedCategory, setSelectedCategory] = useState<Category>('Sports');
+  const [showAIChat, setShowAIChat] = useState(false);
+
+  const currentBiomarkers = biomarkersByCategory[selectedCategory];
 
   return (
     <ScrollView 
@@ -59,7 +59,7 @@ export default function UserDashboard({ onNavigate }: any) {
 
       {/* Category Tabs */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
-        {['Sports', 'Recovery', 'Dermis', 'Cognition', 'Hormones'].map(cat => (
+        {(['Sports', 'Recovery', 'Dermis', 'Cognition', 'Hormones'] as Category[]).map(cat => (
           <TouchableOpacity 
             key={cat}
             onPress={() => setSelectedCategory(cat)}
@@ -74,7 +74,9 @@ export default function UserDashboard({ onNavigate }: any) {
 
       {/* Biomarker Grid */}
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>BIOMETRIC SNAPSHOT</Text>
+        <Text style={styles.sectionTitle}>
+          {selectedCategory.toUpperCase()} BIOMARKERS
+        </Text>
         <View style={styles.liveIndicator}>
           <Activity size={10} stroke="#991B1B" />
           <Text style={styles.liveText}>LIVE PANEL</Text>
@@ -82,7 +84,7 @@ export default function UserDashboard({ onNavigate }: any) {
       </View>
 
       <View style={styles.grid}>
-        {biomarkers.map((m, i) => (
+        {currentBiomarkers.map((m, i) => (
           <View key={i} style={styles.markerCard}>
             <View style={styles.markerTop}>
               <Text style={styles.markerName}>{m.name.toUpperCase()}</Text>
@@ -101,17 +103,40 @@ export default function UserDashboard({ onNavigate }: any) {
         ))}
       </View>
 
+      {/* Biomarker Trend Charts */}
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>QUARTERLY TRENDS</Text>
+      </View>
+
+      {currentBiomarkers.map((marker, i) => (
+        <BiomarkerChart
+          key={i}
+          data={marker.history}
+          markerName={marker.name}
+          unit={marker.unit}
+        />
+      ))}
+
       {/* AI Chat Preview */}
       <View style={styles.aiHeader}>
         <View style={styles.aiBotIcon}>
-          <Bot size={16} stroke="#0F172A" />
+          <Bot size={16} stroke="#FFF" />
         </View>
-        <View>
+        <View style={{ flex: 1 }}>
           <Text style={styles.aiTitle}>AI BIO-ADVISOR</Text>
-          <Text style={styles.aiStatus}>Analyzing markers...</Text>
+          <Text style={styles.aiSubtitle}>
+            Ask me anything about your biomarkers and health data
+          </Text>
         </View>
+        <TouchableOpacity 
+          onPress={() => setShowAIChat(!showAIChat)}
+          style={styles.chatToggle}
+        >
+          <MessageCircle size={16} stroke="#991B1B" />
+        </TouchableOpacity>
       </View>
-      <AIChat />
+
+      {showAIChat && <AIChat />}
     </ScrollView>
   );
 }
@@ -264,7 +289,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
-    marginBottom: 24,
+    marginBottom: 32,
   },
   markerCard: {
     width: (width - 52) / 2,
@@ -317,12 +342,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     marginBottom: 16,
+    backgroundColor: '#0F172A',
+    padding: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#1E293B',
   },
   aiBotIcon: {
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
     borderRadius: 10,
-    backgroundColor: '#1E293B',
+    backgroundColor: '#991B1B',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -332,10 +362,19 @@ const styles = StyleSheet.create({
     color: '#FFF',
     letterSpacing: 2,
   },
-  aiStatus: {
-    fontSize: 8,
-    fontWeight: '800',
+  aiSubtitle: {
+    fontSize: 9,
+    fontWeight: '600',
     color: '#64748B',
-    fontStyle: 'italic',
+    marginTop: 2,
+    lineHeight: 14,
+  },
+  chatToggle: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: '#1E293B',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
