@@ -1,13 +1,22 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Heart, Zap, Moon } from 'lucide-react-native';
+import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Zap, Moon, Heart, Coffee, Activity, Package, MapPin } from 'lucide-react-native';
 
-type FlowStep = 'SCAN' | 'INSTRUCTIONS' | 'QUESTIONNAIRE' | 'SUCCESS';
+type FlowStep = 'SCAN' | 'INSTRUCTIONS' | 'QUESTIONNAIRE' | 'SHIPPING' | 'SUCCESS';
+
+const STEPS = [
+  { id: 'SCAN', label: 'Scan', number: 1 },
+  { id: 'INSTRUCTIONS', label: 'Anleitung', number: 2 },
+  { id: 'QUESTIONNAIRE', label: 'Fragebogen', number: 3 },
+  { id: 'SHIPPING', label: 'Versand', number: 4 },
+  { id: 'SUCCESS', label: 'Fertig', number: 5 },
+];
 
 export default function TestFlow({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<FlowStep>('SCAN');
   const [instructionIdx, setInstructionIdx] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
 
   const instructions = [
     { title: "Vorbereitung", desc: "Reinige deinen Oberarm mit dem beigelegten Alkoholtupfer.", icon: CheckCircle, color: "#10B981" },
@@ -15,6 +24,19 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
     { title: "Aktivierung", desc: "Drücke den roten Knopf kräftig durch.", icon: Zap, color: "#991B1B" },
     { title: "Kollektion", desc: "Bleibe 5 Minuten ruhig sitzen.", icon: Timer, color: "#94A3B8" }
   ];
+
+  const questions = [
+    { id: 1, icon: Droplets, q: "Bist du nüchtern?", opts: ["Ja, 8+ Stunden", "Ja, 4-8 Stunden", "Nein"] },
+    { id: 2, icon: Moon, q: "Wie war dein Schlaf?", opts: ["Gut (7-9h)", "Normal (6-7h)", "Schlecht (<6h)"] },
+    { id: 3, icon: Zap, q: "Aktuelle Belastung?", opts: ["Hoch", "Normal", "Recovery"] },
+    { id: 4, icon: Droplets, q: "Hydration heute?", opts: ["Gut (>2L)", "Normal (1-2L)", "Wenig (<1L)"] },
+    { id: 5, icon: Heart, q: "Stress-Level?", opts: ["Niedrig", "Mittel", "Hoch"] },
+    { id: 6, icon: Coffee, q: "Koffein heute?", opts: ["Keins", "1-2 Kaffee", "3+ Kaffee"] },
+    { id: 7, icon: Activity, q: "Training gestern?", opts: ["Ja, intensiv", "Ja, leicht", "Nein"] },
+    { id: 8, icon: ShieldCheck, q: "Medikamente?", opts: ["Keine", "Regelmäßig", "Aktuell"] },
+  ];
+
+  const currentStepIndex = STEPS.findIndex(s => s.id === step);
 
   return (
     <Modal animationType="slide" transparent={false} visible={true}>
@@ -27,6 +49,40 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
           <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
             <X size={20} stroke="#94A3B8" />
           </TouchableOpacity>
+        </View>
+
+        {/* Step Progress Indicator */}
+        <View style={styles.progressContainer}>
+          {STEPS.map((s, idx) => (
+            <View key={s.id} style={styles.progressStepContainer}>
+              <View style={styles.progressStep}>
+                <View style={[
+                  styles.progressCircle,
+                  idx < currentStepIndex && styles.progressCircleCompleted,
+                  idx === currentStepIndex && styles.progressCircleActive,
+                ]}>
+                  {idx < currentStepIndex ? (
+                    <CheckCircle size={16} stroke="#FFF" />
+                  ) : (
+                    <Text style={[
+                      styles.progressNumber,
+                      idx === currentStepIndex && styles.progressNumberActive
+                    ]}>{s.number}</Text>
+                  )}
+                </View>
+                <Text style={[
+                  styles.progressLabel,
+                  idx === currentStepIndex && styles.progressLabelActive
+                ]}>{s.label}</Text>
+              </View>
+              {idx < STEPS.length - 1 && (
+                <View style={[
+                  styles.progressLine,
+                  idx < currentStepIndex && styles.progressLineCompleted
+                ]} />
+              )}
+            </View>
+          ))}
         </View>
 
         <View style={styles.content}>
@@ -57,7 +113,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               <Text style={styles.stepTitle}>SCHRITT <Text style={styles.accentText}>{instructionIdx + 1}</Text><Text style={styles.fadedText}>/4</Text></Text>
               
               <View style={styles.visualBox}>
-                {React.createElement(instructions[instructionIdx].icon, { size: 64, color: instructions[instructionIdx].color })}
+                {React.createElement(instructions[instructionIdx].icon, { size: 64, stroke: instructions[instructionIdx].color })}
               </View>
 
               <Text style={styles.instrTitle}>{instructions[instructionIdx].title.toUpperCase()}</Text>
@@ -88,12 +144,9 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
           {step === 'QUESTIONNAIRE' && (
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
               <Text style={styles.stepTitle}>BIOMETRISCHER <Text style={styles.fadedText}>KONTEXT</Text></Text>
+              <Text style={styles.stepSub}>Für präzisere Analyse</Text>
               
-              {[
-                { icon: Droplets, q: "Bist du nüchtern?", opts: ["Ja", "Nein"] },
-                { icon: Moon, q: "Dein Schlaf?", opts: ["Gut", "Neutral", "Schlecht"] },
-                { icon: Zap, q: "Aktuelle Belastung?", opts: ["Hoch", "Normal", "Recovery"] },
-              ].map((item, i) => (
+              {questions.map((item, i) => (
                 <View key={i} style={styles.qCard}>
                   <View style={styles.qHead}>
                     <item.icon size={16} stroke="#CBD5E1" />
@@ -101,17 +154,92 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                   </View>
                   <View style={styles.optRow}>
                     {item.opts.map(o => (
-                      <TouchableOpacity key={o} style={styles.optBtn}>
-                        <Text style={styles.optBtnText}>{o.toUpperCase()}</Text>
+                      <TouchableOpacity 
+                        key={o} 
+                        style={[
+                          styles.optBtn,
+                          answers[item.id] === o && styles.optBtnActive
+                        ]}
+                        onPress={() => setAnswers({...answers, [item.id]: o})}
+                      >
+                        <Text style={[
+                          styles.optBtnText,
+                          answers[item.id] === o && styles.optBtnTextActive
+                        ]}>{o.toUpperCase()}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
                 </View>
               ))}
 
-              <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} onPress={() => setStep('SUCCESS')}>
-                <Text style={styles.primaryBtnText}>DATEN ÜBERMITTELN</Text>
-                <ShieldCheck size={16} stroke="#FFF" />
+              <TouchableOpacity 
+                style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} 
+                onPress={() => setStep('SHIPPING')}
+              >
+                <Text style={styles.primaryBtnText}>WEITER ZUM VERSAND</Text>
+                <Package size={16} stroke="#FFF" />
+              </TouchableOpacity>
+            </ScrollView>
+          )}
+
+          {step === 'SHIPPING' && (
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
+              <Text style={styles.stepTitle}>VERSAND <Text style={styles.fadedText}>VORBEREITEN</Text></Text>
+              
+              <View style={styles.shippingCard}>
+                <View style={styles.shippingHeader}>
+                  <Package size={24} stroke="#991B1B" />
+                  <Text style={styles.shippingTitle}>WICHTIG: HEUTE VERSENDEN!</Text>
+                </View>
+                <Text style={styles.shippingText}>
+                  Versende deine Probe noch heute für optimale Ergebnisse. Die Blutwerte können sich über Nacht ändern.
+                </Text>
+              </View>
+
+              <View style={styles.addressCard}>
+                <View style={styles.addressHeader}>
+                  <MapPin size={20} stroke="#64748B" />
+                  <Text style={styles.addressTitle}>VERSANDADRESSE</Text>
+                </View>
+                <View style={styles.addressBox}>
+                  <Text style={styles.addressText}>OPTIMUS CLINICAL LAB</Text>
+                  <Text style={styles.addressText}>Laborstraße 42</Text>
+                  <Text style={styles.addressText}>10115 Berlin</Text>
+                  <Text style={styles.addressText}>Deutschland</Text>
+                </View>
+              </View>
+
+              <View style={styles.instructionsCard}>
+                <Text style={styles.instructionsTitle}>VERSAND-CHECKLISTE</Text>
+                {[
+                  "Probe in mitgelieferter Box verstauen",
+                  "Box fest verschließen",
+                  "Versandetikett aufkleben (bereits frankiert)",
+                  "In nächsten Briefkasten/Post einwerfen",
+                  "Tracking-Code: Wird per Email gesendet"
+                ].map((item, i) => (
+                  <View key={i} style={styles.checklistItem}>
+                    <View style={styles.checklistBullet}>
+                      <Text style={styles.checklistNumber}>{i + 1}</Text>
+                    </View>
+                    <Text style={styles.checklistText}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+
+              <View style={styles.trackingInfo}>
+                <Info size={16} stroke="#3B82F6" />
+                <Text style={styles.trackingText}>
+                  Tracking-Nummer und Status-Updates erhältst du per Email sobald deine Probe unser Labor erreicht.
+                </Text>
+              </View>
+
+              <TouchableOpacity 
+                style={[styles.primaryBtn, { backgroundColor: '#10B981', marginTop: 20 }]} 
+                onPress={() => setStep('SUCCESS')}
+              >
+                <Text style={styles.primaryBtnText}>VERSAND BESTÄTIGEN</Text>
+                <CheckCircle size={16} stroke="#FFF" />
               </TouchableOpacity>
             </ScrollView>
           )}
@@ -122,7 +250,32 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                 <ShieldCheck size={48} stroke="#10B981" />
               </View>
               <Text style={styles.stepTitle}>ANALYSE <Text style={styles.fadedText}>GESTARTET</Text></Text>
-              <Text style={styles.successSub}>In ca. 48 Stunden sind deine Ergebnisse verfügbar.</Text>
+              <Text style={styles.successSub}>Deine Probe ist unterwegs. Ergebnisse in ca. 48 Stunden.</Text>
+              
+              <View style={styles.timelineCard}>
+                <View style={styles.timelineItem}>
+                  <View style={styles.timelineDot} />
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>HEUTE</Text>
+                    <Text style={styles.timelineDesc}>Probe versenden</Text>
+                  </View>
+                </View>
+                <View style={styles.timelineItem}>
+                  <View style={styles.timelineDot} />
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>TAG 1-2</Text>
+                    <Text style={styles.timelineDesc}>Labor-Analyse</Text>
+                  </View>
+                </View>
+                <View style={styles.timelineItem}>
+                  <View style={[styles.timelineDot, styles.timelineDotActive]} />
+                  <View style={styles.timelineContent}>
+                    <Text style={[styles.timelineTitle, styles.timelineTitleActive]}>TAG 2-3</Text>
+                    <Text style={styles.timelineDesc}>Ergebnisse verfügbar</Text>
+                  </View>
+                </View>
+              </View>
+
               <TouchableOpacity style={styles.outlineBtn} onPress={onClose}>
                 <Text style={styles.outlineBtnText}>ZUM DASHBOARD</Text>
               </TouchableOpacity>
@@ -144,14 +297,76 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F1F5F9' 
   },
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  logoBox: { width: 32, height: 32, backgroundColor: '#0F172A', borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  logoBox: { width: 32, height: 32, backgroundColor: '#991B1B', borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
   logoText: { color: '#FFF', fontWeight: '900', fontSize: 12 },
   headerTitle: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 2 },
   closeBtn: { padding: 4 },
+
+  // Progress Indicator
+  progressContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: '#F8FAFC',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  progressStepContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  progressStep: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  progressCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#E2E8F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressCircleCompleted: {
+    backgroundColor: '#10B981',
+  },
+  progressCircleActive: {
+    backgroundColor: '#991B1B',
+    borderWidth: 3,
+    borderColor: '#FEE2E2',
+  },
+  progressNumber: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#94A3B8',
+  },
+  progressNumberActive: {
+    color: '#FFF',
+  },
+  progressLabel: {
+    fontSize: 8,
+    fontWeight: '800',
+    color: '#94A3B8',
+  },
+  progressLabelActive: {
+    color: '#991B1B',
+    fontWeight: '900',
+  },
+  progressLine: {
+    flex: 1,
+    height: 2,
+    backgroundColor: '#E2E8F0',
+    marginHorizontal: 4,
+  },
+  progressLineCompleted: {
+    backgroundColor: '#10B981',
+  },
+
   content: { flex: 1, padding: 24 },
-  centerFlow: { flex: 1, alignItems: 'center', gap: 32, justifyContent: 'center' },
+  centerFlow: { flex: 1, alignItems: 'center', gap: 24, justifyContent: 'center' },
   scrollFlow: { flex: 1 },
-  stepTitle: { fontSize: 32, fontWeight: '900', fontStyle: 'italic', textTransform: 'uppercase' },
+  stepTitle: { fontSize: 32, fontWeight: '900', fontStyle: 'italic', textTransform: 'uppercase', textAlign: 'center' },
   fadedText: { color: '#E2E8F0' },
   accentText: { color: '#991B1B' },
   stepSub: { fontSize: 10, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 1.5, textAlign: 'center' },
@@ -187,12 +402,192 @@ const styles = StyleSheet.create({
   primaryBtnText: { color: '#FFF', fontSize: 11, fontWeight: '900', letterSpacing: 2 },
   qCard: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#F1F5F9', padding: 20, borderRadius: 32, marginBottom: 12 },
   qHead: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
-  qText: { fontSize: 9, fontWeight: '900', color: '#0F172A', letterSpacing: 1.5 },
-  optRow: { flexDirection: 'row', gap: 8 },
-  optBtn: { flex: 1, paddingVertical: 12, borderWidth: 1, borderColor: '#F1F5F9', borderRadius: 12, alignItems: 'center' },
+  qText: { fontSize: 10, fontWeight: '900', color: '#0F172A', letterSpacing: 1.5 },
+  optRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  optBtn: { 
+    flex: 1, 
+    minWidth: '30%',
+    paddingVertical: 12, 
+    paddingHorizontal: 8,
+    borderWidth: 2, 
+    borderColor: '#F1F5F9', 
+    borderRadius: 12, 
+    alignItems: 'center',
+    backgroundColor: '#F8FAFC',
+  },
+  optBtnActive: {
+    borderColor: '#991B1B',
+    backgroundColor: '#FEF2F2',
+  },
   optBtnText: { fontSize: 9, fontWeight: '900', color: '#94A3B8' },
+  optBtnTextActive: {
+    color: '#991B1B',
+  },
+
+  // Shipping
+  shippingCard: {
+    backgroundColor: '#FEF2F2',
+    padding: 20,
+    borderRadius: 24,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#FEE2E2',
+  },
+  shippingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  shippingTitle: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#991B1B',
+    letterSpacing: 1,
+  },
+  shippingText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#991B1B',
+    lineHeight: 20,
+  },
+  addressCard: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    marginBottom: 20,
+  },
+  addressHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  addressTitle: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 2,
+  },
+  addressBox: {
+    backgroundColor: '#F8FAFC',
+    padding: 16,
+    borderRadius: 16,
+  },
+  addressText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: 4,
+  },
+  instructionsCard: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    marginBottom: 20,
+  },
+  instructionsTitle: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#0F172A',
+    marginBottom: 16,
+    letterSpacing: 1,
+  },
+  checklistItem: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 12,
+  },
+  checklistBullet: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#991B1B',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checklistNumber: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#FFF',
+  },
+  checklistText: {
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#475569',
+    lineHeight: 20,
+  },
+  trackingInfo: {
+    flexDirection: 'row',
+    gap: 12,
+    backgroundColor: '#EFF6FF',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  trackingText: {
+    flex: 1,
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#3B82F6',
+    lineHeight: 18,
+  },
+
+  // Success
   successCircle: { width: 120, height: 120, borderRadius: 60, backgroundColor: '#ECFDF5', alignItems: 'center', justifyContent: 'center' },
-  successSub: { fontSize: 14, fontWeight: '700', color: '#64748B', textAlign: 'center' },
-  outlineBtn: { paddingVertical: 20, borderRadius: 32, borderWidth: 1, borderColor: '#E2E8F0', width: '100%', alignItems: 'center' },
+  successSub: { fontSize: 14, fontWeight: '700', color: '#64748B', textAlign: 'center', paddingHorizontal: 24 },
+  timelineCard: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    padding: 20,
+    borderRadius: 24,
+    gap: 16,
+    marginVertical: 20,
+  },
+  timelineItem: {
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'center',
+  },
+  timelineDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#CBD5E1',
+  },
+  timelineDotActive: {
+    backgroundColor: '#10B981',
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+  },
+  timelineContent: {
+    flex: 1,
+  },
+  timelineTitle: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#94A3B8',
+    letterSpacing: 1,
+  },
+  timelineTitleActive: {
+    color: '#10B981',
+  },
+  timelineDesc: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#64748B',
+    marginTop: 2,
+  },
+  outlineBtn: { paddingVertical: 20, borderRadius: 32, borderWidth: 2, borderColor: '#E2E8F0', width: '100%', alignItems: 'center' },
   outlineBtnText: { fontSize: 11, fontWeight: '900', letterSpacing: 2, color: '#0F172A' }
 });

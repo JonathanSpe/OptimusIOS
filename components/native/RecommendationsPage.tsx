@@ -1,16 +1,24 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image, Modal, Dimensions } from 'react-native';
-import { Target, Pill, Coffee, Activity, ArrowLeft, ShoppingCart, X, ChevronDown, ChevronUp, CheckCircle, AlertCircle } from 'lucide-react-native';
+import { ArrowLeft, ShoppingCart, X, ChevronDown, ChevronUp, CheckCircle, AlertCircle, Coffee, Activity, Moon, Apple, Droplets, Heart, Check } from 'lucide-react-native';
 import { supplementsData } from './SupplementsData';
+import { lifestyleRecommendations } from './LifestyleData';
 
 const { width } = Dimensions.get('window');
 
 export default function RecommendationsPage({ onNavigate }: any) {
   const [selectedSupplement, setSelectedSupplement] = useState<any>(null);
   const [expandedSection, setExpandedSection] = useState<'essential' | 'optional' | null>('essential');
+  const [showCart, setShowCart] = useState(false);
 
   const cartCount = supplementsData.essential.length + supplementsData.optional.length;
+  const totalPrice = (supplementsData.essential.length * 29.90) + (supplementsData.optional.length * 19.90);
+
+  const getIconComponent = (iconName: string) => {
+    const icons: any = { Coffee, Activity, Moon, Apple, Droplets, Heart };
+    return icons[iconName] || Coffee;
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -28,12 +36,12 @@ export default function RecommendationsPage({ onNavigate }: any) {
             <Text style={styles.cardTag}>ELITE PROTOCOL V5.2</Text>
             <Text style={styles.cardTitle}>Deine <Text style={styles.cardTitleItalic}>Daily-Ration</Text></Text>
           </View>
-          <View style={styles.cartBadge}>
+          <TouchableOpacity style={styles.cartBadge} onPress={() => setShowCart(true)}>
             <ShoppingCart size={16} stroke="#FFF" />
             <View style={styles.cartCount}>
               <Text style={styles.cartCountText}>{cartCount}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Supplements Image */}
@@ -62,8 +70,8 @@ export default function RecommendationsPage({ onNavigate }: any) {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.primaryBtn}>
-          <Text style={styles.primaryBtnText}>PACK KONFIGURIEREN</Text>
+        <TouchableOpacity style={styles.primaryBtn} onPress={() => setShowCart(true)}>
+          <Text style={styles.primaryBtnText}>PACK ANSEHEN</Text>
         </TouchableOpacity>
       </View>
 
@@ -74,102 +82,185 @@ export default function RecommendationsPage({ onNavigate }: any) {
           Basierend auf deinen Blutwerten Q3 2025
         </Text>
 
-        {/* Essential Supplements */}
-        <TouchableOpacity 
-          style={styles.categoryHeader}
-          onPress={() => setExpandedSection(expandedSection === 'essential' ? null : 'essential')}
-        >
-          <View style={styles.categoryLeft}>
-            <CheckCircle size={20} stroke="#10B981" />
-            <Text style={styles.categoryTitle}>Essential Supplements</Text>
-          </View>
-          {expandedSection === 'essential' ? <ChevronUp size={20} stroke="#64748B" /> : <ChevronDown size={20} stroke="#64748B" />}
-        </TouchableOpacity>
-
-        {expandedSection === 'essential' && supplementsData.essential.map((supplement, i) => (
+        {/* Essential Supplements - More Prominent */}
+        <View style={styles.prominentSection}>
           <TouchableOpacity 
-            key={i} 
-            style={styles.supplementCard}
-            onPress={() => setSelectedSupplement(supplement)}
+            style={styles.prominentHeader}
+            onPress={() => setExpandedSection(expandedSection === 'essential' ? null : 'essential')}
           >
-            <View style={styles.supplementHeader}>
-              <View style={styles.supplementLeft}>
-                <Pill size={18} stroke="#0F172A" />
-                <View>
-                  <Text style={styles.supplementName}>{supplement.name}</Text>
-                  <Text style={styles.supplementDosage}>{supplement.dosage} • {supplement.timing}</Text>
-                </View>
+            <View style={styles.prominentHeaderLeft}>
+              <View style={styles.essentialBadge}>
+                <CheckCircle size={24} stroke="#10B981" strokeWidth={3} />
               </View>
-              <View style={[styles.statusBadge, styles.statusOptimal]}>
-                <Text style={styles.statusText}>
-                  {supplement.status.toUpperCase()}
-                </Text>
+              <View>
+                <Text style={styles.prominentTitle}>Essential Supplements</Text>
+                <Text style={styles.prominentSubtitle}>Optimiert für deine Biomarker</Text>
               </View>
             </View>
-            <Text style={styles.bloodMarkerText}>{supplement.bloodMarker}</Text>
+            {expandedSection === 'essential' ? <ChevronUp size={24} stroke="#64748B" /> : <ChevronDown size={24} stroke="#64748B" />}
           </TouchableOpacity>
-        ))}
 
-        {/* Optional Supplements */}
-        <TouchableOpacity 
-          style={[styles.categoryHeader, { marginTop: 20 }]}
-          onPress={() => setExpandedSection(expandedSection === 'optional' ? null : 'optional')}
-        >
-          <View style={styles.categoryLeft}>
-            <AlertCircle size={20} stroke="#F59E0B" />
-            <Text style={styles.categoryTitle}>Optional Supplements</Text>
-          </View>
-          {expandedSection === 'optional' ? <ChevronUp size={20} stroke="#64748B" /> : <ChevronDown size={20} stroke="#64748B" />}
-        </TouchableOpacity>
+          {expandedSection === 'essential' && (
+            <View style={styles.supplementGrid}>
+              {supplementsData.essential.map((supplement, i) => (
+                <TouchableOpacity 
+                  key={i} 
+                  style={styles.prominentSupplementCard}
+                  onPress={() => setSelectedSupplement(supplement)}
+                >
+                  <View style={styles.supplementCardHeader}>
+                    <CheckCircle size={16} stroke="#10B981" />
+                    <View style={[styles.statusBadge, styles.statusOptimal]}>
+                      <Text style={styles.statusText}>OPTIMAL</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.prominentSupplementName}>{supplement.name}</Text>
+                  <Text style={styles.prominentSupplementDosage}>{supplement.dosage}</Text>
+                  <View style={styles.bloodMarkerBox}>
+                    <Text style={styles.bloodMarkerText}>{supplement.bloodMarker}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
 
-        {expandedSection === 'optional' && supplementsData.optional.map((supplement, i) => (
+        {/* Optional Supplements - More Prominent */}
+        <View style={[styles.prominentSection, { marginTop: 16 }]}>
           <TouchableOpacity 
-            key={i} 
-            style={styles.supplementCard}
-            onPress={() => setSelectedSupplement(supplement)}
+            style={styles.prominentHeader}
+            onPress={() => setExpandedSection(expandedSection === 'optional' ? null : 'optional')}
           >
-            <View style={styles.supplementHeader}>
-              <View style={styles.supplementLeft}>
-                <Pill size={18} stroke="#0F172A" />
-                <View>
-                  <Text style={styles.supplementName}>{supplement.name}</Text>
-                  <Text style={styles.supplementDosage}>{supplement.dosage} • {supplement.timing}</Text>
-                </View>
+            <View style={styles.prominentHeaderLeft}>
+              <View style={styles.optionalBadge}>
+                <AlertCircle size={24} stroke="#F59E0B" strokeWidth={3} />
               </View>
-              <View style={[styles.statusBadge, styles.statusEnhancement]}>
-                <Text style={[styles.statusText, { color: '#F59E0B' }]}>
-                  ENHANCE
-                </Text>
+              <View>
+                <Text style={styles.prominentTitle}>Optional Supplements</Text>
+                <Text style={styles.prominentSubtitle}>Für zusätzliche Performance</Text>
               </View>
             </View>
-            <Text style={styles.bloodMarkerText}>{supplement.bloodMarker}</Text>
+            {expandedSection === 'optional' ? <ChevronUp size={24} stroke="#64748B" /> : <ChevronDown size={24} stroke="#64748B" />}
           </TouchableOpacity>
-        ))}
+
+          {expandedSection === 'optional' && (
+            <View style={styles.supplementGrid}>
+              {supplementsData.optional.map((supplement, i) => (
+                <TouchableOpacity 
+                  key={i} 
+                  style={styles.prominentSupplementCard}
+                  onPress={() => setSelectedSupplement(supplement)}
+                >
+                  <View style={styles.supplementCardHeader}>
+                    <AlertCircle size={16} stroke="#F59E0B" />
+                    <View style={[styles.statusBadge, styles.statusEnhancement]}>
+                      <Text style={[styles.statusText, { color: '#F59E0B' }]}>ENHANCE</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.prominentSupplementName}>{supplement.name}</Text>
+                  <Text style={styles.prominentSupplementDosage}>{supplement.dosage}</Text>
+                  <View style={styles.bloodMarkerBox}>
+                    <Text style={styles.bloodMarkerText}>{supplement.bloodMarker}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
       </View>
 
-      {/* Lifestyle Optimization */}
+      {/* Expanded Lifestyle Optimization */}
       <View style={[styles.section, { marginTop: 40 }]}>
         <Text style={styles.sectionLabel}>LIFESTYLE OPTIMIERUNG</Text>
+        <Text style={styles.sectionDesc}>Personalisierte Empfehlungen für maximale Wirkung</Text>
         
-        {[
-          { icon: Coffee, title: "Kaffee-Timing", desc: "Halte 60 Min. Abstand zwischen Kaffee und Mahlzeiten.", data: "EISEN-RESORPTION +40%" },
-          { icon: Pill, title: "Magnesium", desc: "Integriere täglich magnesiumreiche Lebensmittel am Abend.", data: "HRV STABILITÄT" },
-          { icon: Activity, title: "Sauerstoff", desc: "Fokussiere dich auf eisenreiche Kost kombiniert mit Vitamin C.", data: "FERRITIN FOCUS" }
-        ].map((item, i) => (
-          <View key={i} style={styles.recCard}>
-            <View style={styles.recIconWrap}>
-              <item.icon size={20} stroke="#0F172A" />
-            </View>
-            <View style={styles.recContent}>
-              <View style={styles.recTop}>
-                <Text style={styles.recTitle}>{item.title.toUpperCase()}</Text>
-                <Text style={styles.recBadge}>{item.data}</Text>
+        {lifestyleRecommendations.map((category, catIndex) => {
+          const IconComponent = getIconComponent(category.icon);
+          return (
+            <View key={catIndex} style={styles.lifestyleCategory}>
+              <View style={styles.lifestyleCategoryHeader}>
+                <View style={styles.lifestyleIconWrap}>
+                  <IconComponent size={20} stroke="#0F172A" />
+                </View>
+                <Text style={styles.lifestyleCategoryTitle}>{category.category.toUpperCase()}</Text>
               </View>
-              <Text style={styles.recDesc}>{item.desc}</Text>
+              
+              {category.items.map((item, itemIndex) => (
+                <View key={itemIndex} style={styles.lifestyleCard}>
+                  <View style={styles.lifestyleCardHeader}>
+                    <Text style={styles.lifestyleTitle}>{item.title}</Text>
+                    <View style={[styles.impactBadge, item.impact === 'high' ? styles.impactHigh : styles.impactMedium]}>
+                      <Text style={styles.impactText}>{item.impact === 'high' ? 'HIGH' : 'MED'}</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.lifestyleDesc}>{item.description}</Text>
+                  <View style={styles.metricTag}>
+                    <Text style={styles.metricText}>{item.metric}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
-          </View>
-        ))}
+          );
+        })}
       </View>
+
+      {/* Cart Modal */}
+      <Modal
+        visible={showCart}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowCart(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.cartModal}>
+            <View style={styles.cartHeader}>
+              <View>
+                <Text style={styles.cartTitle}>DEIN PACK</Text>
+                <Text style={styles.cartSubtitle}>{cartCount} Supplements</Text>
+              </View>
+              <TouchableOpacity onPress={() => setShowCart(false)}>
+                <X size={24} stroke="#64748B" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.cartScroll} showsVerticalScrollIndicator={false}>
+              <Text style={styles.cartSectionLabel}>ESSENTIAL ({supplementsData.essential.length})</Text>
+              {supplementsData.essential.map((item, i) => (
+                <View key={i} style={styles.cartItem}>
+                  <Check size={16} stroke="#10B981" />
+                  <View style={styles.cartItemInfo}>
+                    <Text style={styles.cartItemName}>{item.name}</Text>
+                    <Text style={styles.cartItemDosage}>{item.dosage}</Text>
+                  </View>
+                  <Text style={styles.cartItemPrice}>€29.90</Text>
+                </View>
+              ))}
+
+              <Text style={[styles.cartSectionLabel, { marginTop: 20 }]}>OPTIONAL ({supplementsData.optional.length})</Text>
+              {supplementsData.optional.map((item, i) => (
+                <View key={i} style={styles.cartItem}>
+                  <Check size={16} stroke="#F59E0B" />
+                  <View style={styles.cartItemInfo}>
+                    <Text style={styles.cartItemName}>{item.name}</Text>
+                    <Text style={styles.cartItemDosage}>{item.dosage}</Text>
+                  </View>
+                  <Text style={styles.cartItemPrice}>€19.90</Text>
+                </View>
+              ))}
+
+              <View style={styles.cartTotal}>
+                <Text style={styles.cartTotalLabel}>GESAMT</Text>
+                <Text style={styles.cartTotalPrice}>€{totalPrice.toFixed(2)}</Text>
+              </View>
+            </ScrollView>
+
+            <TouchableOpacity style={styles.checkoutBtn}>
+              <ShoppingCart size={20} stroke="#FFF" />
+              <Text style={styles.checkoutBtnText}>JETZT BESTELLEN</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Supplement Detail Modal */}
       <Modal
@@ -190,7 +281,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
             {selectedSupplement && (
               <>
                 <View style={styles.modalHeader}>
-                  <Pill size={32} stroke="#991B1B" />
+                  <CheckCircle size={32} stroke="#991B1B" />
                   <Text style={styles.modalTitle}>{selectedSupplement.name}</Text>
                 </View>
 
@@ -265,29 +356,33 @@ const styles = StyleSheet.create({
   cardTitleItalic: { color: '#94A3B8', fontStyle: 'italic' },
   
   cartBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: '#0F172A',
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: '#991B1B',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
   },
   cartCount: {
     position: 'absolute',
-    top: -4,
-    right: -4,
-    backgroundColor: '#991B1B',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    top: -6,
+    right: -6,
+    backgroundColor: '#0F172A',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FFF',
   },
   cartCountText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '900',
     color: '#FFF',
   },
@@ -335,14 +430,18 @@ const styles = StyleSheet.create({
   },
 
   primaryBtn: { 
-    backgroundColor: '#0F172A', 
+    backgroundColor: '#991B1B', 
     paddingVertical: 16, 
     borderRadius: 16, 
-    alignItems: 'center' 
+    alignItems: 'center',
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
   },
   primaryBtnText: { 
     color: '#FFF', 
-    fontSize: 10, 
+    fontSize: 11, 
     fontWeight: '900', 
     letterSpacing: 2 
   },
@@ -362,58 +461,98 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  categoryHeader: {
+  // Prominent Sections
+  prominentSection: {
+    backgroundColor: '#FFF',
+    borderRadius: 24,
+    padding: 20,
+    marginBottom: 12,
+    borderWidth: 2,
+    borderColor: '#E2E8F0',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  prominentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#FFF',
-    padding: 16,
+  },
+  prominentHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    flex: 1,
+  },
+  essentialBadge: {
+    width: 56,
+    height: 56,
     borderRadius: 16,
-    marginBottom: 12,
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionalBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  prominentTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  prominentSubtitle: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#64748B',
+    marginTop: 2,
+  },
+
+  supplementGrid: {
+    marginTop: 20,
+    gap: 12,
+  },
+  prominentSupplementCard: {
+    backgroundColor: '#F8FAFC',
+    borderRadius: 20,
+    padding: 16,
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
-  categoryLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  categoryTitle: {
-    fontSize: 14,
-    fontWeight: '900',
-    color: '#0F172A',
-  },
-
-  supplementCard: { 
-    backgroundColor: '#FFF', 
-    borderRadius: 20, 
-    padding: 16, 
-    marginBottom: 12, 
-    borderWidth: 1, 
-    borderColor: '#F1F5F9',
-  },
-  supplementHeader: {
+  supplementCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
-  supplementLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    flex: 1,
-  },
-  supplementName: {
-    fontSize: 13,
+  prominentSupplementName: {
+    fontSize: 16,
     fontWeight: '900',
     color: '#0F172A',
+    marginBottom: 4,
   },
-  supplementDosage: {
-    fontSize: 10,
-    fontWeight: '600',
+  prominentSupplementDosage: {
+    fontSize: 12,
+    fontWeight: '700',
     color: '#64748B',
-    marginTop: 2,
+    marginBottom: 12,
+  },
+  bloodMarkerBox: {
+    backgroundColor: '#FEF2F2',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+  },
+  bloodMarkerText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#991B1B',
   },
   statusBadge: {
     paddingHorizontal: 10,
@@ -421,10 +560,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   statusOptimal: {
-    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    backgroundColor: 'rgba(16, 185, 129, 0.15)',
   },
   statusEnhancement: {
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
   },
   statusText: {
     fontSize: 8,
@@ -432,47 +571,205 @@ const styles = StyleSheet.create({
     color: '#10B981',
     letterSpacing: 0.5,
   },
-  bloodMarkerText: {
-    fontSize: 11,
-    fontWeight: '700',
+
+  // Lifestyle
+  lifestyleCategory: {
+    marginBottom: 24,
+  },
+  lifestyleCategoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#E2E8F0',
+  },
+  lifestyleIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#F8FAFC',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  lifestyleCategoryTitle: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#0F172A',
+    letterSpacing: 1,
+  },
+  lifestyleCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  lifestyleCardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  lifestyleTitle: {
+    fontSize: 13,
+    fontWeight: '900',
+    color: '#0F172A',
+    flex: 1,
+  },
+  impactBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  impactHigh: {
+    backgroundColor: 'rgba(153, 27, 27, 0.1)',
+  },
+  impactMedium: {
+    backgroundColor: 'rgba(100, 116, 139, 0.1)',
+  },
+  impactText: {
+    fontSize: 8,
+    fontWeight: '900',
     color: '#991B1B',
+    letterSpacing: 0.5,
+  },
+  lifestyleDesc: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#475569',
+    lineHeight: 18,
+    marginBottom: 8,
+  },
+  metricTag: {
+    backgroundColor: '#F8FAFC',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  metricText: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#991B1B',
+    letterSpacing: 0.5,
   },
 
-  recCard: { 
-    backgroundColor: '#FFF', 
-    borderRadius: 24, 
-    padding: 20, 
-    marginBottom: 12, 
-    borderWidth: 1, 
-    borderColor: '#F1F5F9', 
-    flexDirection: 'row', 
-    gap: 16 
-  },
-  recIconWrap: { 
-    width: 44, 
-    height: 44, 
-    borderRadius: 12, 
-    backgroundColor: '#F8FAFC', 
-    alignItems: 'center', 
-    justifyContent: 'center' 
-  },
-  recContent: { flex: 1 },
-  recTop: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
-    marginBottom: 6 
-  },
-  recTitle: { fontSize: 10, fontWeight: '900', color: '#0F172A' },
-  recBadge: { fontSize: 7, fontWeight: '900', color: '#991B1B' },
-  recDesc: { fontSize: 12, fontWeight: '600', color: '#64748B', lineHeight: 18 },
-
-  // Modal styles
+  // Cart Modal
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'flex-end',
   },
+  cartModal: {
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    padding: 24,
+    height: '85%',
+  },
+  cartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 24,
+    paddingBottom: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: '#F1F5F9',
+  },
+  cartTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  cartSubtitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#64748B',
+    marginTop: 4,
+  },
+  cartScroll: {
+    flex: 1,
+  },
+  cartSectionLabel: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#94A3B8',
+    letterSpacing: 2,
+    marginBottom: 12,
+  },
+  cartItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  cartItemInfo: {
+    flex: 1,
+  },
+  cartItemName: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0F172A',
+  },
+  cartItemDosage: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#64748B',
+    marginTop: 2,
+  },
+  cartItemPrice: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#991B1B',
+  },
+  cartTotal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingTop: 24,
+    marginTop: 16,
+    borderTopWidth: 2,
+    borderTopColor: '#E2E8F0',
+  },
+  cartTotalLabel: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 2,
+  },
+  cartTotalPrice: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  checkoutBtn: {
+    backgroundColor: '#991B1B',
+    paddingVertical: 18,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    marginTop: 16,
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+  },
+  checkoutBtnText: {
+    color: '#FFF',
+    fontSize: 13,
+    fontWeight: '900',
+    letterSpacing: 2,
+  },
+
+  // Supplement Detail Modal
   modalContent: {
     backgroundColor: '#FFF',
     borderTopLeftRadius: 32,
