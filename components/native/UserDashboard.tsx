@@ -27,6 +27,10 @@ export default function UserDashboard({ onNavigate }: any) {
         <View>
           <Text style={styles.headerTitle}>Status</Text>
           <Text style={styles.headerSubtitle}>Protocol v5.2_ENT</Text>
+          <View style={styles.timestampContainer}>
+            <Text style={styles.timestampLabel}>Test Results: </Text>
+            <Text style={styles.timestampValue}>Q3 2024 • Nov 15</Text>
+          </View>
         </View>
         <View style={styles.profileCircle}>
           <Image 
@@ -117,26 +121,21 @@ export default function UserDashboard({ onNavigate }: any) {
         />
       ))}
 
-      {/* AI Chat Preview */}
-      <View style={styles.aiHeader}>
-        <View style={styles.aiBotIcon}>
-          <Bot size={16} stroke="#FFF" />
+      {/* AI Chat - Always Visible */}
+      <View style={styles.aiSection}>
+        <View style={styles.aiHeader}>
+          <View style={styles.aiBotIcon}>
+            <Bot size={20} stroke="#FFF" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.aiTitle}>AI BIO-ADVISOR</Text>
+            <Text style={styles.aiSubtitle}>
+              Ask me anything about your biomarkers and health data
+            </Text>
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.aiTitle}>AI BIO-ADVISOR</Text>
-          <Text style={styles.aiSubtitle}>
-            Ask me anything about your biomarkers and health data
-          </Text>
-        </View>
-        <TouchableOpacity 
-          onPress={() => setShowAIChat(!showAIChat)}
-          style={styles.chatToggle}
-        >
-          <MessageCircle size={16} stroke="#991B1B" />
-        </TouchableOpacity>
+        <AIChat />
       </View>
-
-      {showAIChat && <AIChat />}
     </ScrollView>
   );
 }
@@ -169,6 +168,26 @@ const styles = StyleSheet.create({
     color: '#94A3B8',
     textTransform: 'uppercase',
     letterSpacing: 2,
+  },
+  timestampContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    backgroundColor: 'rgba(153, 27, 27, 0.1)',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  timestampLabel: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: '#94A3B8',
+  },
+  timestampValue: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#991B1B',
   },
   profileCircle: {
     width: 44,
@@ -337,44 +356,44 @@ const styles = StyleSheet.create({
   statusText: { fontSize: 7, fontWeight: '900', letterSpacing: 0.5 },
   statusTextOptimal: { color: '#10B981' },
   statusTextStable: { color: '#F59E0B' },
+  aiSection: {
+    marginTop: 32,
+    marginBottom: 20,
+  },
   aiHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     marginBottom: 16,
     backgroundColor: '#0F172A',
-    padding: 16,
+    padding: 20,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#1E293B',
   },
   aiBotIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     backgroundColor: '#991B1B',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#991B1B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   aiTitle: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
     color: '#FFF',
     letterSpacing: 2,
   },
   aiSubtitle: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '600',
     color: '#64748B',
-    marginTop: 2,
-    lineHeight: 14,
-  },
-  chatToggle: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: '#1E293B',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 4,
+    lineHeight: 16,
   },
 });
