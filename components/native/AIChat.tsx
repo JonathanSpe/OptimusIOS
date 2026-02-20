@@ -6,7 +6,7 @@ import { GoogleGenAI } from "@google/genai";
 
 export default function AIChat() {
   const [messages, setMessages] = useState([
-    { role: 'model', text: 'Hallo Jonathan! Wie kann ich dir heute bei deiner Optimierung helfen?' }
+    { role: 'model', text: 'Hallo! 👋 Ich bin dein AI Bio-Advisor und kenne alle deine Biomarker-Daten, Supplementierungs-Protokolle und Lifestyle-Metriken.\n\nFrage mich alles, um dich zu optimieren:\n• Warum sind bestimmte Werte wie sie sind?\n• Wie kann ich spezifische Biomarker verbessern?\n• Welche Supplements passen zu meinen Zielen?\n• Lifestyle-Tipps für mehr Performance & Recovery\n\nIch analysiere deine komplette Datenhistorie und gebe dir personalisierte, wissenschaftlich fundierte Empfehlungen. Starte mit deiner Frage!' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);

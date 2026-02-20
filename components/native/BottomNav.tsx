@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   label: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#94A3B8',
     letterSpacing: 1.5,

@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   productCat: { 
-    fontSize: 8, 
+    fontSize: 10, 
     fontWeight: '900', 
     color: '#CBD5E1', 
     letterSpacing: 1,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     borderColor: '#FEE2E2',
   },
   packBadgeText: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#991B1B',
     letterSpacing: 1,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   packStatLabel: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#F1F5F9',
   },
   packPriceLabel: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#94A3B8',
     letterSpacing: 1.5,
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   modalCategoryText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#991B1B',
     letterSpacing: 1,

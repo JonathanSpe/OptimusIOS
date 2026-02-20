@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   subtitle: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '700',
     color: '#64748B',
     marginTop: 2,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   axisLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '800',
     color: '#475569',
   },
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     borderColor: '#E2E8F0',
   },
   valueLabelText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '900',
     color: '#0F172A',
   },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#991B1B',
   },
   periodLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#E2E8F0',
   },
   currentLabel: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '800',
     color: '#64748B',
     letterSpacing: 1,

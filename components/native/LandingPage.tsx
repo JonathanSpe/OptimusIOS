@@ -55,7 +55,7 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
           <View style={styles.benefitsContainer}>
             {[
               { label: 'Biomarker Analysis', value: '50+' },
-              { label: 'AI Recommendations', value: 'Personal' },
+              { label: 'AI Recommendations', value: 'Personalized' },
               { label: 'Results Ready', value: '48h' },
             ].map((item, i) => (
               <View key={i} style={styles.benefitCard}>
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   benefitLabel: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
     color: '#64748B',
     textAlign: 'center',

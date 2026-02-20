@@ -328,7 +328,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, backgroundColor: '#FFFFFF' },
   backBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12, marginTop: 20 },
-  backText: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 1.5 },
+  backText: { fontSize: 11, fontWeight: '900', color: '#94A3B8', letterSpacing: 1.5 },
   title: { fontSize: 32, fontWeight: '900', color: '#0F172A', textTransform: 'uppercase' },
   titleFaded: { color: '#E2E8F0', fontStyle: 'italic' },
   
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 20 
   },
-  cardTag: { fontSize: 8, fontWeight: '900', color: '#991B1B', letterSpacing: 2, marginBottom: 4 },
+  cardTag: { fontSize: 10, fontWeight: '900', color: '#991B1B', letterSpacing: 2, marginBottom: 4 },
   cardTitle: { fontSize: 24, fontWeight: '900', color: '#0F172A' },
   cardTitleItalic: { color: '#94A3B8', fontStyle: 'italic' },
   
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   statLabel: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
 
   section: { marginTop: 32 },
   sectionLabel: { 
-    fontSize: 9, 
+    fontSize: 11, 
     fontWeight: '900', 
     color: '#94A3B8', 
     letterSpacing: 2, 
@@ -566,7 +566,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245, 158, 11, 0.15)',
   },
   statusText: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#10B981',
     letterSpacing: 0.5,
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(100, 116, 139, 0.1)',
   },
   impactText: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#991B1B',
     letterSpacing: 0.5,
@@ -651,7 +651,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   metricText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#991B1B',
     letterSpacing: 0.5,
@@ -796,7 +796,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   modalSectionLabel: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#94A3B8',
     letterSpacing: 2,

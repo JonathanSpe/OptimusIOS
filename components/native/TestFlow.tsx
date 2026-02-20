@@ -179,12 +179,16 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               <TouchableOpacity 
                 style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} 
                 onPress={() => setStep('SCAN')}
-                disabled={Object.keys(answers).length < questions.length}
-                opacity={Object.keys(answers).length < questions.length ? 0.5 : 1}
               >
                 <Text style={styles.primaryBtnText}>WEITER ZUM SCAN</Text>
                 <ArrowRight size={16} stroke="#FFF" />
               </TouchableOpacity>
+
+              {Object.keys(answers).length < questions.length && (
+                <Text style={styles.optionalText}>
+                  Alle Fragen sind optional, aber mehr Kontext ermöglicht präzisere Analyse.
+                </Text>
+              )}
             </ScrollView>
           )}
 
@@ -364,7 +368,7 @@ const styles = StyleSheet.create({
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   logoBox: { width: 32, height: 32, backgroundColor: '#991B1B', borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
   logoText: { color: '#FFF', fontWeight: '900', fontSize: 12 },
-  headerTitle: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 2 },
+  headerTitle: { fontSize: 11, fontWeight: '900', color: '#94A3B8', letterSpacing: 2 },
   closeBtn: { padding: 4 },
 
   // Compact Progress Bar - REWORKED
@@ -376,7 +380,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E2E8F0',
   },
   progressText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#64748B',
     textAlign: 'center',
@@ -522,9 +526,17 @@ const styles = StyleSheet.create({
     borderColor: '#991B1B',
     backgroundColor: '#FEF2F2',
   },
-  optBtnText: { fontSize: 9, fontWeight: '900', color: '#94A3B8' },
+  optBtnText: { fontSize: 11, fontWeight: '900', color: '#94A3B8' },
   optBtnTextActive: {
     color: '#991B1B',
+  },
+  optionalText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#64748B',
+    textAlign: 'center',
+    marginTop: 16,
+    fontStyle: 'italic',
   },
 
   // Shipping

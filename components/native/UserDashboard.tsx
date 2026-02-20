@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
 import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot, MessageCircle, CheckCircle } from 'lucide-react-native';
 import AIChat from './AIChat';
@@ -10,11 +10,27 @@ const { width } = Dimensions.get('window');
 
 type Category = 'Sports' | 'Recovery' | 'Dermis' | 'Cognition' | 'Hormones';
 
+const CATEGORIES: Category[] = ['Sports', 'Recovery', 'Dermis', 'Cognition', 'Hormones'];
+
 export default function UserDashboard({ onNavigate }: any) {
   const [selectedCategory, setSelectedCategory] = useState<Category>('Sports');
   const [showAIChat, setShowAIChat] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const currentBiomarkers = biomarkersByCategory[selectedCategory];
+  const categoryIndex = CATEGORIES.indexOf(selectedCategory);
+
+  const handleCategoryChange = (category: Category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleScroll = (event: any) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const index = Math.round(offsetX / width);
+    if (index >= 0 && index < CATEGORIES.length) {
+      setSelectedCategory(CATEGORIES[index]);
+    }
+  };
 
   return (
     <ScrollView 
@@ -75,10 +91,14 @@ export default function UserDashboard({ onNavigate }: any) {
 
       {/* Category Tabs */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
-        {(['Sports', 'Recovery', 'Dermis', 'Cognition', 'Hormones'] as Category[]).map(cat => (
+        {CATEGORIES.map(cat => (
           <TouchableOpacity 
             key={cat}
-            onPress={() => setSelectedCategory(cat)}
+            onPress={() => {
+              handleCategoryChange(cat);
+              const index = CATEGORIES.indexOf(cat);
+              scrollViewRef.current?.scrollTo({ x: index * width, animated: true });
+            }}
             style={[styles.categoryPill, selectedCategory === cat && styles.categoryPillActive]}
           >
             <Text style={[styles.categoryText, selectedCategory === cat && styles.categoryTextActive]}>
@@ -88,50 +108,64 @@ export default function UserDashboard({ onNavigate }: any) {
         ))}
       </ScrollView>
 
-      {/* Biomarker Grid */}
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>
-          {selectedCategory.toUpperCase()} BIOMARKERS
-        </Text>
-        <View style={styles.liveIndicator}>
-          <Activity size={10} stroke="#991B1B" />
-          <Text style={styles.liveText}>LIVE PANEL</Text>
-        </View>
-      </View>
-
-      <View style={styles.grid}>
-        {currentBiomarkers.map((m, i) => (
-          <View key={i} style={styles.markerCard}>
-            <View style={styles.markerTop}>
-              <Text style={styles.markerName}>{m.name.toUpperCase()}</Text>
-              {m.trend === 'up' ? <TrendingUp size={12} stroke="#10B981" /> : <TrendingDown size={12} stroke="#991B1B" />}
-            </View>
-            <View style={styles.markerValueRow}>
-              <Text style={styles.markerValue}>{m.value}</Text>
-              <Text style={styles.markerUnit}>{m.unit}</Text>
-            </View>
-            <View style={[styles.statusBadge, m.status === 'Optimal' ? styles.statusOptimal : styles.statusStable]}>
-              <Text style={[styles.statusText, m.status === 'Optimal' ? styles.statusTextOptimal : styles.statusTextStable]}>
-                {m.status.toUpperCase()}
+      {/* Swipeable Content */}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={handleScroll}
+        scrollEventThrottle={16}
+      >
+        {CATEGORIES.map((cat) => (
+          <View key={cat} style={{ width: width - 40 }}>
+            {/* Biomarker Grid */}
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>
+                {cat.toUpperCase()} BIOMARKERS
               </Text>
+              <View style={styles.liveIndicator}>
+                <Activity size={11} stroke="#991B1B" />
+                <Text style={styles.liveText}>LIVE PANEL</Text>
+              </View>
             </View>
+
+            <View style={styles.grid}>
+              {biomarkersByCategory[cat].map((m, i) => (
+                <View key={i} style={styles.markerCard}>
+                  <View style={styles.markerTop}>
+                    <Text style={styles.markerName}>{m.name.toUpperCase()}</Text>
+                    {m.trend === 'up' ? <TrendingUp size={12} stroke="#10B981" /> : <TrendingDown size={12} stroke="#991B1B" />}
+                  </View>
+                  <View style={styles.markerValueRow}>
+                    <Text style={styles.markerValue}>{m.value}</Text>
+                    <Text style={styles.markerUnit}>{m.unit}</Text>
+                  </View>
+                  <View style={[styles.statusBadge, m.status === 'Optimal' ? styles.statusOptimal : styles.statusStable]}>
+                    <Text style={[styles.statusText, m.status === 'Optimal' ? styles.statusTextOptimal : styles.statusTextStable]}>
+                      {m.status.toUpperCase()}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            {/* Biomarker Trend Charts */}
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>QUARTERLY TRENDS</Text>
+            </View>
+
+            {biomarkersByCategory[cat].map((marker, i) => (
+              <BiomarkerChart
+                key={i}
+                data={marker.history}
+                markerName={marker.name}
+                unit={marker.unit}
+              />
+            ))}
           </View>
         ))}
-      </View>
-
-      {/* Biomarker Trend Charts */}
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>QUARTERLY TRENDS</Text>
-      </View>
-
-      {currentBiomarkers.map((marker, i) => (
-        <BiomarkerChart
-          key={i}
-          data={marker.history}
-          markerName={marker.name}
-          unit={marker.unit}
-        />
-      ))}
+      </ScrollView>
 
       {/* Wearable Fitness Metrics */}
       <View style={styles.sectionHeader}>
@@ -252,12 +286,12 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   timestampLabel: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '700',
     color: '#94A3B8',
   },
   timestampValue: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#991B1B',
   },
@@ -292,7 +326,7 @@ const styles = StyleSheet.create({
     borderColor: '#F1F5F9',
   },
   fitnessLabel: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -320,7 +354,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   fitnessTrendText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '700',
     color: '#64748B',
   },
@@ -374,7 +408,7 @@ const styles = StyleSheet.create({
     right: 12,
   },
   metricLabel: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -417,7 +451,7 @@ const styles = StyleSheet.create({
     borderColor: '#991B1B',
   },
   categoryText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -432,7 +466,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#94A3B8',
     letterSpacing: 2,
@@ -443,7 +477,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   liveText: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '900',
     color: '#991B1B',
   },
@@ -467,7 +501,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   markerName: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '900',
     color: '#64748B',
     letterSpacing: 1,
@@ -484,7 +518,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   markerUnit: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: '800',
     color: '#64748B',
   },
@@ -496,7 +530,7 @@ const styles = StyleSheet.create({
   },
   statusOptimal: { backgroundColor: 'rgba(16, 185, 129, 0.1)' },
   statusStable: { backgroundColor: 'rgba(245, 158, 11, 0.1)' },
-  statusText: { fontSize: 7, fontWeight: '900', letterSpacing: 0.5 },
+  statusText: { fontSize: 11, fontWeight: '900', letterSpacing: 0.5 },
   statusTextOptimal: { color: '#10B981' },
   statusTextStable: { color: '#F59E0B' },
   aiSection: {
