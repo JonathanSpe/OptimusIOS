@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   fitnessUnit: {
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: '800',
     color: '#64748B',
   },
@@ -425,12 +425,12 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   metricUnit: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '900',
     color: '#991B1B',
   },
   ageDelta: {
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: '900',
     color: '#10B981',
   },
@@ -518,7 +518,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   markerUnit: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '800',
     color: '#64748B',
   },
