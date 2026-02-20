@@ -1,7 +1,9 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Zap, Moon, Heart, Coffee, Activity, Package, MapPin, Clipboard } from 'lucide-react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 type FlowStep = 'PROCESS' | 'QUESTIONNAIRE' | 'SCAN' | 'INSTRUCTIONS' | 'SHIPPING' | 'SUCCESS';
 
@@ -42,7 +44,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
   ];
 
   const currentStepIndex = STEPS.findIndex(s => s.id === step);
-  const progressPercentage = (currentStepIndex / (STEPS.length - 1)) * 100;
+  const progressWidth = SCREEN_WIDTH * (currentStepIndex / (STEPS.length - 1));
 
   return (
     <Modal animationType="slide" transparent={false} visible={true}>
@@ -60,7 +62,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
         {/* Step Progress Indicator - Hidden on Process step */}
         {step !== 'PROCESS' && (
           <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
+            <View style={[styles.progressFill, { width: progressWidth }]} />
             <Text style={styles.progressText}>
               Schritt {currentStepIndex + 1} von {STEPS.length}
             </Text>
