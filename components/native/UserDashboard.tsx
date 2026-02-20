@@ -55,7 +55,7 @@ export default function UserDashboard({ onNavigate }: any) {
       {/* Metrics Row */}
       <View style={styles.metricsRow}>
         <View style={styles.indexCard}>
-          <Zap size={20} stroke="rgba(255,255,255,0.2)" style={styles.cardIcon} />
+          <Zap size={20} stroke="rgba(15,23,42,0.1)" style={styles.cardIcon} />
           <Text style={styles.metricLabel}>OVERALL INDEX</Text>
           <View style={styles.metricValueContainer}>
             <Text style={styles.metricValue}>91</Text>
@@ -65,9 +65,9 @@ export default function UserDashboard({ onNavigate }: any) {
 
         <View style={styles.ageCard}>
           <Heart size={20} stroke="rgba(15,23,42,0.1)" style={styles.cardIcon} />
-          <Text style={[styles.metricLabel, { color: '#94A3B8' }]}>BIO-AGE</Text>
+          <Text style={styles.metricLabel}>BIO-AGE</Text>
           <View style={styles.metricValueContainer}>
-            <Text style={[styles.metricValue, { color: '#0F172A' }]}>29</Text>
+            <Text style={styles.metricValue}>29</Text>
             <Text style={styles.ageDelta}>-3.2Y</Text>
           </View>
         </View>
@@ -345,12 +345,16 @@ const styles = StyleSheet.create({
   },
   indexCard: {
     flex: 1,
-    backgroundColor: '#0F172A',
+    backgroundColor: '#FFF',
     borderRadius: 24,
     padding: 20,
     position: 'relative',
     borderWidth: 1,
-    borderColor: '#1E293B',
+    borderColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 4 },
   },
   ageCard: {
     flex: 1,
@@ -359,6 +363,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     borderColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 4 },
   },
   cardIcon: {
     position: 'absolute',
@@ -380,7 +388,7 @@ const styles = StyleSheet.create({
   metricValue: {
     fontSize: 36,
     fontWeight: '900',
-    color: '#FFF',
+    color: '#0F172A',
   },
   metricUnit: {
     fontSize: 12,
@@ -400,8 +408,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#1E293B',
-    backgroundColor: '#0F172A',
+    borderColor: '#E2E8F0',
+    backgroundColor: '#F8FAFC',
     marginRight: 8,
   },
   categoryPillActive: {
@@ -411,7 +419,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 9,
     fontWeight: '900',
-    color: '#94A3B8',
+    color: '#64748B',
     letterSpacing: 1,
   },
   categoryTextActive: {
@@ -447,11 +455,11 @@ const styles = StyleSheet.create({
   },
   markerCard: {
     width: (width - 52) / 2,
-    backgroundColor: '#0F172A',
-    borderRadius: 24,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#1E293B',
+    borderColor: '#E2E8F0',
   },
   markerTop: {
     flexDirection: 'row',
@@ -473,12 +481,12 @@ const styles = StyleSheet.create({
   markerValue: {
     fontSize: 24,
     fontWeight: '900',
-    color: '#FFF',
+    color: '#0F172A',
   },
   markerUnit: {
     fontSize: 8,
     fontWeight: '800',
-    color: '#475569',
+    color: '#64748B',
   },
   statusBadge: {
     paddingHorizontal: 8,

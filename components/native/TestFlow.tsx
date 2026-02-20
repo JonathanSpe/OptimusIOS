@@ -42,6 +42,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
   ];
 
   const currentStepIndex = STEPS.findIndex(s => s.id === step);
+  const progressPercentage = (currentStepIndex / (STEPS.length - 1)) * 100;
 
   return (
     <Modal animationType="slide" transparent={false} visible={true}>
@@ -59,7 +60,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
         {/* Step Progress Indicator - Hidden on Process step */}
         {step !== 'PROCESS' && (
           <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: `${((currentStepIndex) / (STEPS.length - 1)) * 100}%` }]} />
+            <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
             <Text style={styles.progressText}>
               Schritt {currentStepIndex + 1} von {STEPS.length}
             </Text>
