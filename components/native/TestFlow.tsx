@@ -59,15 +59,24 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
           </TouchableOpacity>
         </View>
 
-        {/* Step Progress Indicator - Hidden on Process step */}
+        {/* Compact Progress Bar - Hidden on Process step */}
         {step !== 'PROCESS' && (
-          <View style={styles.progressBar}>
-            <View style={styles.progressFillContainer}>
-              <View style={[styles.progressFill, { width: `${(progressPercentage * 100)}%` }]} />
+          <View style={styles.progressBarWrapper}>
+            <Text style={styles.progressText}>SCHRITT {currentStepIndex + 1} VON {STEPS.length}</Text>
+            <View style={styles.progressTrack}>
+              <View 
+                style={[
+                  styles.progressFillBar, 
+                  { flex: progressPercentage }
+                ]} 
+              />
+              <View 
+                style={[
+                  styles.progressEmptyBar, 
+                  { flex: 1 - progressPercentage }
+                ]} 
+              />
             </View>
-            <Text style={styles.progressText}>
-              SCHRITT {currentStepIndex + 1} VON {STEPS.length}
-            </Text>
           </View>
         )}
 
@@ -358,93 +367,36 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 2 },
   closeBtn: { padding: 4 },
 
-  // Compact Progress Bar
-  progressBar: {
-    height: 40,
+  // Compact Progress Bar - REWORKED
+  progressBarWrapper: {
     backgroundColor: '#F8FAFC',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#E2E8F0',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  progressFillContainer: {
-    height: 4,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  progressFill: {
-    height: 4,
-    backgroundColor: '#991B1B',
-    borderRadius: 2,
   },
   progressText: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '900',
     color: '#64748B',
     textAlign: 'center',
-    letterSpacing: 1,
+    letterSpacing: 1.5,
+    marginBottom: 8,
   },
-
-  // Old Progress Styles (kept for reference but not used)
-  progressContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 16,
-    backgroundColor: '#F8FAFC',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-  },
-  progressStepContainer: {
+  progressTrack: {
+    height: 4,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 2,
     flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 4,
+    overflow: 'hidden',
   },
-  progressStep: {
-    alignItems: 'center',
-    gap: 6,
-  },
-  progressCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#E2E8F0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressCircleCompleted: {
-    backgroundColor: '#10B981',
-  },
-  progressCircleActive: {
+  progressFillBar: {
     backgroundColor: '#991B1B',
-    borderWidth: 3,
-    borderColor: '#FEE2E2',
+    height: 4,
   },
-  progressNumber: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: '#94A3B8',
-  },
-  progressNumberActive: {
-    color: '#FFF',
-  },
-  progressLabel: {
-    fontSize: 8,
-    fontWeight: '800',
-    color: '#94A3B8',
-  },
-  progressLabelActive: {
-    color: '#991B1B',
-    fontWeight: '900',
-  },
-  progressLine: {
-    width: 20,
-    height: 2,
-    backgroundColor: '#E2E8F0',
-    marginHorizontal: 4,
-  },
-  progressLineCompleted: {
-    backgroundColor: '#10B981',
+  progressEmptyBar: {
+    backgroundColor: 'transparent',
+    height: 4,
   },
 
   content: { flex: 1, padding: 24 },

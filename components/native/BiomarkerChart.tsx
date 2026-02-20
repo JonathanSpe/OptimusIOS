@@ -177,12 +177,12 @@ export default function BiomarkerChart({ data, markerName, unit }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F172A',
+    backgroundColor: '#F8FAFC',
     borderRadius: 24,
     padding: 20,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#1E293B',
+    borderColor: '#E2E8F0',
   },
   header: {
     flexDirection: 'row',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 11,
     fontWeight: '900',
-    color: '#FFF',
+    color: '#0F172A',
     letterSpacing: 1.5,
   },
   subtitle: {
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   chartArea: {
     flex: 1,
     position: 'relative',
-    backgroundColor: 'rgba(30, 41, 59, 0.3)',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 8,
   },
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     left: 8,
     right: 8,
     height: 1,
-    backgroundColor: '#1E293B',
+    backgroundColor: '#E2E8F0',
   },
   gradientArea: {
     position: 'absolute',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#991B1B',
     borderWidth: 3,
-    borderColor: '#0F172A',
+    borderColor: '#F8FAFC',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -283,19 +283,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   valueLabel: {
-    backgroundColor: '#1E293B',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
     minWidth: 50,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#E2E8F0',
   },
   valueLabelText: {
     fontSize: 10,
     fontWeight: '900',
-    color: '#FFF',
+    color: '#0F172A',
   },
   xAxis: {
     flexDirection: 'row',
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#1E293B',
+    borderTopColor: '#E2E8F0',
   },
   currentLabel: {
     fontSize: 9,
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   currentValue: {
     fontSize: 28,
     fontWeight: '900',
-    color: '#FFF',
+    color: '#0F172A',
   },
   currentUnit: {
     fontSize: 12,
