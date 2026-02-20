@@ -40,6 +40,35 @@ export default function UserDashboard({ onNavigate }: any) {
         </View>
       </View>
 
+      {/* Wearable Integrations */}
+      <View style={styles.wearablesSection}>
+        <View style={styles.wearablesHeader}>
+          <Text style={styles.wearablesTitle}>WEARABLE SYNC</Text>
+          <View style={styles.connectedBadge}>
+            <View style={styles.connectedDot} />
+            <Text style={styles.connectedText}>SYNCED</Text>
+          </View>
+        </View>
+        <View style={styles.wearablesRow}>
+          <View style={styles.wearableCard}>
+            <Image 
+              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Strava_Logo.svg/2560px-Strava_Logo.svg.png' }}
+              style={styles.wearableLogo}
+              resizeMode="contain"
+            />
+            <Text style={styles.wearableName}>Strava</Text>
+          </View>
+          <View style={styles.wearableCard}>
+            <Image 
+              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Apple_Health_Icon.png/240px-Apple_Health_Icon.png' }}
+              style={styles.wearableLogo}
+              resizeMode="contain"
+            />
+            <Text style={styles.wearableName}>Apple Health</Text>
+          </View>
+        </View>
+      </View>
+
       {/* Metrics Row */}
       <View style={styles.metricsRow}>
         <View style={styles.indexCard}>
@@ -121,6 +150,65 @@ export default function UserDashboard({ onNavigate }: any) {
         />
       ))}
 
+      {/* Wearable Fitness Metrics */}
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>WEARABLE METRICS</Text>
+        <View style={styles.liveIndicator}>
+          <Activity size={10} stroke="#10B981" />
+          <Text style={[styles.liveText, { color: '#10B981' }]}>LIVE SYNC</Text>
+        </View>
+      </View>
+
+      <View style={styles.fitnessGrid}>
+        <View style={styles.fitnessCard}>
+          <Text style={styles.fitnessLabel}>AVG HRV</Text>
+          <View style={styles.fitnessValueRow}>
+            <Text style={styles.fitnessValue}>68</Text>
+            <Text style={styles.fitnessUnit}>ms</Text>
+          </View>
+          <View style={styles.fitnessTrend}>
+            <TrendingUp size={10} stroke="#10B981" />
+            <Text style={styles.fitnessTrendText}>+8% vs last week</Text>
+          </View>
+        </View>
+
+        <View style={styles.fitnessCard}>
+          <Text style={styles.fitnessLabel}>DAILY STEPS</Text>
+          <View style={styles.fitnessValueRow}>
+            <Text style={styles.fitnessValue}>12.4</Text>
+            <Text style={styles.fitnessUnit}>k</Text>
+          </View>
+          <View style={styles.fitnessTrend}>
+            <TrendingUp size={10} stroke="#10B981" />
+            <Text style={styles.fitnessTrendText}>Target met 6/7 days</Text>
+          </View>
+        </View>
+
+        <View style={styles.fitnessCard}>
+          <Text style={styles.fitnessLabel}>SLEEP</Text>
+          <View style={styles.fitnessValueRow}>
+            <Text style={styles.fitnessValue}>7.8</Text>
+            <Text style={styles.fitnessUnit}>hrs</Text>
+          </View>
+          <View style={styles.fitnessTrend}>
+            <Activity size={10} stroke="#F59E0B" />
+            <Text style={styles.fitnessTrendText}>Average quality</Text>
+          </View>
+        </View>
+
+        <View style={styles.fitnessCard}>
+          <Text style={styles.fitnessLabel}>RESTING HR</Text>
+          <View style={styles.fitnessValueRow}>
+            <Text style={styles.fitnessValue}>52</Text>
+            <Text style={styles.fitnessUnit}>bpm</Text>
+          </View>
+          <View style={styles.fitnessTrend}>
+            <TrendingDown size={10} stroke="#10B981" />
+            <Text style={styles.fitnessTrendText}>Excellent range</Text>
+          </View>
+        </View>
+      </View>
+
       {/* AI Chat - Always Visible */}
       <View style={styles.aiSection}>
         <View style={styles.aiHeader}>
@@ -188,6 +276,117 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '900',
     color: '#991B1B',
+  },
+  wearablesSection: {
+    marginBottom: 24,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  wearablesHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  wearablesTitle: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 2,
+  },
+  connectedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  connectedDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10B981',
+  },
+  connectedText: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#10B981',
+    letterSpacing: 1,
+  },
+  wearablesRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  wearableCard: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  wearableLogo: {
+    width: 32,
+    height: 32,
+    marginBottom: 8,
+  },
+  wearableName: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#0F172A',
+  },
+  fitnessGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 32,
+  },
+  fitnessCard: {
+    width: (width - 52) / 2,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  fitnessLabel: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 1,
+    marginBottom: 8,
+  },
+  fitnessValueRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 4,
+    marginBottom: 8,
+  },
+  fitnessValue: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  fitnessUnit: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#64748B',
+  },
+  fitnessTrend: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  fitnessTrendText: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: '#64748B',
   },
   profileCircle: {
     width: 44,

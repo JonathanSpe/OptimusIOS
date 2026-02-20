@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, Modal, Dimensions } from 'react-native';
-import { ShoppingBag, Star, Zap, ShoppingCart, X } from 'lucide-react-native';
+import { ShoppingBag, Star, Zap, ShoppingCart, X, ArrowRight } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -20,21 +20,7 @@ export default function SupplementsPage() {
       <Text style={styles.title}>PURE <Text style={styles.titleFaded}>ELEMENTS</Text></Text>
       <Text style={styles.subtitle}>Einzelsubstanzen in Klinik-Qualität</Text>
 
-      <View style={styles.promoCard}>
-        <View style={styles.promoContent}>
-          <View style={styles.promoBadge}>
-            <Star size={10} stroke="#991B1B" fill="#991B1B" />
-            <Text style={styles.promoBadgeText}>PREMIUM CHOICE</Text>
-          </View>
-          <Text style={styles.promoTitle}>DEIN{"\n"}OPTIMUS-PACK</Text>
-          <Text style={styles.promoDesc}>Personalisierte Tages-Sachets basierend auf deinen Werten.</Text>
-          <TouchableOpacity style={styles.promoBtn}>
-            <Text style={styles.promoBtnText}>JETZT KONFIGURIEREN</Text>
-          </TouchableOpacity>
-        </View>
-        <Zap size={120} stroke="rgba(255,255,255,0.03)" style={styles.promoZap} />
-      </View>
-
+      {/* Individual Products Grid */}
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>EINZELSUBSTANZEN</Text>
         <Text style={styles.sectionCount}>{products.length} Produkte</Text>
@@ -61,6 +47,71 @@ export default function SupplementsPage() {
             </View>
           </TouchableOpacity>
         ))}
+      </View>
+
+      {/* Optimus Pack - NOW BELOW Pills with daily-supplements.png */}
+      <View style={styles.packSection}>
+        <View style={styles.packCard}>
+          <View style={styles.packHeader}>
+            <View style={styles.packBadge}>
+              <Star size={10} stroke="#991B1B" fill="#991B1B" />
+              <Text style={styles.packBadgeText}>ELITE PROTOCOL V5.2</Text>
+            </View>
+            <View style={styles.packCartBadge}>
+              <ShoppingCart size={16} stroke="#FFF" />
+              <View style={styles.packCartCount}>
+                <Text style={styles.packCartCountText}>8</Text>
+              </View>
+            </View>
+          </View>
+
+          <Text style={styles.packTitle}>
+            Dein <Text style={styles.packTitleItalic}>OPTIMUS-PACK</Text>
+          </Text>
+          
+          <Text style={styles.packDesc}>
+            Personalisierte Tages-Sachets basierend auf deinen Blutwerten. 
+            Alle Essential und Optional Supplements in täglichen Portionen.
+          </Text>
+
+          {/* Pack Preview Image */}
+          <View style={styles.packPreview}>
+            <Image
+              source={require('../../assets/daily-supplements.png')}
+              style={styles.packImage}
+              resizeMode="contain"
+            />
+          </View>
+
+          {/* Pack Stats */}
+          <View style={styles.packStats}>
+            <View style={styles.packStatItem}>
+              <Text style={styles.packStatValue}>4</Text>
+              <Text style={styles.packStatLabel}>ESSENTIAL</Text>
+            </View>
+            <View style={styles.packStatDivider} />
+            <View style={styles.packStatItem}>
+              <Text style={styles.packStatValue}>4</Text>
+              <Text style={styles.packStatLabel}>OPTIONAL</Text>
+            </View>
+            <View style={styles.packStatDivider} />
+            <View style={styles.packStatItem}>
+              <Text style={styles.packStatValue}>100%</Text>
+              <Text style={styles.packStatLabel}>PERSONALIZED</Text>
+            </View>
+          </View>
+
+          <View style={styles.packPriceRow}>
+            <View>
+              <Text style={styles.packPriceLabel}>MONATSPREIS</Text>
+              <Text style={styles.packPrice}>€239.90</Text>
+            </View>
+            <TouchableOpacity style={styles.packBtn}>
+              <Text style={styles.packBtnText}>KONFIGURIEREN</Text>
+              <ArrowRight size={16} stroke="#FFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
       {/* Product Detail Modal */}
@@ -141,53 +192,11 @@ const styles = StyleSheet.create({
   titleFaded: { color: '#E2E8F0', fontStyle: 'italic' },
   subtitle: { fontSize: 11, fontWeight: '800', color: '#64748B', letterSpacing: 2, marginTop: 4 },
   
-  promoCard: { 
-    backgroundColor: '#0F172A', 
-    borderRadius: 32, 
-    padding: 32, 
-    marginTop: 32, 
-    position: 'relative', 
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 8 },
-  },
-  promoContent: { zIndex: 1, gap: 12 },
-  promoBadge: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    gap: 6, 
-    backgroundColor: 'rgba(255,255,255,0.1)', 
-    alignSelf: 'flex-start', 
-    paddingHorizontal: 12,
-    paddingVertical: 8, 
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  promoBadgeText: { fontSize: 9, fontWeight: '900', color: '#FFF', letterSpacing: 1 },
-  promoTitle: { fontSize: 28, fontWeight: '900', color: '#FFF', lineHeight: 32 },
-  promoDesc: { fontSize: 13, fontWeight: '600', color: 'rgba(255,255,255,0.6)', lineHeight: 20 },
-  promoBtn: { 
-    backgroundColor: '#991B1B', 
-    paddingVertical: 16, 
-    borderRadius: 16, 
-    alignItems: 'center', 
-    marginTop: 8,
-    shadowColor: '#991B1B',
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-  },
-  promoBtnText: { fontSize: 11, fontWeight: '900', color: '#FFF', letterSpacing: 2 },
-  promoZap: { position: 'absolute', top: -30, right: -30 },
-  
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 32,
     marginBottom: 20,
   },
   sectionTitle: {
@@ -206,6 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     flexWrap: 'wrap', 
     gap: 12,
+    marginBottom: 40,
   },
   productCard: { 
     width: (width - 60) / 2, 
@@ -265,6 +275,173 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
+  },
+
+  // Optimus Pack Section
+  packSection: {
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  packCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 32,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  packHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  packBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#FEF2F2',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+  },
+  packBadgeText: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#991B1B',
+    letterSpacing: 1,
+  },
+  packCartBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: '#991B1B',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  packCartCount: {
+    position: 'absolute',
+    top: -6,
+    right: -6,
+    backgroundColor: '#0F172A',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FFF',
+  },
+  packCartCountText: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: '#FFF',
+  },
+  packTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#0F172A',
+    marginBottom: 8,
+  },
+  packTitleItalic: {
+    color: '#94A3B8',
+    fontStyle: 'italic',
+  },
+  packDesc: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#64748B',
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  packPreview: {
+    height: 180,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    overflow: 'hidden',
+  },
+  packImage: {
+    width: '100%',
+    height: '100%',
+  },
+  packStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+    paddingVertical: 16,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 16,
+  },
+  packStatItem: {
+    alignItems: 'center',
+  },
+  packStatValue: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  packStatLabel: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 1,
+    marginTop: 4,
+  },
+  packStatDivider: {
+    width: 1,
+    backgroundColor: '#E2E8F0',
+  },
+  packPriceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+  },
+  packPriceLabel: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#94A3B8',
+    letterSpacing: 1.5,
+    marginBottom: 4,
+  },
+  packPrice: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  packBtn: {
+    backgroundColor: '#991B1B',
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  packBtnText: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: '#FFF',
+    letterSpacing: 1.5,
   },
 
   // Modal

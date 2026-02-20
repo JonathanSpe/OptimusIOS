@@ -1,20 +1,23 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Modal, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Zap, Moon, Heart, Coffee, Activity, Package, MapPin } from 'lucide-react-native';
+import { X, Camera, ArrowRight, CheckCircle, Droplets, Info, Timer, ShieldCheck, Zap, Moon, Heart, Coffee, Activity, Package, MapPin, Clipboard } from 'lucide-react-native';
 
-type FlowStep = 'SCAN' | 'INSTRUCTIONS' | 'QUESTIONNAIRE' | 'SHIPPING' | 'SUCCESS';
+type FlowStep = 'PROCESS' | 'QUESTIONNAIRE' | 'SCAN' | 'INSTRUCTIONS' | 'SHIPPING' | 'SUCCESS';
 
 const STEPS = [
-  { id: 'SCAN', label: 'Scan', number: 1 },
-  { id: 'INSTRUCTIONS', label: 'Anleitung', number: 2 },
-  { id: 'QUESTIONNAIRE', label: 'Fragebogen', number: 3 },
-  { id: 'SHIPPING', label: 'Versand', number: 4 },
-  { id: 'SUCCESS', label: 'Fertig', number: 5 },
+  { id: 'PROCESS', label: 'Prozess', number: 1 },
+  { id: 'QUESTIONNAIRE', label: 'Fragebogen', number: 2 },
+  { id: 'SCAN', label: 'Scan', number: 3 },
+  { id: 'INSTRUCTIONS', label: 'Anleitung', number: 4 },
+  { id: 'SHIPPING', label: 'Versand', number: 5 },
+  { id: 'SUCCESS', label: 'Fertig', number: 6 },
 ];
 
+// Reordered: Process → Questionnaire → Scan → Instructions → Shipping → Success
+
 export default function TestFlow({ onClose }: { onClose: () => void }) {
-  const [step, setStep] = useState<FlowStep>('SCAN');
+  const [step, setStep] = useState<FlowStep>('PROCESS');
   const [instructionIdx, setInstructionIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
@@ -34,6 +37,8 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
     { id: 6, icon: Coffee, q: "Koffein heute?", opts: ["Keins", "1-2 Kaffee", "3+ Kaffee"] },
     { id: 7, icon: Activity, q: "Training gestern?", opts: ["Ja, intensiv", "Ja, leicht", "Nein"] },
     { id: 8, icon: ShieldCheck, q: "Medikamente?", opts: ["Keine", "Regelmäßig", "Aktuell"] },
+    { id: 9, icon: Moon, q: "Alkoholkonsum?", opts: ["Keiner", "Gelegentlich", "Regelmäßig"] },
+    { id: 10, icon: Activity, q: "Rauchen?", opts: ["Nein", "Gelegentlich", "Ja"] },
   ];
 
   const currentStepIndex = STEPS.findIndex(s => s.id === step);
@@ -52,7 +57,11 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
         </View>
 
         {/* Step Progress Indicator */}
-        <View style={styles.progressContainer}>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.progressContainer}
+        >
           {STEPS.map((s, idx) => (
             <View key={s.id} style={styles.progressStepContainer}>
               <View style={styles.progressStep}>
@@ -62,7 +71,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                   idx === currentStepIndex && styles.progressCircleActive,
                 ]}>
                   {idx < currentStepIndex ? (
-                    <CheckCircle size={16} stroke="#FFF" />
+                    <CheckCircle size={14} stroke="#FFF" />
                   ) : (
                     <Text style={[
                       styles.progressNumber,
@@ -83,9 +92,117 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               )}
             </View>
           ))}
-        </View>
+        </ScrollView>
 
         <View style={styles.content}>
+          {/* STEP 1: PROCESS OVERVIEW */}
+          {step === 'PROCESS' && (
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
+              <Text style={styles.stepTitle}>PROZESS <Text style={styles.fadedText}>ÜBERSICHT</Text></Text>
+              <Text style={styles.stepSub}>Was passiert als Nächstes?</Text>
+              
+              <View style={styles.processCard}>
+                <View style={styles.processStep}>
+                  <View style={styles.processNumber}><Text style={styles.processNumberText}>1</Text></View>
+                  <View style={styles.processContent}>
+                    <Text style={styles.processTitle}>FRAGEBOGEN AUSFÜLLEN</Text>
+                    <Text style={styles.processDesc}>Beantworte kurze Fragen zu deinem aktuellen Zustand für bessere Analyse.</Text>
+                  </View>
+                </View>
+
+                <View style={styles.processStep}>
+                  <View style={styles.processNumber}><Text style={styles.processNumberText}>2</Text></View>
+                  <View style={styles.processContent}>
+                    <Text style={styles.processTitle}>TEST-KIT SCANNEN</Text>
+                    <Text style={styles.processDesc}>Scanne den QR-Code auf deinem Tasso+ Device zur Identifikation.</Text>
+                  </View>
+                </View>
+
+                <View style={styles.processStep}>
+                  <View style={styles.processNumber}><Text style={styles.processNumberText}>3</Text></View>
+                  <View style={styles.processContent}>
+                    <Text style={styles.processTitle}>ANLEITUNG BEFOLGEN</Text>
+                    <Text style={styles.processDesc}>Schritt-für-Schritt Anleitung für die korrekte Blutentnahme.</Text>
+                  </View>
+                </View>
+
+                <View style={styles.processStep}>
+                  <View style={styles.processNumber}><Text style={styles.processNumberText}>4</Text></View>
+                  <View style={styles.processContent}>
+                    <Text style={styles.processTitle}>PROBE VERSENDEN</Text>
+                    <Text style={styles.processDesc}>Versende deine Probe noch heute an unser Labor in Berlin.</Text>
+                  </View>
+                </View>
+
+                <View style={styles.processStep}>
+                  <View style={[styles.processNumber, { backgroundColor: '#10B981' }]}><CheckCircle size={16} stroke="#FFF" /></View>
+                  <View style={styles.processContent}>
+                    <Text style={styles.processTitle}>ERGEBNISSE IN 48H</Text>
+                    <Text style={styles.processDesc}>Deine personalisierten Ergebnisse sind in ca. 2 Tagen verfügbar.</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.timeEstimate}>
+                <Timer size={16} stroke="#991B1B" />
+                <Text style={styles.timeEstimateText}>Geschätzte Dauer: 15-20 Minuten</Text>
+              </View>
+
+              <TouchableOpacity 
+                style={styles.primaryBtn} 
+                onPress={() => setStep('QUESTIONNAIRE')}
+              >
+                <Text style={styles.primaryBtnText}>LOS GEHT'S</Text>
+                <ArrowRight size={16} stroke="#FFF" />
+              </TouchableOpacity>
+            </ScrollView>
+          )}
+
+          {/* STEP 2: QUESTIONNAIRE */}
+          {step === 'QUESTIONNAIRE' && (
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
+              <Text style={styles.stepTitle}>BIOMETRISCHER <Text style={styles.fadedText}>KONTEXT</Text></Text>
+              <Text style={styles.stepSub}>Für präzisere Analyse • {Object.keys(answers).length}/{questions.length}</Text>
+              
+              {questions.map((item, i) => (
+                <View key={i} style={styles.qCard}>
+                  <View style={styles.qHead}>
+                    <item.icon size={16} stroke="#CBD5E1" />
+                    <Text style={styles.qText}>{item.q.toUpperCase()}</Text>
+                  </View>
+                  <View style={styles.optRow}>
+                    {item.opts.map(o => (
+                      <TouchableOpacity 
+                        key={o} 
+                        style={[
+                          styles.optBtn,
+                          answers[item.id] === o && styles.optBtnActive
+                        ]}
+                        onPress={() => setAnswers({...answers, [item.id]: o})}
+                      >
+                        <Text style={[
+                          styles.optBtnText,
+                          answers[item.id] === o && styles.optBtnTextActive
+                        ]}>{o}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+              ))}
+
+              <TouchableOpacity 
+                style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} 
+                onPress={() => setStep('SCAN')}
+                disabled={Object.keys(answers).length < questions.length}
+                opacity={Object.keys(answers).length < questions.length ? 0.5 : 1}
+              >
+                <Text style={styles.primaryBtnText}>WEITER ZUM SCAN</Text>
+                <ArrowRight size={16} stroke="#FFF" />
+              </TouchableOpacity>
+            </ScrollView>
+          )}
+
+          {/* STEP 3: SCAN */}
           {step === 'SCAN' && (
             <View style={styles.centerFlow}>
               <Text style={styles.stepTitle}>SCAN <Text style={styles.fadedText}>TEST-KIT</Text></Text>
@@ -108,6 +225,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
             </View>
           )}
 
+          {/* STEP 4: INSTRUCTIONS */}
           {step === 'INSTRUCTIONS' && (
             <View style={styles.centerFlow}>
               <Text style={styles.stepTitle}>SCHRITT <Text style={styles.accentText}>{instructionIdx + 1}</Text><Text style={styles.fadedText}>/4</Text></Text>
@@ -129,11 +247,11 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
                   style={styles.primaryBtn} 
                   onPress={() => {
                     if (instructionIdx < 3) setInstructionIdx(instructionIdx + 1);
-                    else setStep('QUESTIONNAIRE');
+                    else setStep('SHIPPING');
                   }}
                 >
                   <Text style={styles.primaryBtnText}>
-                    {instructionIdx === 3 ? 'ZUM FRAGEBOGEN' : 'NÄCHSTER SCHRITT'}
+                    {instructionIdx === 3 ? 'ZUM VERSAND' : 'NÄCHSTER SCHRITT'}
                   </Text>
                   <ArrowRight size={16} stroke="#FFF" />
                 </TouchableOpacity>
@@ -141,47 +259,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
             </View>
           )}
 
-          {step === 'QUESTIONNAIRE' && (
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
-              <Text style={styles.stepTitle}>BIOMETRISCHER <Text style={styles.fadedText}>KONTEXT</Text></Text>
-              <Text style={styles.stepSub}>Für präzisere Analyse</Text>
-              
-              {questions.map((item, i) => (
-                <View key={i} style={styles.qCard}>
-                  <View style={styles.qHead}>
-                    <item.icon size={16} stroke="#CBD5E1" />
-                    <Text style={styles.qText}>{item.q.toUpperCase()}</Text>
-                  </View>
-                  <View style={styles.optRow}>
-                    {item.opts.map(o => (
-                      <TouchableOpacity 
-                        key={o} 
-                        style={[
-                          styles.optBtn,
-                          answers[item.id] === o && styles.optBtnActive
-                        ]}
-                        onPress={() => setAnswers({...answers, [item.id]: o})}
-                      >
-                        <Text style={[
-                          styles.optBtnText,
-                          answers[item.id] === o && styles.optBtnTextActive
-                        ]}>{o.toUpperCase()}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                </View>
-              ))}
-
-              <TouchableOpacity 
-                style={[styles.primaryBtn, { backgroundColor: '#991B1B', marginTop: 20 }]} 
-                onPress={() => setStep('SHIPPING')}
-              >
-                <Text style={styles.primaryBtnText}>WEITER ZUM VERSAND</Text>
-                <Package size={16} stroke="#FFF" />
-              </TouchableOpacity>
-            </ScrollView>
-          )}
-
+          {/* STEP 5: SHIPPING */}
           {step === 'SHIPPING' && (
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollFlow}>
               <Text style={styles.stepTitle}>VERSAND <Text style={styles.fadedText}>VORBEREITEN</Text></Text>
@@ -244,6 +322,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
             </ScrollView>
           )}
 
+          {/* STEP 6: SUCCESS */}
           {step === 'SUCCESS' && (
             <View style={styles.centerFlow}>
               <View style={styles.successCircle}>
@@ -254,7 +333,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
               
               <View style={styles.timelineCard}>
                 <View style={styles.timelineItem}>
-                  <View style={styles.timelineDot} />
+                  <View style={[styles.timelineDot, styles.timelineDotCompleted]} />
                   <View style={styles.timelineContent}>
                     <Text style={styles.timelineTitle}>HEUTE</Text>
                     <Text style={styles.timelineDesc}>Probe versenden</Text>
@@ -304,21 +383,20 @@ const styles = StyleSheet.create({
 
   // Progress Indicator
   progressContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     paddingVertical: 16,
     backgroundColor: '#F8FAFC',
     borderBottomWidth: 1,
     borderBottomColor: '#E2E8F0',
   },
   progressStepContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 4,
   },
   progressStep: {
     alignItems: 'center',
-    gap: 4,
+    gap: 6,
   },
   progressCircle: {
     width: 32,
@@ -354,7 +432,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   progressLine: {
-    flex: 1,
+    width: 20,
     height: 2,
     backgroundColor: '#E2E8F0',
     marginHorizontal: 4,
@@ -369,7 +447,70 @@ const styles = StyleSheet.create({
   stepTitle: { fontSize: 32, fontWeight: '900', fontStyle: 'italic', textTransform: 'uppercase', textAlign: 'center' },
   fadedText: { color: '#E2E8F0' },
   accentText: { color: '#991B1B' },
-  stepSub: { fontSize: 10, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 1.5, textAlign: 'center' },
+  stepSub: { fontSize: 10, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 1.5, textAlign: 'center', marginBottom: 32 },
+
+  // Process Overview
+  processCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 24,
+    padding: 20,
+    gap: 20,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  processStep: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  processNumber: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#0F172A',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  processNumberText: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: '#FFF',
+  },
+  processContent: {
+    flex: 1,
+  },
+  processTitle: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#0F172A',
+    marginBottom: 6,
+    letterSpacing: 0.5,
+  },
+  processDesc: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+    lineHeight: 18,
+  },
+  timeEstimate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#FEF2F2',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+  },
+  timeEstimateText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#991B1B',
+  },
+
+  // Scan
   cameraBox: { width: '100%', aspectRatio: 1, backgroundColor: '#000', borderRadius: 48, overflow: 'hidden' },
   scanSim: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   scanTarget: { width: '60%', height: '60%', borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)', borderStyle: 'dashed', borderRadius: 24 },
@@ -391,6 +532,8 @@ const styles = StyleSheet.create({
   scanBtnText: { fontSize: 11, fontWeight: '900', letterSpacing: 1.5, color: '#FFF' },
   infoBox: { backgroundColor: '#F8FAFC', padding: 20, borderRadius: 24, flexDirection: 'row', gap: 12, width: '100%' },
   infoText: { flex: 1, fontSize: 10, color: '#94A3B8', fontWeight: '700' },
+
+  // Instructions
   visualBox: { width: 240, height: 240, backgroundColor: '#F8FAFC', borderRadius: 120, alignItems: 'center', justifyContent: 'center' },
   instrTitle: { fontSize: 20, fontWeight: '900', letterSpacing: 0.5 },
   instrDesc: { fontSize: 14, color: '#64748B', fontWeight: '700', fontStyle: 'italic', textAlign: 'center' },
@@ -400,6 +543,8 @@ const styles = StyleSheet.create({
   progressBarActive: { backgroundColor: '#991B1B' },
   primaryBtn: { backgroundColor: '#0F172A', paddingVertical: 20, borderRadius: 24, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 },
   primaryBtnText: { color: '#FFF', fontSize: 11, fontWeight: '900', letterSpacing: 2 },
+
+  // Questionnaire
   qCard: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#F1F5F9', padding: 20, borderRadius: 32, marginBottom: 12 },
   qHead: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
   qText: { fontSize: 10, fontWeight: '900', color: '#0F172A', letterSpacing: 1.5 },
@@ -563,6 +708,9 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     backgroundColor: '#CBD5E1',
+  },
+  timelineDotCompleted: {
+    backgroundColor: '#10B981',
   },
   timelineDotActive: {
     backgroundColor: '#10B981',

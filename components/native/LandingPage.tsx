@@ -7,37 +7,35 @@ import {
   ScrollView, 
   TouchableOpacity, 
   Dimensions,
-  ImageBackground,
   StatusBar
 } from 'react-native';
-import { ArrowRight, Play, Activity, Microscope, Zap, ShieldCheck, Cpu, Fingerprint } from 'lucide-react-native';
+import { ArrowRight, Activity } from 'lucide-react-native';
 
 const { width, height } = Dimensions.get('window');
 
 export default function LandingPage({ onGetStarted }: { onGetStarted: () => void }) {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       
-      {/* Decorative Glows */}
-      <View style={styles.bgGlow} />
+      {/* Subtle background orbs */}
+      <View style={styles.bgOrb1} />
+      <View style={styles.bgOrb2} />
 
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         contentContainerStyle={styles.scrollContent}
       >
-        {/* HEADER BADGES */}
-        <View style={styles.navHeader}>
-          <View style={styles.protocolBadge}>
-            <Text style={styles.protocolText}>OPTIMUS_B1O_V5.2</Text>
+        {/* Logo */}
+        <View style={styles.logoContainer}>
+          <View style={styles.logo}>
+            <Text style={styles.logoText}>O</Text>
           </View>
-          <View style={styles.liveIndicator}>
-            <View style={styles.liveDot} />
-            <Text style={styles.liveText}>SYSTEM_ACTIVE</Text>
-          </View>
+          <Text style={styles.brandName}>OPTIMUS</Text>
+          <Text style={styles.brandTagline}>Clinical Intelligence</Text>
         </View>
 
-        {/* HERO TITLE */}
+        {/* Hero Section */}
         <View style={styles.heroSection}>
           <View style={styles.titleContainer}>
             <Text style={styles.heroTitle}>
@@ -48,92 +46,75 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
           </View>
 
           <Text style={styles.heroDescription}>
-            Hochpräzise Blutanalytik für maximale Performance. Schmerzfrei. Digital. Evidenzbasiert.
+            Precision blood analysis meets AI-powered optimization. 
+            Understand your biomarkers, optimize your supplements, 
+            and unlock your biological potential.
           </Text>
 
-          <View style={styles.actionRow}>
-            <TouchableOpacity 
-              style={styles.primaryBtn} 
-              onPress={onGetStarted}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryBtnText}>INITIALISIEREN</Text>
-              <ArrowRight size={18} stroke="#FFF" strokeWidth={3} />
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.secondaryBtn}>
-              <Play size={14} stroke="#FFF" fill="#FFF" />
-              <Text style={styles.secondaryBtnText}>DEMO</Text>
-            </TouchableOpacity>
+          {/* Key Benefits */}
+          <View style={styles.benefitsContainer}>
+            {[
+              { label: 'Biomarker Analysis', value: '50+' },
+              { label: 'AI Recommendations', value: 'Personal' },
+              { label: 'Results Ready', value: '48h' },
+            ].map((item, i) => (
+              <View key={i} style={styles.benefitCard}>
+                <Text style={styles.benefitValue}>{item.value}</Text>
+                <Text style={styles.benefitLabel}>{item.label}</Text>
+              </View>
+            ))}
           </View>
-        </View>
 
-        {/* BIOMETRIC VISUALIZER */}
-        <View style={styles.visualWrapper}>
-          <ImageBackground
-            source={{ uri: 'https://raw.githubusercontent.com/JonathanSpe/Optimus/main/optimus---personalisierte-blutanalyse/assets/athlete%20sports.png' }}
-            style={styles.heroImage}
-            imageStyle={styles.imageOpacity}
+          {/* CTA Button */}
+          <TouchableOpacity 
+            style={styles.ctaButton} 
+            onPress={onGetStarted}
+            activeOpacity={0.9}
           >
-            <View style={styles.biometricOverlay}>
-              <View style={styles.scanline} />
-              
-              <View style={[styles.dataTag, { top: 40, left: 30 }]}>
-                 <Activity size={10} stroke="#991B1B" />
-                 <Text style={styles.tagText}>HEART_VAR: 68MS</Text>
-              </View>
-              
-              <View style={[styles.dataTag, { bottom: 60, right: 30 }]}>
-                 <Cpu size={10} stroke="#991B1B" />
-                 <Text style={styles.tagText}>METABOLIC_CORE: ON</Text>
-              </View>
-
-              <View style={styles.gridOverlay}>
-                <View style={styles.gridH} />
-                <View style={styles.gridV} />
-              </View>
+            <View style={styles.ctaContent}>
+              <Text style={styles.ctaText}>GET STARTED NOW</Text>
+              <ArrowRight size={20} stroke="#FFF" strokeWidth={3} />
             </View>
-          </ImageBackground>
-        </View>
+          </TouchableOpacity>
 
-        {/* FACTS MODULE */}
-        <View style={styles.factsContainer}>
-          <View style={styles.sectionHeading}>
-            <View style={styles.headingLine} />
-            <Text style={styles.headingTag}>ANALYSE_PROFIL</Text>
-          </View>
-
-          <Text style={styles.sectionTitle}>Fakten statt Raten.</Text>
-
-          <View style={styles.factModule}>
-            <View style={styles.factHead}>
-              <Text style={styles.factValue}>30%</Text>
-              <Text style={styles.factLabel}>GLOBALER_DEFIZIT_SCHNITT</Text>
-            </View>
-            <Text style={styles.factBody}>
-              Ein Großteil der Bevölkerung lebt mit unentdeckten Mängeln, die als chronische Müdigkeit missverstanden werden.
-            </Text>
-          </View>
-
-          <View style={[styles.factModule, styles.factModuleActive]}>
-            <View style={styles.factHead}>
-              <Text style={[styles.factValue, { color: '#FFF' }]}>-25%</Text>
-              <Text style={[styles.factLabel, { color: 'rgba(255,255,255,0.4)' }]}>EFFIZIENZ_LOSS</Text>
-            </View>
-            <Text style={[styles.factBody, { color: 'rgba(255,255,255,0.6)' }]}>
-              Suboptimale Ferritin-Werte limitieren den Sauerstofftransport in die Zellen und blockieren deine Performance.
-            </Text>
+          {/* Status Indicator */}
+          <View style={styles.statusIndicator}>
+            <View style={styles.statusDot} />
+            <Text style={styles.statusText}>SYSTEM ACTIVE • BERLIN LAB</Text>
           </View>
         </View>
 
-        <View style={styles.spacer} />
+        {/* Trust Indicators */}
+        <View style={styles.trustSection}>
+          <View style={styles.trustItem}>
+            <View style={styles.trustIcon}>
+              <Activity size={16} stroke="#991B1B" />
+            </View>
+            <View>
+              <Text style={styles.trustTitle}>Clinical Grade</Text>
+              <Text style={styles.trustDesc}>Lab-certified analysis</Text>
+            </View>
+          </View>
+          <View style={styles.trustItem}>
+            <View style={styles.trustIcon}>
+              <Activity size={16} stroke="#991B1B" />
+            </View>
+            <View>
+              <Text style={styles.trustTitle}>Data Security</Text>
+              <Text style={styles.trustDesc}>AES-256 encrypted</Text>
+            </View>
+          </View>
+          <View style={styles.trustItem}>
+            <View style={styles.trustIcon}>
+              <Activity size={16} stroke="#991B1B" />
+            </View>
+            <View>
+              <Text style={styles.trustTitle}>Fast Results</Text>
+              <Text style={styles.trustDesc}>48-hour turnaround</Text>
+            </View>
+          </View>
+        </View>
       </ScrollView>
-
-      {/* FOOTER BADGE */}
-      <View style={styles.footerSticky}>
-        <ShieldCheck size={12} stroke="rgba(255,255,255,0.3)" />
-        <Text style={styles.footerText}>SECURED BY OPTIMUS_ENCRYPTION</Text>
-      </View>
     </View>
   );
 }
@@ -141,265 +122,214 @@ export default function LandingPage({ onGetStarted }: { onGetStarted: () => void
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#020617', // Midnight Obsidian
+    backgroundColor: '#FFFFFF',
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: 60,
   },
-  bgGlow: {
+  bgOrb1: {
     position: 'absolute',
-    top: -100,
-    right: -100,
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    backgroundColor: 'rgba(153, 27, 27, 0.05)',
+    top: -height * 0.15,
+    right: -width * 0.3,
+    width: width * 0.8,
+    height: width * 0.8,
+    borderRadius: width * 0.4,
+    backgroundColor: 'rgba(153, 27, 27, 0.03)',
   },
-  navHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 32,
-    paddingTop: 60,
-    marginBottom: 40,
+  bgOrb2: {
+    position: 'absolute',
+    bottom: -height * 0.1,
+    left: -width * 0.2,
+    width: width * 0.7,
+    height: width * 0.7,
+    borderRadius: width * 0.35,
+    backgroundColor: 'rgba(15, 23, 42, 0.02)',
   },
-  protocolBadge: {
-    backgroundColor: 'rgba(153, 27, 27, 0.1)',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(153, 27, 27, 0.2)',
-  },
-  protocolText: {
-    color: '#991B1B',
-    fontSize: 8,
-    fontWeight: '900',
-    letterSpacing: 2,
-  },
-  liveIndicator: {
-    flexDirection: 'row',
+  logoContainer: {
     alignItems: 'center',
-    gap: 8,
+    paddingTop: 60,
+    marginBottom: 60,
   },
-  liveDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#10B981',
+  logo: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#991B1B',
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 10,
   },
-  liveText: {
-    color: 'rgba(255,255,255,0.2)',
-    fontSize: 8,
+  logoText: {
+    color: '#FFF',
+    fontSize: 42,
     fontWeight: '900',
-    letterSpacing: 1,
+  },
+  brandName: {
+    fontSize: 32,
+    fontWeight: '900',
+    fontStyle: 'italic',
+    color: '#0F172A',
+    letterSpacing: -1,
+  },
+  brandTagline: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#64748B',
+    letterSpacing: 3,
+    marginTop: 4,
   },
   heroSection: {
     paddingHorizontal: 32,
+    alignItems: 'center',
   },
   titleContainer: {
-    position: 'relative',
+    alignItems: 'center',
     marginBottom: 24,
   },
   heroTitle: {
-    fontSize: 54,
+    fontSize: 48,
     fontWeight: '900',
-    color: '#FFF',
-    lineHeight: 52,
-    letterSpacing: -2,
+    color: '#0F172A',
+    textAlign: 'center',
+    lineHeight: 54,
   },
   heroTitleAccent: {
     color: '#991B1B',
     fontStyle: 'italic',
   },
   accentBar: {
-    position: 'absolute',
-    left: -16,
-    top: 10,
-    bottom: 10,
-    width: 2,
+    width: 60,
+    height: 4,
     backgroundColor: '#991B1B',
+    marginTop: 16,
+    borderRadius: 2,
   },
   heroDescription: {
-    fontSize: 16,
-    color: '#94A3B8',
+    fontSize: 15,
     fontWeight: '600',
-    lineHeight: 26,
-    maxWidth: '90%',
-  },
-  actionRow: {
-    flexDirection: 'row',
-    gap: 16,
-    marginTop: 40,
-  },
-  primaryBtn: {
-    flex: 2,
-    backgroundColor: '#991B1B',
-    height: 70,
-    borderRadius: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    shadowColor: '#991B1B',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 15,
-  },
-  primaryBtnText: {
-    color: '#FFF',
-    fontSize: 11,
-    fontWeight: '900',
-    letterSpacing: 2,
-  },
-  secondaryBtn: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  secondaryBtnText: {
-    color: '#FFF',
-    fontSize: 10,
-    fontWeight: '900',
-  },
-  visualWrapper: {
-    marginTop: 60,
+    color: '#475569',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: 40,
     paddingHorizontal: 20,
   },
-  heroImage: {
+  benefitsContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 40,
     width: '100%',
-    aspectRatio: 1,
-    borderRadius: 48,
-    overflow: 'hidden',
-    backgroundColor: '#0F172A',
   },
-  imageOpacity: {
-    opacity: 0.3,
-  },
-  biometricOverlay: {
+  benefitCard: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 20,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
   },
-  scanline: {
-    position: 'absolute',
+  benefitValue: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#991B1B',
+    marginBottom: 4,
+  },
+  benefitLabel: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#64748B',
+    textAlign: 'center',
+    letterSpacing: 0.5,
+  },
+  ctaButton: {
     width: '100%',
-    height: 1,
-    backgroundColor: 'rgba(153, 27, 27, 0.4)',
-    top: '48%',
+    backgroundColor: '#991B1B',
+    borderRadius: 24,
+    paddingVertical: 22,
+    paddingHorizontal: 32,
+    shadowColor: '#991B1B',
+    shadowOpacity: 0.35,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 10,
   },
-  dataTag: {
-    position: 'absolute',
+  ctaContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  ctaText: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#FFF',
+    letterSpacing: 2,
+  },
+  statusIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#000',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    marginTop: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    backgroundColor: '#FFF',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
+    borderColor: '#F1F5F9',
   },
-  tagText: {
-    color: '#FFF',
-    fontSize: 8,
-    fontWeight: '900',
-    letterSpacing: 1,
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#10B981',
   },
-  gridOverlay: {
-    width: 160,
-    height: 160,
-    borderWidth: 1,
-    borderColor: 'rgba(153, 27, 27, 0.1)',
-    position: 'absolute',
-  },
-  gridH: { position: 'absolute', top: '50%', width: '100%', height: 1, backgroundColor: 'rgba(153, 27, 27, 0.1)' },
-  gridV: { position: 'absolute', left: '50%', height: '100%', width: 1, backgroundColor: 'rgba(153, 27, 27, 0.1)' },
-  factsContainer: {
-    padding: 32,
-    marginTop: 40,
-  },
-  sectionHeading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 8,
-  },
-  headingLine: {
-    width: 30,
-    height: 2,
-    backgroundColor: '#991B1B',
-  },
-  headingTag: {
+  statusText: {
     fontSize: 9,
     fontWeight: '900',
-    color: '#991B1B',
-    letterSpacing: 3,
-  },
-  sectionTitle: {
-    fontSize: 36,
-    fontWeight: '900',
-    color: '#FFF',
-    marginBottom: 32,
-    letterSpacing: -1,
-  },
-  factModule: {
-    backgroundColor: 'rgba(255,255,255,0.02)',
-    padding: 24,
-    borderRadius: 32,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
-    marginBottom: 16,
-  },
-  factModuleActive: {
-    backgroundColor: 'rgba(153, 27, 27, 0.1)',
-    borderColor: 'rgba(153, 27, 27, 0.15)',
-  },
-  factHead: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 10,
-    marginBottom: 12,
-  },
-  factValue: {
-    fontSize: 48,
-    fontWeight: '900',
-    color: '#FFF',
-    letterSpacing: -2,
-  },
-  factLabel: {
-    fontSize: 8,
-    fontWeight: '900',
-    color: '#991B1B',
-    letterSpacing: 1,
-  },
-  factBody: {
-    fontSize: 14,
     color: '#64748B',
-    lineHeight: 22,
-    fontWeight: '600',
+    letterSpacing: 1.5,
   },
-  spacer: {
-    height: 60,
+  trustSection: {
+    marginTop: 60,
+    paddingHorizontal: 32,
+    gap: 20,
   },
-  footerSticky: {
-    position: 'absolute',
-    bottom: 30,
-    width: '100%',
+  trustItem: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
   },
-  footerText: {
-    color: 'rgba(255,255,255,0.2)',
-    fontSize: 8,
+  trustIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#FEF2F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  trustTitle: {
+    fontSize: 14,
     fontWeight: '900',
-    letterSpacing: 2,
+    color: '#0F172A',
+    marginBottom: 2,
+  },
+  trustDesc: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#64748B',
   },
 });

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { TrendingUp, TrendingDown } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
-const CHART_WIDTH = width - 80;
+const CHART_WIDTH = width - 140; // Fixed: Account for padding (40px) + Y-axis (45px) + margins (55px)
 const CHART_HEIGHT = 120;
 
 interface DataPoint {
