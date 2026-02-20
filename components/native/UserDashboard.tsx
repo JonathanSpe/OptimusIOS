@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
-import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot, MessageCircle } from 'lucide-react-native';
+import { Zap, Heart, Activity, TrendingUp, TrendingDown, Bot, MessageCircle, CheckCircle } from 'lucide-react-native';
 import AIChat from './AIChat';
 import { biomarkersByCategory } from './BiomarkerData';
 import BiomarkerChart from './BiomarkerChart';
@@ -40,32 +40,15 @@ export default function UserDashboard({ onNavigate }: any) {
         </View>
       </View>
 
-      {/* Wearable Integrations */}
+      {/* Wearable Integrations - Compact */}
       <View style={styles.wearablesSection}>
-        <View style={styles.wearablesHeader}>
-          <Text style={styles.wearablesTitle}>WEARABLE SYNC</Text>
-          <View style={styles.connectedBadge}>
-            <View style={styles.connectedDot} />
-            <Text style={styles.connectedText}>SYNCED</Text>
-          </View>
+        <View style={styles.wearableItem}>
+          <CheckCircle size={14} stroke="#10B981" fill="#10B981" />
+          <Text style={styles.wearableText}>Strava connected</Text>
         </View>
-        <View style={styles.wearablesRow}>
-          <View style={styles.wearableCard}>
-            <Image 
-              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Strava_Logo.svg/2560px-Strava_Logo.svg.png' }}
-              style={styles.wearableLogo}
-              resizeMode="contain"
-            />
-            <Text style={styles.wearableName}>Strava</Text>
-          </View>
-          <View style={styles.wearableCard}>
-            <Image 
-              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Apple_Health_Icon.png/240px-Apple_Health_Icon.png' }}
-              style={styles.wearableLogo}
-              resizeMode="contain"
-            />
-            <Text style={styles.wearableName}>Apple Health</Text>
-          </View>
+        <View style={styles.wearableItem}>
+          <CheckCircle size={14} stroke="#10B981" fill="#10B981" />
+          <Text style={styles.wearableText}>Apple Health connected</Text>
         </View>
       </View>
 
@@ -232,6 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#FFFFFF',
   },
   scrollPadding: {
     paddingBottom: 120,
@@ -247,7 +231,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '900',
     fontStyle: 'italic',
-    color: '#FFF',
+    color: '#0F172A',
     textTransform: 'uppercase',
   },
   headerSubtitle: {
@@ -278,68 +262,20 @@ const styles = StyleSheet.create({
     color: '#991B1B',
   },
   wearablesSection: {
-    marginBottom: 24,
-    backgroundColor: '#FFF',
-    borderRadius: 20,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#F1F5F9',
-  },
-  wearablesHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
+    gap: 16,
+    marginBottom: 20,
+    paddingVertical: 8,
   },
-  wearablesTitle: {
-    fontSize: 9,
-    fontWeight: '900',
-    color: '#64748B',
-    letterSpacing: 2,
-  },
-  connectedBadge: {
+  wearableItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
   },
-  connectedDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#10B981',
-  },
-  connectedText: {
-    fontSize: 8,
-    fontWeight: '900',
+  wearableText: {
+    fontSize: 11,
+    fontWeight: '700',
     color: '#10B981',
-    letterSpacing: 1,
-  },
-  wearablesRow: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  wearableCard: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-    borderRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  wearableLogo: {
-    width: 32,
-    height: 32,
-    marginBottom: 8,
-  },
-  wearableName: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: '#0F172A',
   },
   fitnessGrid: {
     flexDirection: 'row',

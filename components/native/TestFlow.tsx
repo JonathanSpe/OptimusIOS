@@ -56,43 +56,15 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
           </TouchableOpacity>
         </View>
 
-        {/* Step Progress Indicator */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.progressContainer}
-        >
-          {STEPS.map((s, idx) => (
-            <View key={s.id} style={styles.progressStepContainer}>
-              <View style={styles.progressStep}>
-                <View style={[
-                  styles.progressCircle,
-                  idx < currentStepIndex && styles.progressCircleCompleted,
-                  idx === currentStepIndex && styles.progressCircleActive,
-                ]}>
-                  {idx < currentStepIndex ? (
-                    <CheckCircle size={14} stroke="#FFF" />
-                  ) : (
-                    <Text style={[
-                      styles.progressNumber,
-                      idx === currentStepIndex && styles.progressNumberActive
-                    ]}>{s.number}</Text>
-                  )}
-                </View>
-                <Text style={[
-                  styles.progressLabel,
-                  idx === currentStepIndex && styles.progressLabelActive
-                ]}>{s.label}</Text>
-              </View>
-              {idx < STEPS.length - 1 && (
-                <View style={[
-                  styles.progressLine,
-                  idx < currentStepIndex && styles.progressLineCompleted
-                ]} />
-              )}
-            </View>
-          ))}
-        </ScrollView>
+        {/* Step Progress Indicator - Hidden on Process step */}
+        {step !== 'PROCESS' && (
+          <View style={styles.progressBar}>
+            <View style={[styles.progressFill, { width: `${((currentStepIndex) / (STEPS.length - 1)) * 100}%` }]} />
+            <Text style={styles.progressText}>
+              Schritt {currentStepIndex + 1} von {STEPS.length}
+            </Text>
+          </View>
+        )}
 
         <View style={styles.content}>
           {/* STEP 1: PROCESS OVERVIEW */}
@@ -367,7 +339,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFF' },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { 
     flexDirection: 'row', 
     justifyContent: 'space-between', 
@@ -381,7 +353,33 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 2 },
   closeBtn: { padding: 4 },
 
-  // Progress Indicator
+  // Compact Progress Bar
+  progressBar: {
+    height: 32,
+    backgroundColor: '#F8FAFC',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    position: 'relative',
+  },
+  progressFill: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#991B1B',
+    opacity: 0.1,
+  },
+  progressText: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#64748B',
+    textAlign: 'center',
+    letterSpacing: 1,
+  },
+
+  // Old Progress Styles (kept for reference but not used)
   progressContainer: {
     paddingHorizontal: 12,
     paddingVertical: 16,

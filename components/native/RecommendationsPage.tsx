@@ -13,7 +13,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
   const [showCart, setShowCart] = useState(false);
 
   const cartCount = supplementsData.essential.length + supplementsData.optional.length;
-  const totalPrice = (supplementsData.essential.length * 29.90) + (supplementsData.optional.length * 19.90);
+  const totalPrice = (supplementsData.essential.length * 19.90) + (supplementsData.optional.length * 12.90);
 
   const getIconComponent = (iconName: string) => {
     const icons: any = { Coffee, Activity, Moon, Apple, Droplets, Heart };
@@ -326,7 +326,7 @@ export default function RecommendationsPage({ onNavigate }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24 },
+  container: { flex: 1, padding: 24, backgroundColor: '#FFFFFF' },
   backBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12, marginTop: 20 },
   backText: { fontSize: 9, fontWeight: '900', color: '#94A3B8', letterSpacing: 1.5 },
   title: { fontSize: 32, fontWeight: '900', color: '#0F172A', textTransform: 'uppercase' },

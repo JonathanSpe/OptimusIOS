@@ -6,10 +6,10 @@ import { ShoppingBag, Star, Zap, ShoppingCart, X, ArrowRight } from 'lucide-reac
 const { width } = Dimensions.get('window');
 
 const products = [
-  { id: 'p1', name: "Ferritin Elite", cat: 'Performance', price: '34.90', img: require('../../assets/pill1.jpeg') },
-  { id: 'p2', name: "Vitamin D3+K2", cat: 'Vitality', price: '24.50', img: require('../../assets/pill2.jpeg') },
-  { id: 'p3', name: "Alpha GPC", cat: 'Focus', price: '39.00', img: require('../../assets/pill3.jpeg') },
-  { id: 'p4', name: "Magnesium Glycinate", cat: 'Recovery', price: '28.00', img: require('../../assets/pill4.jpeg') },
+  { id: 'p1', name: "Ferritin Elite", cat: 'Performance', price: '19.90', img: require('../../assets/pill1.jpeg') },
+  { id: 'p2', name: "Vitamin D3+K2", cat: 'Vitality', price: '14.90', img: require('../../assets/pill2.jpeg') },
+  { id: 'p3', name: "Alpha GPC", cat: 'Focus', price: '24.90', img: require('../../assets/pill3.jpeg') },
+  { id: 'p4', name: "Magnesium Glycinate", cat: 'Recovery', price: '16.90', img: require('../../assets/pill4.jpeg') },
 ];
 
 export default function SupplementsPage() {
@@ -104,7 +104,7 @@ export default function SupplementsPage() {
           <View style={styles.packPriceRow}>
             <View>
               <Text style={styles.packPriceLabel}>MONATSPREIS</Text>
-              <Text style={styles.packPrice}>€239.90</Text>
+              <Text style={styles.packPrice}>€159.90</Text>
             </View>
             <TouchableOpacity style={styles.packBtn}>
               <Text style={styles.packBtnText}>KONFIGURIEREN</Text>
@@ -187,7 +187,7 @@ export default function SupplementsPage() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24 },
+  container: { flex: 1, padding: 24, backgroundColor: '#FFFFFF' },
   title: { fontSize: 32, fontWeight: '900', color: '#0F172A', textTransform: 'uppercase' },
   titleFaded: { color: '#E2E8F0', fontStyle: 'italic' },
   subtitle: { fontSize: 11, fontWeight: '800', color: '#64748B', letterSpacing: 2, marginTop: 4 },

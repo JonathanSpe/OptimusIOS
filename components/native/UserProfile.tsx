@@ -51,7 +51,7 @@ export default function UserProfile({ onLogout }: { onLogout: () => void }) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 24 },
+  container: { padding: 24, backgroundColor: '#FFFFFF' },
   header: { alignItems: 'center', marginBottom: 40 },
   avatarWrap: { position: 'relative', marginBottom: 20 },
   avatar: { width: 100, height: 100, borderRadius: 50, borderWide: 4, borderColor: '#FFF', overflow: 'hidden', backgroundColor: '#F8FAFC' },
