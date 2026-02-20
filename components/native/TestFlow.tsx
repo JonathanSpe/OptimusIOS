@@ -44,7 +44,7 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
   ];
 
   const currentStepIndex = STEPS.findIndex(s => s.id === step);
-  const progressWidth = SCREEN_WIDTH * (currentStepIndex / (STEPS.length - 1));
+  const progressPercentage = currentStepIndex / (STEPS.length - 1);
 
   return (
     <Modal animationType="slide" transparent={false} visible={true}>
@@ -62,9 +62,11 @@ export default function TestFlow({ onClose }: { onClose: () => void }) {
         {/* Step Progress Indicator - Hidden on Process step */}
         {step !== 'PROCESS' && (
           <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: progressWidth }]} />
+            <View style={styles.progressFillContainer}>
+              <View style={[styles.progressFill, { width: `${(progressPercentage * 100)}%` }]} />
+            </View>
             <Text style={styles.progressText}>
-              Schritt {currentStepIndex + 1} von {STEPS.length}
+              SCHRITT {currentStepIndex + 1} VON {STEPS.length}
             </Text>
           </View>
         )}
@@ -358,21 +360,24 @@ const styles = StyleSheet.create({
 
   // Compact Progress Bar
   progressBar: {
-    height: 32,
+    height: 40,
     backgroundColor: '#F8FAFC',
     borderBottomWidth: 1,
     borderBottomColor: '#E2E8F0',
     justifyContent: 'center',
     paddingHorizontal: 20,
-    position: 'relative',
+  },
+  progressFillContainer: {
+    height: 4,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 2,
+    overflow: 'hidden',
+    marginBottom: 8,
   },
   progressFill: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
+    height: 4,
     backgroundColor: '#991B1B',
-    opacity: 0.1,
+    borderRadius: 2,
   },
   progressText: {
     fontSize: 10,
